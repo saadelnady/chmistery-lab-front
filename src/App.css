@@ -1,38 +1,88 @@
-.App {
-  text-align: center;
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* fonts */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+a {
+  text-decoration: none;
+  color: black;
+}
+:root {
+  --red-color: #db4444;
+  --bg-light: #eeeeee3b;
+  --text-light: #eeeeeeee;
+  --blue-color: #1d1d42;
+  --color: #999;
+  --checked-color: #ff5722;
+}
+.row {
+  --bs-gutter-x: 0;
+}
+ul,
+li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+p {
+  margin: 0;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-weight: 400;
+}
+h4 {
+  font-weight: 600;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.links a {
+  color: var(--text-light);
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.links span {
+  font-size: 1rem;
 }
-
-.App-link {
-  color: #61dafb;
+textarea {
+  resize: none;
+  height: 220px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.submit {
+  background-color: var(--red-color);
+  color: #fff;
+}
+.submit:hover {
+  color: var(--red-color);
+  background-color: transparent;
+  border: 1px solid var(--red-color);
+}
+.submit-reverse {
+  color: var(--red-color);
+  background-color: transparent;
+  border: 1px solid var(--red-color);
+}
+.submit-reverse:hover {
+  background-color: var(--red-color);
+  color: #fff;
+}
+.bg-black {
+  background-color: black;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: black;
+  margin-bottom: 0;
+}
+.container {
+  padding: 0;
 }
