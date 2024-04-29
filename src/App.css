@@ -86,3 +86,6 @@ h6 {
 .container {
   padding: 0;
 }
+.cursor-pointer {
+  cursor: pointer;
+}

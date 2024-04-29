@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Login = () => {
   return (
     <div className="pt-5 min-vh-100 ">
-      <h2 className="text-center">Wellcom to login page</h2>
+      <h2 className="text-center">Wellcome to login page</h2>
       <div className="d-flex justify-content-center align-items-center mt-5 py-5">
         <form className="col-12 col-sm-9 col-md-8 col-lg-8 col-xl-4 px-4 py-5 rounded shadow">
           <label htmlFor="email" className="mb-3 fw-bold fs-4">

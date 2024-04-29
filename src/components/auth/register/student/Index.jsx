@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Index = () => {
   return (
     <div className="pt-5 min-vh-100 ">
-      <h2 className="text-center">Wellcom to sign up page</h2>
+      <h2 className="text-center">Wellcome to sign-up page</h2>
       <div className="d-flex justify-content-center align-items-center mt-3 py-3">
         <form className="col-12 col-sm-9 col-md-8 col-lg-8 col-xl-4 px-4 py-5 rounded shadow">
           <label htmlFor="firstname" className="mb-3 fw-bold fs-4">

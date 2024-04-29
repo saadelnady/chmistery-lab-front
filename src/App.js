@@ -4,7 +4,8 @@ import Login from "./components/auth/login/Index.jsx";
 import Home from "./components/home/Index.jsx";
 // import TeacherRegister from "./components/auth/register/teacher/Index.jsx";
 import StudentRegister from "./components/auth/register/student/Index.jsx";
-import Teacher from "./layots/teacher/Index.jsx";
+import Teacher from "./layouts/teacher/Index.jsx";
+import Student from "./components/student/doExperiment/Index.jsx";
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         {/* <Route path="/teacher-register" element={<TeacherRegister />} /> */}
         <Route path="/student-register" element={<StudentRegister />} />
         <Route path="/teacher/*" element={<Teacher />} />
+        <Route path="/student/*" element={<Student />} />
       </Routes>
 
       <ToastContainer
