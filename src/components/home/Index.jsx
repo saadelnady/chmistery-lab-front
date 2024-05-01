@@ -1,11 +1,5 @@
-import Header from "../shared/header/Index";
-
 const index = () => {
-  return (
-    <div className="container">
-      <Header />
-    </div>
-  );
+  return <div className="container"></div>;
 };
 
 export default index;

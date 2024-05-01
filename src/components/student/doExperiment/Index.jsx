@@ -81,38 +81,87 @@ const Index = () => {
   };
 
   return (
-    <div className="d-flex p-3 justify-content-evenly align-items-center min-vh-100 flex-wrap">
-      <div className="d-flex justify-content-between align-items-center col-12 col-md-4 flex-wrap border rounded p-3">
-        <p className="fw-bold fs-1">Tools :</p>
-        <div className="d-flex justify-content-evenly align-items-center flex-wrap">
-          {tools.map((tool) => (
-            <motion.img
-              key={tool.id}
-              src={tool.image}
-              alt={tool.name}
-              className={tool.isDragging ? "dragging" : ""}
-              style={{ cursor: "move" }}
-              drag
-              // dragConstraints={{ top: 0, left: 0, bottom: 0 }}
-              dragElastic={0.2}
-              onDragStart={() => handleDragStart(tool.id)}
-              onDragEnd={(e, { point }) =>
-                handleDragEnd(tool.id, point.x, point.y)
-              }
-            />
-          ))}
+    <>
+      <div className="container">
+        <div className="mt-5 row justify-content-between  ">
+          <ul className="shadow col-12  col-sm-4 col-md-3  p-3">
+            <p className="fw-bold text-center">Chemicals</p>
+            <li> Silver Nitrate</li>
+            <li>Silver cloride</li>
+            <li>SoduimNitrate</li>
+            <li>Soduim cloride</li>
+          </ul>
+          <ul className="shadow col-12  col-sm-4 col-md-3 p-3">
+            <p className="fw-bold text-center">Steps</p>
+            <li className="mb-3">
+              <span>1.</span> measure 30g of Silver Nitrate solution in test
+              tube
+            </li>
+            <li className="mb-3">
+              <span>2.</span> pour the test tube into the retort measure 30g of
+              Soduim cloride
+            </li>
+            <li className="mb-3">
+              <span>3.</span> solution in test tube pour the test tube into the
+              retort Observe the
+            </li>
+            <li className="mb-3">
+              <span>4.</span> pour the test tube into the retort measure 30g of
+              Soduim cloride reaction
+            </li>
+          </ul>
+          <ul className="shadow col-12  col-sm-4 col-md-3 p-3">
+            <p className="fw-bold text-center">Tools</p>
+
+            <li> Test tube </li>
+            <li>Test tube holder</li>
+            <li>Balance</li>
+            <li>Filter paper</li>
+            <li> pipette </li>
+          </ul>
         </div>
       </div>
+      <div className="d-flex p-3 justify-content-evenly align-items-center min-vh-100 flex-wrap">
+        <div className="d-flex justify-content-between align-items-center col-12  col-md-4 flex-wrap border rounded p-3">
+          <p className="fw-bold fs-1">Tools :</p>
+          <div className="d-flex justify-content-evenly align-items-center flex-wrap">
+            {tools.map((tool) => (
+              <motion.img
+                key={tool.id}
+                src={tool.image}
+                alt={tool.name}
+                className={tool.isDragging ? "dragging" : ""}
+                style={{ cursor: "move" }}
+                drag
+                // dragConstraints={{ top: 0, left: 0, bottom: 0 }}
 
-      <div
-        className="border col-12 col-md-5 rounded p-3"
-        onDrop={handleDropOnEquipment}
-        onDragOver={(e) => e.preventDefault()}
-      >
-        <p className="fw-bold fs-1">Device :</p>
-        <motion.img src={icEquipment} alt="Equipment" className="col-12" />
+                onDragStart={() => handleDragStart(tool.id)}
+                onDragEnd={(e, { point }) =>
+                  handleDragEnd(tool.id, point.x, point.y)
+                }
+              />
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="border col-12 col-md-4 rounded p-3"
+          onDrop={handleDropOnEquipment}
+          onDragOver={(e) => e.preventDefault()}
+        >
+          <p className="fw-bold fs-1">Device :</p>
+          <motion.img src={icEquipment} alt="Equipment" className="col-12" />
+        </div>
       </div>
-    </div>
+      <div className="container mb-4">
+        <ul className="shadow col-12 py-3">
+          <p className="fw-bold text-center">Observations:</p>
+          <p className="text-center">Observations of the experiment</p>
+          <p className="fw-bold text-center">Conclusion :</p>
+          <p className="text-center">Conclusion of the experiment</p>
+        </ul>
+      </div>
+    </>
   );
 };
 
