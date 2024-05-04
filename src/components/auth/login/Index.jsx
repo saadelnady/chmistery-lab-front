@@ -23,7 +23,7 @@ const Login = () => {
 
           <div className="fs-5 text-center text-sm-start mt-4 d-flex justify-content-evenly flex-wrap">
             Don't have an account ?
-            <NavLink to="/student-register" className="ms-4 text-dark ">
+            <NavLink to="/register" className="ms-4 text-dark ">
               SignUp
             </NavLink>
           </div>

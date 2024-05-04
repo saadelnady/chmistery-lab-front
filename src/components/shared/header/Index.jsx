@@ -24,9 +24,9 @@ const Index = () => {
               <NavLink
                 className="nav-link active btn btn-danger text-light"
                 aria-current="page"
-                to="/teacher-register"
+                to="/register"
               >
-                Sign up as teacher
+                Sign up
               </NavLink>
             </li>
           </ul>

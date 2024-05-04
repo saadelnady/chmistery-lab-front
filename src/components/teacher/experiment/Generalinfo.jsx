@@ -1,6 +1,6 @@
 import React from "react";
 
-const Generalinfo = () => {
+const Generalinfo = ({ handleTabChange }) => {
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       <form className="col-12 col-lg-8 px-4 py-5 rounded shadow">
@@ -46,14 +46,18 @@ const Generalinfo = () => {
         <div className="d-flex">
           <input
             type="submit"
-            value="Next"
-            className="btn btn-danger mt-3 fs-4 mx-auto"
-          />
-          <input
-            type="submit"
             value="Reset"
             className="btn mt-3 fs-4 mx-auto"
           />
+          <button
+            value="Next"
+            className="btn btn-danger mt-3 fs-4 mx-auto"
+            onClick={() => {
+              handleTabChange("chemicals");
+            }}
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
         </div>
       </form>
     </div>
