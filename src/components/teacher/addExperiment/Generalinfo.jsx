@@ -34,10 +34,7 @@ const Generalinfo = ({ handleTabChange }) => {
           Conslusion:
         </label>
         <input id="conslusion" type="text" className="form-control" />
-        <label htmlFor="apparatus" className="mb-3 fw-bold fs-4 mt-4">
-          Device image
-        </label>
-        <input id="apparatus" type="file" className="form-control" />
+
         <label htmlFor="aquation" className="mb-3 fw-bold fs-4 mt-4">
           Aquation:
         </label>

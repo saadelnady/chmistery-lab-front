@@ -20,7 +20,7 @@ const Index = () => {
         </button>
         <div className="collapse navbar-collapse " id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 col-12 d-flex justify-content-md-end">
-            <li className="nav-item">
+            <li className="nav-item mb-3 mb-md-0 align-self-start">
               <NavLink
                 className="nav-link active btn btn-danger text-light"
                 aria-current="page"
