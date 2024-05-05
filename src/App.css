@@ -92,3 +92,12 @@ h6 {
 .table tr:last-child {
   border-collapse: separate;
 }
+.fit-content {
+  width: fit-content;
+}
+
+.tool-position {
+  width: 100px;
+  height: 100px;
+  cursor: move;
+}

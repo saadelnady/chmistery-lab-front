@@ -9,7 +9,7 @@ const Steps = ({ handleTabChange }) => {
           <button
             className="btn btn-danger mt-3 fs-4 mx-auto"
             onClick={() => {
-              handleTabChange("equipments");
+              handleTabChange("tools");
             }}
           >
             <i class="bi bi-chevron-left"></i>

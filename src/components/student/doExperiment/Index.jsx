@@ -84,7 +84,7 @@ const Index = () => {
     <>
       <div className="container">
         <div className="mt-5 row justify-content-between  ">
-          <ul className="shadow col-12  col-sm-4 col-md-3  p-3">
+          <ul className="shadow col-12 col-sm-4 col-md-3 p-3">
             <p className="fw-bold text-center">Chemicals</p>
             <li> Silver Nitrate</li>
             <li>Silver cloride</li>
@@ -121,8 +121,8 @@ const Index = () => {
           </ul>
         </div>
       </div>
-      <div className="d-flex p-3 justify-content-evenly align-items-center min-vh-100 flex-wrap">
-        <div className="d-flex justify-content-between align-items-center col-12  col-md-4 flex-wrap border rounded p-3">
+      <div className="row mt-4 py-3 px-2 shadow justify-content-between flex-wrap">
+        <div className="d-flex col-12 col-sm-5 flex-wrap border rounded p-3">
           <p className="fw-bold fs-1">Tools :</p>
           <div className="d-flex justify-content-evenly align-items-center flex-wrap">
             {tools.map((tool) => (
@@ -130,7 +130,7 @@ const Index = () => {
                 key={tool.id}
                 src={tool.image}
                 alt={tool.name}
-                className={tool.isDragging ? "dragging" : ""}
+                className={tool.isDragging ? "dragging " : ""}
                 style={{ cursor: "move" }}
                 drag
                 // dragConstraints={{ top: 0, left: 0, bottom: 0 }}
@@ -145,12 +145,16 @@ const Index = () => {
         </div>
 
         <div
-          className="border col-12 col-md-4 rounded p-3"
+          className="border col-12 col-sm-6 rounded p-3"
           onDrop={handleDropOnEquipment}
           onDragOver={(e) => e.preventDefault()}
         >
           <p className="fw-bold fs-1">Device :</p>
-          <motion.img src={icEquipment} alt="Equipment" className="col-12" />
+          <motion.img
+            src={icEquipment}
+            alt="Equipment"
+            className="img-thumbnail bg-transparent "
+          />
         </div>
       </div>
       <div className="container mb-4">

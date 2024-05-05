@@ -21,13 +21,11 @@ const Allexperiments = () => {
               <i className="bi bi-trash3-fill fs-3 cursor-pointer"></i>
             </td>
           </tr>
-          <tr>
-            <NavLink to="/teacher/add-experiment" className="p-3">
-              <button className="btn bg-light">Add new experiment</button>
-            </NavLink>
-          </tr>
         </tbody>
       </table>
+      <NavLink to="/teacher/add-experiment">
+        <button className="btn bg-light active">Add new experiment</button>
+      </NavLink>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Equipments = ({ handleTabChange }) => {
+const Tools = ({ handleTabChange }) => {
   const equipmentOptions = [
     { value: "balance", label: "Balance" },
     { value: "holder", label: "Holder" },
@@ -11,37 +11,34 @@ const Equipments = ({ handleTabChange }) => {
     { value: "glass bottel with stopper", label: "Glass Bottle with Stopper" },
   ];
 
-  const [selectedEquipmentList, setSelectedEquipmentList] = useState([]);
+  const [selectedtoolList, setSelectedToolList] = useState([]);
 
-  const handleEquipmentChange = (event) => {
-    const selectedEquipment = event.target.value;
-    if (
-      selectedEquipment &&
-      !selectedEquipmentList.includes(selectedEquipment)
-    ) {
-      setSelectedEquipmentList([...selectedEquipmentList, selectedEquipment]);
+  const handleToolChange = (event) => {
+    const selectedtool = event.target.value;
+    if (selectedtool && !selectedtoolList.includes(selectedtool)) {
+      setSelectedToolList([...selectedtoolList, selectedtool]);
     }
   };
 
-  const handleRemoveEquipment = (index) => {
-    const updatedEquipmentList = [...selectedEquipmentList];
-    updatedEquipmentList.splice(index, 1);
-    setSelectedEquipmentList(updatedEquipmentList);
+  const handleRemoveTool = (index) => {
+    const updatedtoolList = [...selectedtoolList];
+    updatedtoolList.splice(index, 1);
+    setSelectedToolList(updatedtoolList);
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
-        <h3 className="text-center fw-bold"> Choose your equipments</h3>
-        <div className="d-flex justify-content-between mt-4">
+        <h3 className="text-center fw-bold"> Choose your tools</h3>
+        <div className="d-flex justify-content-between align-items-center mt-4">
           <select
             id="dropdown"
             className="form-control"
-            onChange={handleEquipmentChange}
+            onChange={handleToolChange}
             value=""
           >
             <option value="" disabled>
-              Select Equipment
+              Select tool
             </option>
             {equipmentOptions.map(({ value, label }, index) => (
               <option key={index} value={value}>
@@ -53,7 +50,7 @@ const Equipments = ({ handleTabChange }) => {
             className="btn btn-danger col-3 fs-5"
             // onClick={handleActivation}
           >
-            Add new equipment
+            Add new Tool
           </button>
         </div>
 
@@ -61,13 +58,13 @@ const Equipments = ({ handleTabChange }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Equipment Name</th>
+              <th>tool Name</th>
               <th>Description</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {selectedEquipmentList.map((equipment, index) => (
+            {selectedtoolList.map((equipment, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{equipment}</td>
@@ -75,7 +72,7 @@ const Equipments = ({ handleTabChange }) => {
                 <td>
                   <i
                     className="bi bi-trash3-fill fs-3 cursor-pointer"
-                    onClick={() => handleRemoveEquipment(index)}
+                    onClick={() => handleRemoveTool(index)}
                   ></i>
                 </td>
               </tr>
@@ -106,4 +103,4 @@ const Equipments = ({ handleTabChange }) => {
   );
 };
 
-export default Equipments;
+export default Tools;

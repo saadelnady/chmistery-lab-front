@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Generalinfo from "./Generalinfo";
-import Equipments from "./Equipments";
+import Tools from "./Tools";
 import Chemicals from "./Chemicals";
 import Steps from "./Steps";
+import ExperimentImages from "./ExperimentImages";
 import "./assets/styles/styles.css";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Index = ({ isActive, handleActivation }) => {
   const [activeTab, setActiveTab] = useState("general");
@@ -23,8 +26,15 @@ const Index = ({ isActive, handleActivation }) => {
             handleActivation={handleActivation}
           />
         );
-      case "equipments":
-        return <Equipments handleTabChange={handleTabChange} />;
+      case "images":
+        return (
+          <DndProvider backend={HTML5Backend}>
+            <ExperimentImages handleTabChange={handleTabChange} />
+          </DndProvider>
+        );
+
+      case "tools":
+        return <Tools handleTabChange={handleTabChange} />;
       case "steps":
         return <Steps handleTabChange={handleTabChange} />;
       default:
@@ -46,6 +56,14 @@ const Index = ({ isActive, handleActivation }) => {
           </li>
           <li
             className={`btn ${
+              activeTab === "images" ? "active bg-danger text-light" : ""
+            }`}
+            onClick={() => handleTabChange("images")}
+          >
+            Images
+          </li>
+          <li
+            className={`btn ${
               activeTab === "chemicals" ? "active bg-danger text-light" : ""
             }`}
             onClick={() => handleTabChange("chemicals")}
@@ -54,11 +72,11 @@ const Index = ({ isActive, handleActivation }) => {
           </li>
           <li
             className={`btn ${
-              activeTab === "equipments" ? "active bg-danger text-light" : ""
+              activeTab === "tools" ? "active bg-danger text-light" : ""
             }`}
-            onClick={() => handleTabChange("equipments")}
+            onClick={() => handleTabChange("tools")}
           >
-            equipments
+            Tools
           </li>
           <li
             className={`btn ${
