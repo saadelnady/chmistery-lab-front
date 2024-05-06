@@ -1,6 +1,9 @@
 import { useRef, useState } from "react";
+import Buttons from "./Buttons";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-const ExperimentImages = () => {
+const ExperimentImages = ({ handleTabChange }) => {
   const [toolsImages, setToolsImages] = useState([]);
   const [deviceImage, setDeviceImage] = useState("");
   const deviceInputRef = useRef(null);
@@ -28,26 +31,41 @@ const ExperimentImages = () => {
   };
 
   // ========================================================
-  const handleDragStart = (e, index) => {
-    e.dataTransfer.setData("index", index.toString());
+  const DraggableImage = ({ src }) => {
+    const [{ isDragging }, drag] = useDrag({
+      type: "image",
+      item: { src },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    });
+
+    const [{ isOver }, drop] = useDrop({
+      accept: "image",
+      drop: (item, monitor) => handleDrop(item), // Call handleDrop when an image is dropped
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+      }),
+    });
+
+    const handleDrop = (item) => {
+      console.log("item ==>", item);
+      // Update state or perform actions based on the dropped item
+    };
+
+    return (
+      <div
+        ref={(node) => drag(drop(node))} // Combine drag and drop refs
+        style={{ opacity: isDragging ? 0.5 : 1, cursor: "move" }}
+        className={`tool position-absolute top-0 start-0 text-center fs-3 rounded ${
+          isOver ? "bg-info" : ""
+        }`}
+      >
+        <img src={src} alt="" />
+      </div>
+    );
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e, targetIndex) => {
-    e.preventDefault();
-    const sourceIndex = parseInt(e.dataTransfer.getData("index"), 10);
-
-    const updatedImages = [...toolsImages];
-    const draggedImage = updatedImages[sourceIndex];
-
-    updatedImages.splice(sourceIndex, 1);
-    updatedImages.splice(targetIndex, 0, draggedImage);
-
-    setToolsImages(updatedImages);
-  };
   return (
     <div className="row mt-4 py-3 px-2 shadow justify-content-between">
       <div className="py-4 px-2 rounded border col-12 col-sm-5">
@@ -58,7 +76,7 @@ const ExperimentImages = () => {
               htmlFor="tools"
               className="btn active border text-center fw-bold d-flex align-items-center fs-3 mt-4"
             >
-              <i class="bi bi-cloud-arrow-up text-danger me-3 fs-1"></i>
+              <i className="bi bi-cloud-arrow-up text-danger me-3 fs-1"></i>
               Upload Your Tools
             </label>
 
@@ -93,42 +111,35 @@ const ExperimentImages = () => {
       <div className="py-4 px-2 rounded border col-12 col-sm-6">
         <h3>Device :</h3>
         {deviceImage ? (
-          <div className="mt-5 position-relative">
-            <img
-              src={deviceImage}
-              alt="Device"
-              className="img-thumbnail bg-transparent "
-            />
+          <DndProvider backend={HTML5Backend}>
+            <div className="mt-5 position-relative parent">
+              <img
+                src={deviceImage}
+                alt="Device"
+                className="img-thumbnail bg-transparent"
+              />
 
-            {toolsImages.map((image, index) => (
-              <div
-                key={index}
-                className="tool-position d-flex justify-content-center
-             align-items-center position-absolute top-0 start-0 bg-danger
-             text-light text-center fs-3 rounded"
-                draggable={true}
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDragOver={(e) => handleDragOver(e)}
-                onDrop={(e) => handleDrop(e, index)}
+              {toolsImages.map((image, index) => (
+                //  <p className="text-end">{index + 1}</p>
+                //      <img src={image} alt="" />
+                <DraggableImage key={index} src={image} />
+              ))}
+              <button
+                className="btn btn-sm btn-danger position-absolute top-0 end-0"
+                onClick={() => {
+                  handleRemoveDeviceImage();
+                }}
               >
-                {index + 1}
-              </div>
-            ))}
-            <button
-              className="btn btn-sm btn-danger position-absolute top-0 end-0"
-              onClick={() => {
-                handleRemoveDeviceImage();
-              }}
-            >
-              X
-            </button>
-          </div>
+                X
+              </button>
+            </div>
+          </DndProvider>
         ) : (
           <label
             htmlFor="device"
             className="btn active border text-center fw-bold d-flex align-items-center fs-3 mt-4"
           >
-            <i class="bi bi-cloud-arrow-up text-danger me-3 fs-1"></i>
+            <i className="bi bi-cloud-arrow-up text-danger me-3 fs-1"></i>
             Upload Device Image
           </label>
         )}
@@ -141,6 +152,11 @@ const ExperimentImages = () => {
           onChange={handleDeviceImageUpload}
         />
       </div>
+      <Buttons
+        handleTabChange={handleTabChange}
+        next="chemicals"
+        previous="general"
+      />
     </div>
   );
 };

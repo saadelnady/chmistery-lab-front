@@ -1,4 +1,5 @@
 import React from "react";
+import Buttons from "./Buttons";
 
 const Generalinfo = ({ handleTabChange }) => {
   return (
@@ -40,21 +41,13 @@ const Generalinfo = ({ handleTabChange }) => {
         </label>
         <input id="aquation" type="text" className="form-control" />
 
-        <div className="d-flex">
-          <input
-            type="submit"
-            value="Reset"
-            className="btn mt-3 fs-4 mx-auto"
+        <div className="d-flex justify-content-evenly">
+          <button className="btn mt-3 fs-4 active"> Reset </button>
+          <Buttons
+            next="images"
+            handleTabChange={handleTabChange}
+            currentTab="general"
           />
-          <button
-            value="Next"
-            className="btn btn-danger mt-3 fs-4 mx-auto"
-            onClick={() => {
-              handleTabChange("chemicals");
-            }}
-          >
-            <i class="bi bi-chevron-right"></i>
-          </button>
         </div>
       </form>
     </div>

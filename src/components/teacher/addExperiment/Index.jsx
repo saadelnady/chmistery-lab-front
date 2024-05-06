@@ -5,8 +5,6 @@ import Chemicals from "./Chemicals";
 import Steps from "./Steps";
 import ExperimentImages from "./ExperimentImages";
 import "./assets/styles/styles.css";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Index = ({ isActive, handleActivation }) => {
   const [activeTab, setActiveTab] = useState("general");
@@ -27,14 +25,15 @@ const Index = ({ isActive, handleActivation }) => {
           />
         );
       case "images":
-        return (
-          <DndProvider backend={HTML5Backend}>
-            <ExperimentImages handleTabChange={handleTabChange} />
-          </DndProvider>
-        );
-
+        return <ExperimentImages handleTabChange={handleTabChange} />;
       case "tools":
-        return <Tools handleTabChange={handleTabChange} />;
+        return (
+          <Tools
+            handleTabChange={handleTabChange}
+            isActive={isActive}
+            handleActivation={handleActivation}
+          />
+        );
       case "steps":
         return <Steps handleTabChange={handleTabChange} />;
       default:

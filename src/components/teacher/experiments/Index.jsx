@@ -2,7 +2,7 @@ import { useState } from "react";
 import Allexperiments from "./Allexperiments";
 import Chemicals from "./Chemicals";
 import Tools from "./Tools";
-const Index = () => {
+const Index = ({ isActive, handleActivation }) => {
   const [activeTab, setActiveTab] = useState("experiments");
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -11,14 +11,18 @@ const Index = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "experiments":
-        return <Allexperiments handleTabChange={handleTabChange} />;
+        return <Allexperiments />;
       case "chemicals":
-        return <Chemicals handleTabChange={handleTabChange} />;
+        return (
+          <Chemicals isActive={isActive} handleActivation={handleActivation} />
+        );
       case "tools":
-        return <Tools handleTabChange={handleTabChange} />;
+        return (
+          <Tools isActive={isActive} handleActivation={handleActivation} />
+        );
 
       default:
-        return <Allexperiments handleTabChange={handleTabChange} />;
+        return <Allexperiments />;
     }
   };
   return (

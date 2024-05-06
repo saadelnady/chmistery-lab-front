@@ -3,9 +3,8 @@ import { NavLink } from "react-router-dom";
 
 const Allexperiments = () => {
   return (
-    <div>
-      <h2 className="text-center my-4">All experiments page</h2>
-      <table className="table w-100 ">
+    <div className="mt-5">
+      <table className="table w-100">
         <thead>
           <th>Name</th>
           <th>Edit </th>
@@ -15,7 +14,7 @@ const Allexperiments = () => {
           <tr>
             <td className="fw-bold">White Smoke Experiment</td>
             <td>
-              <i class="bi bi-pencil-square fs-3 cursor-pointer"></i>
+              <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>
             </td>
             <td>
               <i className="bi bi-trash3-fill fs-3 cursor-pointer"></i>

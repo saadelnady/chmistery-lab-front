@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import Buttons from "./Buttons";
+import AddNewTool from "../shared/AddNewTool";
 
-const Tools = ({ handleTabChange }) => {
+const Tools = ({ handleTabChange, isActive, handleActivation }) => {
   const equipmentOptions = [
     { value: "balance", label: "Balance" },
     { value: "holder", label: "Holder" },
@@ -28,6 +30,7 @@ const Tools = ({ handleTabChange }) => {
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
+      {isActive && <AddNewTool handleActivation={handleActivation} />}
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
         <h3 className="text-center fw-bold"> Choose your tools</h3>
         <div className="d-flex justify-content-between align-items-center mt-4">
@@ -48,7 +51,7 @@ const Tools = ({ handleTabChange }) => {
           </select>
           <button
             className="btn btn-danger col-3 fs-5"
-            // onClick={handleActivation}
+            onClick={handleActivation}
           >
             Add new Tool
           </button>
@@ -79,25 +82,11 @@ const Tools = ({ handleTabChange }) => {
             ))}
           </tbody>
         </table>
-
-        <div className="d-flex">
-          <button
-            className="btn btn-danger mt-3 fs-4 mx-auto"
-            onClick={() => {
-              handleTabChange("chemicals");
-            }}
-          >
-            <i className="bi bi-chevron-left"></i>
-          </button>
-          <button
-            className="btn btn-danger mt-3 fs-4 mx-auto"
-            onClick={() => {
-              handleTabChange("steps");
-            }}
-          >
-            <i className="bi bi-chevron-right"></i>
-          </button>
-        </div>
+        <Buttons
+          handleTabChange={handleTabChange}
+          previous="chemicals"
+          next="steps"
+        />
       </div>
     </div>
   );

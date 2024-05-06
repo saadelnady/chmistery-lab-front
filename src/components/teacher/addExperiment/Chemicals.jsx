@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import AddNewChemical from "./AddNewChemical";
+import AddNewChemical from "../shared/AddNewChemical";
+import Buttons from "./Buttons";
 
 const Chemicals = ({ handleTabChange, isActive, handleActivation }) => {
   const chemicals = [
@@ -87,12 +88,10 @@ const Chemicals = ({ handleTabChange, isActive, handleActivation }) => {
                 <td>{index + 1}</td>
                 <td>{chemical.name}</td>
                 <td>
-                  <button
-                    className="btn btn-info"
+                  <i
+                    className="bi bi-info-circle fs-3 cursor-pointer"
                     onClick={() => handleShowDescription(chemical)}
-                  >
-                    Show description
-                  </button>
+                  ></i>
                 </td>
                 <td>
                   <i
@@ -104,26 +103,11 @@ const Chemicals = ({ handleTabChange, isActive, handleActivation }) => {
             ))}
           </tbody>
         </table>
-
-        <div className="d-flex">
-          <button
-            value="Previous"
-            className="btn btn-danger mt-3 fs-4 mx-auto"
-            onClick={() => {
-              handleTabChange("general");
-            }}
-          >
-            <i class="bi bi-chevron-left"></i>
-          </button>
-          <button
-            className="btn btn-danger mt-3 fs-4 mx-auto"
-            onClick={() => {
-              handleTabChange("tools");
-            }}
-          >
-            <i class="bi bi-chevron-right"></i>
-          </button>
-        </div>
+        <Buttons
+          handleTabChange={handleTabChange}
+          previous="images"
+          next="tools"
+        />
       </div>
     </div>
   );
