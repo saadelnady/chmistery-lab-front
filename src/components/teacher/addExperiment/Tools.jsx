@@ -33,7 +33,7 @@ const Tools = ({ handleTabChange, isActive, handleActivation }) => {
       {isActive && <AddNewTool handleActivation={handleActivation} />}
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
         <h3 className="text-center fw-bold"> Choose your tools</h3>
-        <div className="d-flex justify-content-between align-items-center mt-4">
+        <div className="d-flex justify-content-between  mt-4">
           <select
             id="dropdown"
             className="form-control"
@@ -71,7 +71,9 @@ const Tools = ({ handleTabChange, isActive, handleActivation }) => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{equipment}</td>
-                <td>description</td>
+                <td>
+                  <i className="bi bi-info-circle fs-3 cursor-pointer"></i>
+                </td>
                 <td>
                   <i
                     className="bi bi-trash3-fill fs-3 cursor-pointer"

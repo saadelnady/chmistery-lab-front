@@ -44,7 +44,7 @@ const Index = ({ isActive, handleActivation }) => {
   return (
     <div className="pt-5 container">
       <div className="d-flex justify-content-end align-items-center mt-4 ">
-        <ul className="d-flex justify-content-between align-items-center col-12 col-md-10 col-lg-8 shadow rounded  p-4 navlinks">
+        <ul className="d-flex justify-content-between align-items-center col-12 col-md-10 col-lg-8 shadow rounded  p-4 navlinks flex-wrap">
           <li
             className={`btn ${
               activeTab === "general" ? "active bg-danger text-light" : ""

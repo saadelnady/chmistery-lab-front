@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Buttons from "./Buttons";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { DndProvider, useDrag } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const ExperimentImages = ({ handleTabChange }) => {
   const [toolsImages, setToolsImages] = useState([]);
   const [deviceImage, setDeviceImage] = useState("");
+
   const deviceInputRef = useRef(null);
   const toolsInputRef = useRef(null);
 
@@ -21,47 +22,89 @@ const ExperimentImages = ({ handleTabChange }) => {
     updatedImages.splice(index, 1);
     setToolsImages(updatedImages);
   };
+
   const handleDeviceImageUpload = (e) => {
     const file = e.target.files[0];
     setDeviceImage(URL.createObjectURL(file));
   };
+
   const handleRemoveDeviceImage = () => {
     setDeviceImage("");
     deviceInputRef.current.value = "";
   };
 
   // ========================================================
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (divRef.current) {
+        const { clientWidth, clientHeight } = divRef.current;
+        setDimensions({ width: clientWidth, height: clientHeight });
+      }
+    };
+    console.log(dimensions);
+    // Initial dimensions
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [deviceImage]);
+
+  // ========================================================
   const DraggableImage = ({ src }) => {
     const [{ isDragging }, drag] = useDrag({
       type: "image",
-      item: { src },
+      item: { src, offset: { x: 0, y: 0 } },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
     });
 
-    const [{ isOver }, drop] = useDrop({
-      accept: "image",
-      drop: (item, monitor) => handleDrop(item), // Call handleDrop when an image is dropped
-      collect: (monitor) => ({
-        isOver: monitor.isOver(),
-      }),
-    });
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [initialPosition, setInitialPosition] = useState({ x: 0, y: 0 });
 
-    const handleDrop = (item) => {
-      console.log("item ==>", item);
-      // Update state or perform actions based on the dropped item
+    const handleDragStart = (e) => {
+      e.stopPropagation(); // Stop event bubbling
+      e.dataTransfer.setData("text/plain", ""); // Necessary for drag to work
+      const rect = e.target.getBoundingClientRect(); // Get the position of the draggable element
+      setInitialPosition({ x: rect.left, y: rect.top });
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const offsetX = e.clientX - initialPosition.x;
+      const offsetY = e.clientY - initialPosition.y;
+      setPosition({ x: offsetX, y: offsetY });
     };
 
     return (
       <div
-        ref={(node) => drag(drop(node))} // Combine drag and drop refs
-        style={{ opacity: isDragging ? 0.5 : 1, cursor: "move" }}
-        className={`tool position-absolute top-0 start-0 text-center fs-3 rounded ${
-          isOver ? "bg-info" : ""
-        }`}
+        ref={drag}
+        onDragStart={handleDragStart}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+        style={{
+          cursor: "move",
+          position: "absolute",
+          top: position.y,
+          left: position.x,
+          zIndex: isDragging ? 100 : 1,
+          opacity: isDragging ? 0.5 : 1,
+          resize: "both",
+          overflow: "auto",
+        }}
       >
-        <img src={src} alt="" />
+        <img
+          src={src}
+          alt=""
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
       </div>
     );
   };
@@ -111,29 +154,24 @@ const ExperimentImages = ({ handleTabChange }) => {
       <div className="py-4 px-2 rounded border col-12 col-sm-6">
         <h3>Device :</h3>
         {deviceImage ? (
-          <DndProvider backend={HTML5Backend}>
-            <div className="mt-5 position-relative parent">
-              <img
-                src={deviceImage}
-                alt="Device"
-                className="img-thumbnail bg-transparent"
-              />
-
+          <div ref={divRef} className="mt-5 position-relative parent">
+            <img
+              src={deviceImage}
+              alt="Device"
+              className="img-thumbnail bg-transparent w-100"
+            />
+            <DndProvider backend={HTML5Backend}>
               {toolsImages.map((image, index) => (
-                //  <p className="text-end">{index + 1}</p>
-                //      <img src={image} alt="" />
                 <DraggableImage key={index} src={image} />
               ))}
-              <button
-                className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                onClick={() => {
-                  handleRemoveDeviceImage();
-                }}
-              >
-                X
-              </button>
-            </div>
-          </DndProvider>
+            </DndProvider>
+            <button
+              className="btn btn-sm btn-danger position-absolute top-0 end-0"
+              onClick={handleRemoveDeviceImage}
+            >
+              X
+            </button>
+          </div>
         ) : (
           <label
             htmlFor="device"

@@ -31,15 +31,25 @@ const Generalinfo = ({ handleTabChange }) => {
           Observation:
         </label>
         <input id="observation" type="email" className="form-control" />
+        {/* =================================================================== */}
+
         <label htmlFor="conslusion" className="mb-3 fw-bold fs-4 mt-4">
           Conslusion:
         </label>
         <input id="conslusion" type="text" className="form-control" />
+        {/* =================================================================== */}
 
         <label htmlFor="aquation" className="mb-3 fw-bold fs-4 mt-4">
           Aquation:
         </label>
         <input id="aquation" type="text" className="form-control" />
+        {/* =================================================================== */}
+
+        <label htmlFor="objective" className="mb-3 fw-bold fs-4 mt-4">
+          Objective:
+        </label>
+        <input id="objective" type="text" className="form-control" />
+        {/* =================================================================== */}
 
         <div className="d-flex justify-content-evenly">
           <button className="btn mt-3 fs-4 active"> Reset </button>
