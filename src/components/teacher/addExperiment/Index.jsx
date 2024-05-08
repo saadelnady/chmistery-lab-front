@@ -5,6 +5,7 @@ import Chemicals from "./Chemicals";
 import Steps from "./Steps";
 import ExperimentImages from "./ExperimentImages";
 import "./assets/styles/styles.css";
+import DraggableComponent from "./deleteMe/DraggableComponent";
 
 const Index = ({ isActive, handleActivation }) => {
   const [activeTab, setActiveTab] = useState("general");
@@ -25,6 +26,7 @@ const Index = ({ isActive, handleActivation }) => {
           />
         );
       case "images":
+        // return <DraggableComponent handleTabChange={handleTabChange} />;
         return <ExperimentImages handleTabChange={handleTabChange} />;
       case "tools":
         return (

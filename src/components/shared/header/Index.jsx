@@ -22,6 +22,15 @@ const Index = () => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 col-12 d-flex justify-content-md-end">
             <li className="nav-item mb-3 mb-md-0 align-self-start">
               <NavLink
+                className="nav-link active btn btn-danger text-light me-2"
+                aria-current="page"
+                to="/teacher"
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="nav-item mb-3 mb-md-0 align-self-start">
+              <NavLink
                 className="nav-link active btn btn-danger text-light"
                 aria-current="page"
                 to="/register"
