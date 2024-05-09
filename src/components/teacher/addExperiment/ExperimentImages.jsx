@@ -6,7 +6,7 @@ import DraggableImage from "./DraggableImage";
 const ExperimentImages = ({ handleTabChange }) => {
   const [toolsImages, setToolsImages] = useState([]);
   const [deviceImage, setDeviceImage] = useState("");
-
+  const [draggableImages, setDraggableImages] = useState([]);
   const parentDiv = useRef(null);
   const toolsInputRef = useRef(null);
 
@@ -14,13 +14,34 @@ const ExperimentImages = ({ handleTabChange }) => {
     const files = Array.from(e.target.files);
     const urls = files.map((file) => URL.createObjectURL(file));
     setToolsImages((prevImages) => [...prevImages, ...urls]);
+    const currentDraggableImages = [
+      ...draggableImages,
+      {
+        position: {
+          x: 0,
+          y: 0,
+        },
+        dimensions: {
+          width: 100,
+          height: 100,
+        },
+      },
+    ];
+    setDraggableImages(currentDraggableImages);
     toolsInputRef.current.value = ""; // Clear the tools input field
   };
+  useEffect(() => {
+    console.log("draggableImages------->", draggableImages);
+  }, [draggableImages]);
 
   const handleRemoveToolImage = (index) => {
     const updatedImages = [...toolsImages];
     updatedImages.splice(index, 1);
     setToolsImages(updatedImages);
+
+    const upatedDragableImages = [...draggableImages];
+    upatedDragableImages.splice(index, 1);
+    setDraggableImages(upatedDragableImages);
   };
 
   const handleDeviceImageUpload = (e) => {
@@ -32,7 +53,9 @@ const ExperimentImages = ({ handleTabChange }) => {
     setDeviceImage("");
     parentDiv.current.value = "";
   };
-
+  useEffect(() => {
+    console.log("draggableImages-------------->", draggableImages);
+  }, [draggableImages]);
   // ========================================================
   const [parentDimention, setParentDimensions] = useState({
     width: 0,
@@ -118,7 +141,13 @@ const ExperimentImages = ({ handleTabChange }) => {
             />
             <DndProvider backend={HTML5Backend}>
               {toolsImages.map((image, index) => (
-                <DraggableImage key={index} src={image} />
+                <DraggableImage
+                  key={index}
+                  src={image}
+                  index={index}
+                  draggableImages={draggableImages}
+                  setDraggableImages={setDraggableImages}
+                />
               ))}
             </DndProvider>
             <button

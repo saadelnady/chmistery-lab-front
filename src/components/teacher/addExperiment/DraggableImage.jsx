@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 
-const DraggableImage = ({ src }) => {
+const DraggableImage = ({
+  src,
+  index,
+  draggableImages,
+  setDraggableImages,
+}) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
   const [{ isDragging }, drag] = useDrag({
     type: "image",
     item: { src, offset: { x: 0, y: 0 } },
@@ -24,6 +30,30 @@ const DraggableImage = ({ src }) => {
       const parentRect = parentElement.getBoundingClientRect();
       setParentRect(parentRect);
     }
+  }, []);
+
+  useEffect(() => {
+    const divElement = divRef.current;
+    const observer = new ResizeObserver((entries) => {
+      const { width, height } = entries[0].contentRect;
+
+      const currentDraggebleImages = draggableImages;
+      currentDraggebleImages[index].position = {
+        x: divRef.current.style.left,
+        y: divRef.current.style.top,
+      };
+      currentDraggebleImages[index].dimensions = {
+        width: width,
+        height: height,
+      };
+      setDraggableImages([...currentDraggebleImages]);
+    });
+
+    observer.observe(divElement);
+
+    return () => {
+      observer.unobserve(divElement);
+    };
   }, []);
 
   const handleDragStart = (e) => {
@@ -49,6 +79,17 @@ const DraggableImage = ({ src }) => {
 
     divRef.current.style.left = `${newLeft - parentRect.left}px`;
     divRef.current.style.top = `${newTop - parentRect.top}px`;
+
+    const currentDraggebleImages = draggableImages;
+    currentDraggebleImages[index].position = {
+      x: divRef.current.style.left,
+      y: divRef.current.style.top,
+    };
+    currentDraggebleImages[index].dimensions = {
+      width: divRef.current.style.width,
+      height: divRef.current.style.height,
+    };
+    setDraggableImages([...currentDraggebleImages]);
   };
 
   return (
