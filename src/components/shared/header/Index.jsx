@@ -1,6 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { userLogout } from "../../../store/actions/user/userActions";
+import { toast } from "react-toastify";
 
 const Index = () => {
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    dispatch(userLogout({ toast, navigate }));
+  };
   return (
     <nav className="navbar navbar-expand-lg d-flex justify-content-between shadow">
       <div className="container">
@@ -29,15 +38,29 @@ const Index = () => {
                 Home
               </NavLink>
             </li>
-            <li className="nav-item mb-3 mb-md-0 align-self-start">
-              <NavLink
-                className="nav-link active btn btn-danger text-light"
-                aria-current="page"
-                to="/register"
-              >
-                Sign up
-              </NavLink>
-            </li>
+            {isLoggedIn && (
+              <li className="nav-item mb-3 mb-md-0 align-self-start">
+                <button
+                  className="nav-link active btn btn-danger text-light"
+                  onClick={() => {
+                    handleLogOut();
+                  }}
+                >
+                  log out
+                </button>
+              </li>
+            )}
+            {!isLoggedIn && (
+              <li className="nav-item mb-3 mb-md-0 align-self-start">
+                <NavLink
+                  className="nav-link active btn btn-danger text-light"
+                  aria-current="page"
+                  to="/register"
+                >
+                  Sign up
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

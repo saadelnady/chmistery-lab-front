@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import Buttons from "./Buttons";
-import { DndProvider, useDrag } from "react-dnd";
+ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import DraggableImage from "./DraggableImage";
-const ExperimentImages = ({ handleTabChange }) => {
+const ExperimentImages = ( ) => {
   const [toolsImages, setToolsImages] = useState([]);
   const [deviceImage, setDeviceImage] = useState("");
   const [draggableImages, setDraggableImages] = useState([]);
@@ -175,11 +174,7 @@ const ExperimentImages = ({ handleTabChange }) => {
           onChange={handleDeviceImageUpload}
         />
       </div>
-      <Buttons
-        handleTabChange={handleTabChange}
-        next="chemicals"
-        previous="general"
-      />
+     
     </div>
   );
 };

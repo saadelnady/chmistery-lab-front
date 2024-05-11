@@ -2,21 +2,27 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./components/auth/login/Index.jsx";
 import Register from "./components/auth/register/Index.jsx";
 import Header from "./components/shared/header/Index.jsx";
+import "react-toastify/dist/ReactToastify.css";
 
 import Teacher from "./layouts/teacher/Index.jsx";
 import Student from "./layouts/student/index.jsx";
 
 import "./App.css";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { role } = useSelector((state) => state.userReducer);
+  console.log(role);
   return (
     <div className="App bg-light min-vh-100">
       <Header />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route path="/teacher/*" element={<Teacher />} />
+
         <Route path="/student/*" element={<Student />} />
       </Routes>
 

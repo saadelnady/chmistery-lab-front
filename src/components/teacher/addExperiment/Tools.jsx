@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Buttons from "./Buttons";
 import AddNewTool from "../shared/AddNewTool";
 
-const Tools = ({ handleTabChange, isActive, handleActivation }) => {
-  const equipmentOptions = [
+const Tools = ({ isActive, handleActivation }) => {
+  const tools = [
     { value: "balance", label: "Balance" },
     { value: "holder", label: "Holder" },
     { value: "filter paper", label: "Filter Paper" },
@@ -43,7 +42,7 @@ const Tools = ({ handleTabChange, isActive, handleActivation }) => {
             <option value="" disabled>
               Select tool
             </option>
-            {equipmentOptions.map(({ value, label }, index) => (
+            {tools.map(({ value, label }, index) => (
               <option key={index} value={value}>
                 {label}
               </option>
@@ -84,11 +83,6 @@ const Tools = ({ handleTabChange, isActive, handleActivation }) => {
             ))}
           </tbody>
         </table>
-        <Buttons
-          handleTabChange={handleTabChange}
-          previous="chemicals"
-          next="steps"
-        />
       </div>
     </div>
   );

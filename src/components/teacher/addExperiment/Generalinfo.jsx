@@ -1,7 +1,4 @@
-import React from "react";
-import Buttons from "./Buttons";
-
-const Generalinfo = ({ handleTabChange }) => {
+const Generalinfo = () => {
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       <form className="col-12 col-lg-8 px-4 py-5 rounded shadow">
@@ -50,15 +47,6 @@ const Generalinfo = ({ handleTabChange }) => {
         </label>
         <input id="objective" type="text" className="form-control" />
         {/* =================================================================== */}
-
-        <div className="d-flex justify-content-evenly">
-          <button className="btn mt-3 fs-4 active"> Reset </button>
-          <Buttons
-            next="images"
-            handleTabChange={handleTabChange}
-            currentTab="general"
-          />
-        </div>
       </form>
     </div>
   );

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import AddNewChemical from "../shared/AddNewChemical";
-import Buttons from "./Buttons";
 
-const Chemicals = ({ handleTabChange, isActive, handleActivation }) => {
+const Chemicals = ({ isActive, handleActivation }) => {
   const chemicals = [
     { name: "Water" },
     { name: "NH4CL" },
@@ -103,11 +102,6 @@ const Chemicals = ({ handleTabChange, isActive, handleActivation }) => {
             ))}
           </tbody>
         </table>
-        <Buttons
-          handleTabChange={handleTabChange}
-          previous="images"
-          next="tools"
-        />
       </div>
     </div>
   );

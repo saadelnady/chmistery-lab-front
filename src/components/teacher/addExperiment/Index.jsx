@@ -5,7 +5,6 @@ import Chemicals from "./Chemicals";
 import Steps from "./Steps";
 import ExperimentImages from "./ExperimentImages";
 import "./assets/styles/styles.css";
-import DraggableComponent from "./deleteMe/DraggableComponent";
 
 const Index = ({ isActive, handleActivation }) => {
   const [activeTab, setActiveTab] = useState("general");
@@ -16,30 +15,21 @@ const Index = ({ isActive, handleActivation }) => {
   const renderContent = () => {
     switch (activeTab) {
       case "general":
-        return <Generalinfo handleTabChange={handleTabChange} />;
+        return <Generalinfo />;
       case "chemicals":
         return (
-          <Chemicals
-            handleTabChange={handleTabChange}
-            isActive={isActive}
-            handleActivation={handleActivation}
-          />
+          <Chemicals isActive={isActive} handleActivation={handleActivation} />
         );
       case "images":
-        // return <DraggableComponent handleTabChange={handleTabChange} />;
-        return <ExperimentImages handleTabChange={handleTabChange} />;
+        return <ExperimentImages />;
       case "tools":
         return (
-          <Tools
-            handleTabChange={handleTabChange}
-            isActive={isActive}
-            handleActivation={handleActivation}
-          />
+          <Tools isActive={isActive} handleActivation={handleActivation} />
         );
       case "steps":
-        return <Steps handleTabChange={handleTabChange} />;
+        return <Steps />;
       default:
-        return <Generalinfo handleTabChange={handleTabChange} />;
+        return <Generalinfo />;
     }
   };
 

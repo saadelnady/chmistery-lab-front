@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const serverUrl = "https://virtual-lab-u65s.onrender.com/virtual_lab";
+export const serverUrl = "https://virtual-lab-u65s.onrender.com";
 
 const handleRequest = async (method, URL, data = null) => {
   const headers = {
-    Authorization: `Bearer ${localStorage.getItem("Authorization")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}` || "",
   };
 
   const response = await axios({
