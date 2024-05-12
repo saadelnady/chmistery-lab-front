@@ -3,11 +3,13 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { NavLink, useNavigate } from "react-router-dom";
 import ErrorMessage from "../../shared/ErrorMessage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { userLogin } from "../../../store/actions/user/userActions";
+import Loading from "../../shared/Loading";
 
 const Login = () => {
+  const { isLoading } = useSelector((state) => state.userReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const LoginSchema = Yup.object().shape({
@@ -84,7 +86,7 @@ const Login = () => {
                 type="submit"
                 className="btn btn-danger d-block col-6 mt-3 fs-4 mx-auto"
               >
-                Login
+                {isLoading ? <Loading /> : "Login"}
               </button>
 
               <div className="fs-5 text-center text-sm-start mt-4 d-flex justify-content-evenly flex-wrap">

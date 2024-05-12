@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import AddExperiment from "../../components/teacher/addExperiment/Index.jsx";
 import Experiments from "../../components/teacher/experiments/Index.jsx";
 import Tools from "../../components/teacher/tools/Index.jsx";
 import Chemicals from "../../components/teacher/chemicals/Index.jsx";
+import { useDispatch } from "react-redux";
+import { fetchChemicals } from "../../store/actions/chemical/chemicalActions.js";
+import { fetchTools } from "../../store/actions/tools/toolActions.js";
 
 const Index = () => {
+  const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);
   const handleActivation = () => {
     setIsActive(!isActive);
   };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      dispatch(fetchChemicals());
+      dispatch(fetchTools());
+    }
+  }, [dispatch]);
   return (
     <div>
       <Routes>

@@ -57,3 +57,23 @@ export const postUserLogoutFail = (payLoad) => {
     payLoad,
   };
 };
+// ===========================================================================
+
+export const getUser = (payLoad) => {
+  return {
+    type: USER_ACTIONS_TYPES.GET_USER,
+    payLoad,
+  };
+};
+export const getUserSuccess = (payLoad) => {
+  return {
+    type: USER_ACTIONS_TYPES.GET_USER_SUCCESS,
+    payLoad,
+  };
+};
+export const getUserFail = (payLoad) => {
+  return {
+    type: USER_ACTIONS_TYPES.GET_USER_FAIL,
+    payLoad,
+  };
+};

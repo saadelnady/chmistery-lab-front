@@ -4,7 +4,8 @@ import { userLogout } from "../../../store/actions/user/userActions";
 import { toast } from "react-toastify";
 
 const Index = () => {
-  const { isLoggedIn } = useSelector((state) => state.userReducer);
+  const { isLoggedIn, user } = useSelector((state) => state.userReducer);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogOut = () => {
@@ -29,15 +30,17 @@ const Index = () => {
         </button>
         <div className="collapse navbar-collapse " id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 col-12 d-flex justify-content-md-end">
-            <li className="nav-item mb-3 mb-md-0 align-self-start">
-              <NavLink
-                className="nav-link active btn btn-danger text-light me-2"
-                aria-current="page"
-                to="/teacher"
-              >
-                Home
-              </NavLink>
-            </li>
+            {isLoggedIn && (
+              <li className="nav-item mb-3 mb-md-0 align-self-start">
+                <NavLink
+                  className="nav-link active btn me-2"
+                  aria-current="page"
+                  to={user.role === "student" ? "/student" : "/teacher"}
+                >
+                  Home
+                </NavLink>
+              </li>
+            )}
             {isLoggedIn && (
               <li className="nav-item mb-3 mb-md-0 align-self-start">
                 <button

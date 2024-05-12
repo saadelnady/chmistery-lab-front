@@ -5,14 +5,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ErrorMessage from "../../shared/ErrorMessage";
 import { toast } from "react-toastify";
 import { userSignUp } from "../../../store/actions/user/userActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../shared/Loading";
 const Index = () => {
+  const { isLoading } = useSelector((state) => state.userReducer);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const SignupSchema = Yup.object().shape({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
+    firstName: Yup.string()
+      .max(10, "first name must be at least 10 characters maximum")
+      .required("Required"),
+    lastName: Yup.string()
+      .max(10, "last name must be at least 10 characters maximum")
+      .required("Required"),
     phoneNumber: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string()
@@ -178,7 +185,7 @@ const Index = () => {
                 type="submit"
                 className="btn btn-danger d-block col-6 mt-3 fs-4 mx-auto"
               >
-                Sign up
+                {isLoading ? <Loading /> : "Sign up"}
               </button>
 
               <div className="fs-5 text-center text-sm-start mt-4 d-flex justify-content-evenly flex-wrap">

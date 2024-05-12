@@ -1,4 +1,4 @@
-import { postData } from "../../../api/api";
+import { getData, postData } from "../../../api/api";
 import { showToast } from "../../../helpers/toaste_helper";
 import * as actionCreators from "./userActionsCreators";
 
@@ -82,6 +82,22 @@ export const userLogout = ({ toast, navigate }) => {
     } catch (error) {
       dispatch(actionCreators.postUserLogoutFail());
       showToast(toast, "Something wrong when logout", "error");
+    }
+  };
+};
+// ========================================================================================
+
+export const fetchUser = () => {
+  return async (dispatch) => {
+    dispatch(actionCreators.getUser());
+
+    try {
+      const response = await getData(`/virtual_lab/api/v1/user`);
+      console.log("respopnse ====>", response);
+      dispatch(actionCreators.getUserSuccess(response?.data?.data[0]));
+    } catch (error) {
+      dispatch(actionCreators.getUserFail());
+      // showToast(toast, "Something wrong when logout", "error");
     }
   };
 };

@@ -1,53 +1,59 @@
-import { USER_ACTIONS_TYPES } from "../../actions/actionTypes";
+import {
+  TOOLS_ACTIONS_TYPES,
+  TOOL_ACTIONS_TYPES,
+} from "../../actions/actionTypes";
 
 const initialState = {
-  isLoggedIn: false,
   isLoading: false,
-  user: {},
+  tool: {},
+  tools: [],
   error: null,
 };
 
-const userReducer = (state = initialState, action) => {
+const toolReducer = (state = initialState, action) => {
   switch (action.type) {
     // ====================================================================================================
-    case USER_ACTIONS_TYPES.POST_USER_SIGNUP:
+    case TOOLS_ACTIONS_TYPES.GET_TOOLS:
       return {
         ...state,
         isLoading: true,
       };
-    case USER_ACTIONS_TYPES.POST_USER_SIGNUP_SUCCESS:
+    case TOOLS_ACTIONS_TYPES.GET_TOOLS_SUCCESS:
+      console.log("action.payLoad ===> ", action.payLoad);
       return {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        user: action.payLoad.data.user,
+        tools: action.payLoad,
         error: null,
       };
 
-    case USER_ACTIONS_TYPES.POST_USER_SIGNUP_FAIL:
+    case TOOLS_ACTIONS_TYPES.GET_TOOLS_FAIL:
       console.log(" action.payLoad ===>", action.payLoad);
       return {
         ...state,
         isLoggedIn: false,
         isLoading: false,
-        user: {},
         error: action.payLoad,
       };
     // ====================================================================================================
-    case USER_ACTIONS_TYPES.POST_USER_LOGOUT:
+    case TOOL_ACTIONS_TYPES.DELETE_TOOL:
       return {
         ...state,
         isLoading: true,
       };
-    case USER_ACTIONS_TYPES.POST_USER_LOGOUT_SUCCESS:
+    case TOOL_ACTIONS_TYPES.DELETE_TOOL_SUCCESS:
+      const updatedTools = state.tools.filter(
+        (tool) => tool?._id !== action?.payLoad
+      );
       return {
         ...state,
         isLoggedIn: false,
         isLoading: false,
-        user: {},
+        tools: updatedTools,
         error: null,
       };
-    case USER_ACTIONS_TYPES.POST_USER_LOGOUT_FAIL:
+    case TOOL_ACTIONS_TYPES.DELETE_TOOL_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -55,51 +61,73 @@ const userReducer = (state = initialState, action) => {
         error: action?.payLoad,
       };
     // ====================================================================================================
-    case USER_ACTIONS_TYPES.POST_USER_LOGIN:
+    case TOOL_ACTIONS_TYPES.POST_TOOL:
       return {
         ...state,
         isLoading: true,
       };
-    case USER_ACTIONS_TYPES.POST_USER_LOGIN_SUCCESS:
-      return {
-        ...state,
-        isLoggedIn: true,
-        isLoading: false,
-        user: action.payLoad,
-        error: null,
-      };
-    case USER_ACTIONS_TYPES.POST_USER_LOGIN_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        isLoggedIn: false,
-        error: action?.payLoad,
-      };
-    // ====================================================================================================
-    case USER_ACTIONS_TYPES.GET_USER:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case USER_ACTIONS_TYPES.GET_USER_SUCCESS:
+    case TOOL_ACTIONS_TYPES.POST_TOOL_SUCCESS:
       console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        user: action.payLoad,
+        tools: [...state.tools, action.payLoad],
         error: null,
       };
-    case USER_ACTIONS_TYPES.GET_USER_FAIL:
+    case TOOL_ACTIONS_TYPES.POST_TOOL_FAIL:
       return {
         ...state,
         isLoading: false,
         isLoggedIn: false,
         error: action?.payLoad,
       };
-
+    // ====================================================================================================
+    case TOOL_ACTIONS_TYPES.GET_TOOL:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case TOOL_ACTIONS_TYPES.GET_TOOL_SUCCESS:
+      console.log("action.payLoad ===>", action.payLoad);
+      return {
+        ...state,
+        isLoggedIn: true,
+        isLoading: false,
+        tool: action.payLoad,
+        error: null,
+      };
+    case TOOL_ACTIONS_TYPES.GET_TOOL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: false,
+        error: action?.payLoad,
+      };
+    // ====================================================================================================
+    case TOOL_ACTIONS_TYPES.PUT_TOOL:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case TOOL_ACTIONS_TYPES.PUT_TOOL_SUCCESS:
+      console.log("action.payLoad ===>", action.payLoad);
+      return {
+        ...state,
+        isLoggedIn: true,
+        isLoading: false,
+        tool: action.payLoad,
+        error: null,
+      };
+    case TOOL_ACTIONS_TYPES.PUT_TOOL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: false,
+        error: action?.payLoad,
+      };
     default:
       return state;
   }
 };
-export { userReducer };
+export { toolReducer };

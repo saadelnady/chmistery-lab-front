@@ -1,53 +1,59 @@
-import { USER_ACTIONS_TYPES } from "../../actions/actionTypes";
+import {
+  CHEMICAL_ACTIONS_TYPES,
+  CHEMICALS_ACTIONS_TYPES,
+} from "../../actions/actionTypes";
 
 const initialState = {
-  isLoggedIn: false,
   isLoading: false,
-  user: {},
+  chemical: {},
+  chemicals: [],
   error: null,
 };
 
-const userReducer = (state = initialState, action) => {
+const chemicalReducer = (state = initialState, action) => {
   switch (action.type) {
     // ====================================================================================================
-    case USER_ACTIONS_TYPES.POST_USER_SIGNUP:
+    case CHEMICALS_ACTIONS_TYPES.GET_CHEMICALS:
       return {
         ...state,
         isLoading: true,
       };
-    case USER_ACTIONS_TYPES.POST_USER_SIGNUP_SUCCESS:
+    case CHEMICALS_ACTIONS_TYPES.GET_CHEMICALS_SUCCESS:
+      console.log("action.payLoad ===> ", action.payLoad);
       return {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        user: action.payLoad.data.user,
+        chemicals: action.payLoad,
         error: null,
       };
 
-    case USER_ACTIONS_TYPES.POST_USER_SIGNUP_FAIL:
+    case CHEMICALS_ACTIONS_TYPES.GET_CHEMICALS_FAIL:
       console.log(" action.payLoad ===>", action.payLoad);
       return {
         ...state,
         isLoggedIn: false,
         isLoading: false,
-        user: {},
         error: action.payLoad,
       };
     // ====================================================================================================
-    case USER_ACTIONS_TYPES.POST_USER_LOGOUT:
+    case CHEMICAL_ACTIONS_TYPES.DELETE_CHEMICAL:
       return {
         ...state,
         isLoading: true,
       };
-    case USER_ACTIONS_TYPES.POST_USER_LOGOUT_SUCCESS:
+    case CHEMICAL_ACTIONS_TYPES.DELETE_CHEMICAL_SUCCESS:
+      const updatedChemicals = state.chemicals.filter(
+        (chemical) => chemical?._id !== action?.payLoad
+      );
       return {
         ...state,
         isLoggedIn: false,
         isLoading: false,
-        user: {},
+        chemicals: updatedChemicals,
         error: null,
       };
-    case USER_ACTIONS_TYPES.POST_USER_LOGOUT_FAIL:
+    case CHEMICAL_ACTIONS_TYPES.DELETE_CHEMICAL_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -55,51 +61,73 @@ const userReducer = (state = initialState, action) => {
         error: action?.payLoad,
       };
     // ====================================================================================================
-    case USER_ACTIONS_TYPES.POST_USER_LOGIN:
+    case CHEMICAL_ACTIONS_TYPES.POST_CHEMICAL:
       return {
         ...state,
         isLoading: true,
       };
-    case USER_ACTIONS_TYPES.POST_USER_LOGIN_SUCCESS:
-      return {
-        ...state,
-        isLoggedIn: true,
-        isLoading: false,
-        user: action.payLoad,
-        error: null,
-      };
-    case USER_ACTIONS_TYPES.POST_USER_LOGIN_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        isLoggedIn: false,
-        error: action?.payLoad,
-      };
-    // ====================================================================================================
-    case USER_ACTIONS_TYPES.GET_USER:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case USER_ACTIONS_TYPES.GET_USER_SUCCESS:
+    case CHEMICAL_ACTIONS_TYPES.POST_CHEMICAL_SUCCESS:
       console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        user: action.payLoad,
+        chemicals: [...state.chemicals, action.payLoad],
         error: null,
       };
-    case USER_ACTIONS_TYPES.GET_USER_FAIL:
+    case CHEMICAL_ACTIONS_TYPES.POST_CHEMICAL_FAIL:
       return {
         ...state,
         isLoading: false,
         isLoggedIn: false,
         error: action?.payLoad,
       };
-
+    // ====================================================================================================
+    case CHEMICAL_ACTIONS_TYPES.GET_CHEMICAL:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case CHEMICAL_ACTIONS_TYPES.GET_CHEMICAL_SUCCESS:
+      console.log("action.payLoad ===>", action.payLoad);
+      return {
+        ...state,
+        isLoggedIn: true,
+        isLoading: false,
+        chemical: action.payLoad,
+        error: null,
+      };
+    case CHEMICAL_ACTIONS_TYPES.GET_CHEMICAL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: false,
+        error: action?.payLoad,
+      };
+    // ====================================================================================================
+    case CHEMICAL_ACTIONS_TYPES.PUT_CHEMICAL:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case CHEMICAL_ACTIONS_TYPES.PUT_CHEMICAL_SUCCESS:
+      console.log("action.payLoad ===>", action.payLoad);
+      return {
+        ...state,
+        isLoggedIn: true,
+        isLoading: false,
+        chemical: action.payLoad,
+        error: null,
+      };
+    case CHEMICAL_ACTIONS_TYPES.PUT_CHEMICAL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: false,
+        error: action?.payLoad,
+      };
     default:
       return state;
   }
 };
-export { userReducer };
+export { chemicalReducer };

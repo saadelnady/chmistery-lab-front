@@ -1,74 +1,106 @@
+import ErrorMessage from "../../shared/ErrorMessage";
+import { Formik, Form, Field } from "formik";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import { addTool } from "../../../store/actions/tools/toolActions";
+import { toast } from "react-toastify";
+import Loading from "../../shared/Loading";
 
-const AddNewTool = ({ handleActivation, tableData, setTableData }) => {
-  const [newTool, setNewTool] = useState({
+const AddNewTool = ({ handleActivation }) => {
+  const { isLoading } = useSelector((state) => state.toolReducer);
+  const dispatch = useDispatch();
+  const initialValues = {
     name: "",
     description: "",
-    image: "",
-  });
-
-  const handleAddNewTool = () => {
-    // Check if any field is empty
-    // if (!newChemical.name || !newChemical.state || !newChemical.color) {
-    //   alert("Please fill in all fields");
-    //   return;
-    // }
-
-    setTableData([...tableData, newTool]);
-    // Reset newChemical state to empty values after adding the new chemical
-    setNewTool({
-      name: "",
-      description: "",
-      image: "",
-    });
-    handleActivation();
+    image: null, // Change this to null instead of an empty string
   };
-
+  const [fileContent, setFileContent] = useState(null); // State to hold the file content
+  console.log("fileContent: " + fileContent);
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("required"),
+    description: Yup.string().required("required"),
+  });
+  const handleFileChange = (event) => {
+    const file = event.currentTarget.files[0];
+    setFileContent(file);
+  };
+  const handleSubmit = (values) => {
+    handleAddTool(values);
+  };
+  const handleAddTool = (values) => {
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("description", values.description);
+    formData.append("image", fileContent);
+    dispatch(addTool(toast, formData));
+  };
   return (
     <div className="overLay d-flex justify-content-center align-items-center">
-      <form className="add-new-chemical bg-light col-12 col-sm-6 col-md-5 rounded py-3 px-2">
-        <div className="d-flex justify-content-end">
-          <i
-            className="bi bi-x-lg cursor-pointer fs-3"
-            onClick={handleActivation}
-          ></i>
-        </div>
-        <div className="d-flex flex-column">
-          <input
-            type="text"
-            placeholder="name"
-            className="form-control mb-3"
-            value={newTool.name}
-            onChange={(e) => setNewTool({ ...newTool, name: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="description"
-            className="form-control mb-3"
-            value={newTool.description}
-            onChange={(e) => setNewTool({ ...newTool, state: e.target.value })}
-          />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched }) => (
+          <Form className="add-new-chemical bg-light col-12 col-sm-10 col-md-6 col-lg-4 rounded py-3 px-2">
+            <div className="d-flex justify-content-end">
+              <i
+                className="bi bi-x-lg cursor-pointer fs-3"
+                onClick={handleActivation}
+              ></i>
+            </div>
+            <div className="d-flex flex-column">
+              <Field
+                type="text"
+                name="name"
+                placeholder="Name"
+                className="form-control mb-2"
+              />
+              {errors.name && touched.name && (
+                <ErrorMessage
+                  touched={touched}
+                  errors={errors}
+                  fieldName="name"
+                />
+              )}
 
-          <input
-            type="file"
-            className="form-control mb-3"
-            value={newTool.shape}
-            onChange={(e) =>
-              setNewTool({
-                ...newTool,
-                atomic_structure: e.target.value,
-              })
-            }
-          />
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={handleAddNewTool}
-          >
-            Add Tool
-          </button>
-        </div>
-      </form>
+              <Field
+                type="text"
+                name="description"
+                placeholder="Description"
+                className="form-control mb-2"
+              />
+              {errors.description && touched.description && (
+                <ErrorMessage
+                  touched={touched}
+                  errors={errors}
+                  fieldName="description"
+                />
+              )}
+
+              <Field
+                type="file"
+                name="image"
+                className="form-control mb-2"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+              {errors.image && touched.image && (
+                <ErrorMessage
+                  touched={touched}
+                  errors={errors}
+                  fieldName="image"
+                />
+              )}
+
+              <button className="btn btn-danger">
+                {isLoading ? <Loading /> : "Add Tool"}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

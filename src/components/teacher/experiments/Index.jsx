@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Allexperiments from "./Allexperiments";
-import Chemicals from "./Chemicals";
-import Tools from "./Tools";
+import Chemicals from "../chemicals/Index";
+import Tools from "../tools/Index";
 const Index = ({ isActive, handleActivation }) => {
   const [activeTab, setActiveTab] = useState("experiments");
   const handleTabChange = (tab) => {
@@ -28,7 +28,7 @@ const Index = ({ isActive, handleActivation }) => {
   return (
     <div className="pt-5 container">
       <div className="d-flex justify-content-end align-items-center mt-4 ">
-        <ul className="d-flex justify-content-between align-items-center col-12 col-md-10 col-lg-8 shadow rounded  p-4 navlinks">
+        <ul className="d-flex justify-content-between align-items-center col-12 col-md-10 col-lg-8 shadow rounded  p-4 flex-wrap navlinks ">
           <li
             className={`btn ${
               activeTab === "experiments" ? "active bg-danger text-light" : ""
