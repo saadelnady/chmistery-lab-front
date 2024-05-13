@@ -1,10 +1,4 @@
-import {
-  deleteData,
-  getData,
-  patchData,
-  postData,
-  putData,
-} from "../../../api/api";
+import { deleteData, getData, patchData, postData } from "../../../api/api";
 import { showToast } from "../../../helpers/toaste_helper";
 import * as actionsCreators from "./chemicalActionsCreators";
 // =========================================================================================
@@ -104,7 +98,7 @@ export const editChemical = (toast, formData, chemicalId) => {
 };
 // =========================================================================================
 
-export const clearChemical = (chemicalId, toast) => {
+export const clearChemical = () => {
   return async (dispatch) => {
     dispatch(actionsCreators.clearChemical());
     try {

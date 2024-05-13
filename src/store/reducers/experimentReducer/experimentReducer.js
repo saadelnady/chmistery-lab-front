@@ -1,92 +1,93 @@
 import {
-  TOOLS_ACTIONS_TYPES,
-  TOOL_ACTIONS_TYPES,
+  EXPERIMENTS_ACTIONS_TYPES,
+  EXPERIMENT_ACTIONS_TYPES,
 } from "../../actions/actionTypes";
 
 const initialState = {
   isLoading: false,
-  tool: {},
-  tools: [],
+  experiment: {},
+  experiments: [],
   error: null,
 };
 
-const toolReducer = (state = initialState, action) => {
+const experimentReducer = (state = initialState, action) => {
   switch (action.type) {
     // ====================================================================================================
-    case TOOLS_ACTIONS_TYPES.GET_TOOLS:
+    case EXPERIMENTS_ACTIONS_TYPES.GET_EXPERIMENTS:
       return {
         ...state,
         isLoading: true,
       };
-    case TOOLS_ACTIONS_TYPES.GET_TOOLS_SUCCESS:
+    case EXPERIMENTS_ACTIONS_TYPES.GET_EXPERIMENTS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        tools: action.payLoad,
+        experiments: action.payLoad,
         error: null,
       };
 
-    case TOOLS_ACTIONS_TYPES.GET_TOOLS_FAIL:
+    case EXPERIMENTS_ACTIONS_TYPES.GET_EXPERIMENTS_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action.payLoad,
       };
     // ====================================================================================================
-    case TOOL_ACTIONS_TYPES.DELETE_TOOL:
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_EXPERIMENT:
       return {
         ...state,
         isLoading: true,
       };
-    case TOOL_ACTIONS_TYPES.DELETE_TOOL_SUCCESS:
-      const updatedTools = state.tools.filter(
-        (tool) => tool?._id !== action?.payLoad
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_EXPERIMENT_SUCCESS:
+      const updatedExperiments = state.experiments.filter(
+        (experiment) => experiment?._id !== action?.payLoad
       );
       return {
         ...state,
         isLoading: false,
-        tools: updatedTools,
+        experiments: updatedExperiments,
         error: null,
       };
-    case TOOL_ACTIONS_TYPES.DELETE_TOOL_FAIL:
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_EXPERIMENT_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
       };
     // ====================================================================================================
-    case TOOL_ACTIONS_TYPES.POST_TOOL:
+    case EXPERIMENT_ACTIONS_TYPES.POST_EXPERIMENT:
       return {
         ...state,
         isLoading: true,
       };
-    case TOOL_ACTIONS_TYPES.POST_TOOL_SUCCESS:
+    case EXPERIMENT_ACTIONS_TYPES.POST_EXPERIMENT_SUCCESS:
+      console.log("actiooon ==>", action.payLoad);
       return {
         ...state,
         isLoading: false,
-        tools: [...state.tools, action.payLoad],
+        experiments: [...state.experiments, action.payLoad],
         error: null,
       };
-    case TOOL_ACTIONS_TYPES.POST_TOOL_FAIL:
+    case EXPERIMENT_ACTIONS_TYPES.POST_EXPERIMENT_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
       };
     // ====================================================================================================
-    case TOOL_ACTIONS_TYPES.GET_TOOL:
+    case EXPERIMENT_ACTIONS_TYPES.GET_EXPERIMENT:
       return {
         ...state,
         isLoading: true,
       };
-    case TOOL_ACTIONS_TYPES.GET_TOOL_SUCCESS:
+    case EXPERIMENT_ACTIONS_TYPES.GET_EXPERIMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        tool: action.payLoad,
+        experiment: action.payLoad,
         error: null,
       };
-    case TOOL_ACTIONS_TYPES.GET_TOOL_FAIL:
+    case EXPERIMENT_ACTIONS_TYPES.GET_EXPERIMENT_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -94,42 +95,42 @@ const toolReducer = (state = initialState, action) => {
       };
 
     // ====================================================================================================
-    case TOOL_ACTIONS_TYPES.PUT_TOOL:
+    case EXPERIMENT_ACTIONS_TYPES.PUT_EXPERIMENT:
       return {
         ...state,
         isLoading: true,
       };
-    case TOOL_ACTIONS_TYPES.PUT_TOOL_SUCCESS:
-      const filterdTools = state.tools?.filter(
-        (tool) => tool?._id !== action?.payLoad?._id
+    case EXPERIMENT_ACTIONS_TYPES.PUT_EXPERIMENT_SUCCESS:
+      const filteredExperiments = state.experiments?.filter(
+        (experiment) => experiment?._id !== action?.payLoad?._id
       );
       return {
         ...state,
         isLoading: false,
-        tools: [...filterdTools, action.payLoad],
+        experiments: [...filteredExperiments, action.payLoad],
         chemical: action.payLoad,
         error: null,
       };
-    case TOOL_ACTIONS_TYPES.PUT_TOOL_FAIL:
+    case EXPERIMENT_ACTIONS_TYPES.PUT_EXPERIMENT_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
       };
 
-    case TOOL_ACTIONS_TYPES.CLEAR_TOOL:
+    case EXPERIMENT_ACTIONS_TYPES.CLEAR_EXPERIMENT:
       return {
         ...state,
         isLoading: true,
       };
-    case TOOL_ACTIONS_TYPES.CLEAR_TOOL_SUCCESS:
+    case EXPERIMENT_ACTIONS_TYPES.CLEAR_EXPERIMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        tool: {},
+        experiment: {},
         error: null,
       };
-    case TOOL_ACTIONS_TYPES.CLEAR_TOOL_FAIL:
+    case EXPERIMENT_ACTIONS_TYPES.CLEAR_EXPERIMENT_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -139,4 +140,4 @@ const toolReducer = (state = initialState, action) => {
       return state;
   }
 };
-export { toolReducer };
+export { experimentReducer };

@@ -3,7 +3,6 @@ import AddNewChemical from "../shared/AddNewChemical";
 import {
   clearChemical,
   deleteChemical,
-  fetchChemical,
 } from "../../../store/actions/chemical/chemicalActions";
 import { toast } from "react-toastify";
 import { useState } from "react";

@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchUser } from "./store/actions/user/userActions.js";
+import { fetchExperiments } from "./store/actions/experiment/experimentActions.js";
 
 function App() {
   const { isLoggedIn, user } = useSelector((state) => state.userReducer);
@@ -20,6 +21,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       dispatch(fetchUser());
+      dispatch(fetchExperiments());
     }
   }, [dispatch]);
   console.log("role ===>", user);

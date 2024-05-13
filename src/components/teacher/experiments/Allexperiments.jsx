@@ -1,7 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { addExperiment } from "../../../store/actions/experiment/experimentActions";
+import { useDispatch } from "react-redux";
 
 const Allexperiments = () => {
+  const dispatch = useDispatch();
   return (
     <div className="mt-5">
       <table className="table w-100">
@@ -14,7 +17,9 @@ const Allexperiments = () => {
           <tr>
             <td className="fw-bold">White Smoke Experiment</td>
             <td>
-              <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>
+              <NavLink to="/teacher/add-experiment">
+                <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>
+              </NavLink>{" "}
             </td>
             <td>
               <i className="bi bi-trash3-fill fs-3 cursor-pointer"></i>
@@ -22,9 +27,15 @@ const Allexperiments = () => {
           </tr>
         </tbody>
       </table>
-      <NavLink to="/teacher/add-experiment">
-        <button className="btn bg-light active">Add new experiment</button>
-      </NavLink>
+
+      <button
+        className="btn bg-light active"
+        onClick={() => {
+          dispatch(addExperiment());
+        }}
+      >
+        Add new experiment
+      </button>
     </div>
   );
 };

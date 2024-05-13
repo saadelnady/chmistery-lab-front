@@ -1,44 +1,106 @@
 import ErrorMessage from "../../shared/ErrorMessage";
 import { Formik, Form, Field } from "formik";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { addTool } from "../../../store/actions/tools/toolActions";
+import {
+  addTool,
+  editTool,
+  fetchTool,
+} from "../../../store/actions/tools/toolActions";
 import { toast } from "react-toastify";
 import Loading from "../../shared/Loading";
+import { isObjectNotEmpty } from "../../../helpers/object_checker";
+import { imageUrl } from "../../../api/api";
+import { showToast } from "../../../helpers/toaste_helper";
 
-const AddNewTool = ({ handleActivation }) => {
-  const { isLoading } = useSelector((state) => state.toolReducer);
+const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
+  const { isLoading, tools, tool } = useSelector((state) => state.toolReducer);
   const dispatch = useDispatch();
+  const formikRef = useRef(null);
+
   const initialValues = {
     name: "",
     description: "",
-    image: null, // Change this to null instead of an empty string
+    image: null,
   };
   const [fileContent, setFileContent] = useState(null);
   const [toolImage, setToolImage] = useState(null); // State to hold the file content
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("required"),
-    description: Yup.string().required("required"),
-  });
+  // =====================================
+
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
     setFileContent(file);
     setToolImage(URL.createObjectURL(file));
   };
+  // =====================================
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("required"),
+    description: Yup.string().required("required"),
+  });
+  // =====================================
+  useEffect(() => {
+    if (toolId) {
+      dispatch(fetchTool(toolId));
+    }
+  }, [toolId, dispatch]);
+  useEffect(() => {
+    if (isObjectNotEmpty(tool) && toolId) {
+      formikRef.current.setFieldValue("name", tool.name);
+      formikRef.current.setFieldValue("description", tool.description);
+      setToolImage(`${imageUrl}/${tool.image}`);
+    }
+  }, [tool]);
+
+  // =====================================
   const handleSubmit = (values) => {
-    handleAddTool(values);
+    if (isObjectNotEmpty(tool) && toolId) {
+      handleEditTool(values);
+    } else {
+      handleAddTool(values);
+    }
   };
-  const handleAddTool = (values) => {
+  const handleChange = (e) => {
+    formikRef.current.setFieldValue(e.target.name, e.target.value);
+  };
+  const handleEditTool = (values) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("description", values.description);
-    formData.append("image", fileContent);
-    dispatch(addTool(toast, formData));
+
+    if (fileContent) {
+      formData.append("image", fileContent);
+    }
+    dispatch(editTool(toast, formData, toolId));
+    setTimeout(() => {
+      handleToolId();
+      handleActivation();
+    }, 3000);
+  };
+
+  const handleAddTool = (values) => {
+    const existedTool = tools.find((tool, index) => {
+      return tool.name === values.name;
+    });
+    if (existedTool) {
+      showToast(toast, "tool is already exists", "error");
+    } else {
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("description", values.description);
+      if (fileContent) {
+        formData.append("image", fileContent);
+      }
+      dispatch(addTool(toast, formData));
+      setTimeout(() => {
+        handleActivation();
+      }, 3000);
+    }
   };
   return (
     <div className="overLay d-flex justify-content-center align-items-center">
       <Formik
+        innerRef={formikRef}
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -48,7 +110,10 @@ const AddNewTool = ({ handleActivation }) => {
             <div className="d-flex justify-content-end">
               <i
                 className="bi bi-x-lg cursor-pointer fs-3"
-                onClick={handleActivation}
+                onClick={() => {
+                  handleActivation();
+                  handleToolId();
+                }}
               ></i>
             </div>
             <div className="d-flex flex-column">
@@ -57,6 +122,7 @@ const AddNewTool = ({ handleActivation }) => {
                 name="name"
                 placeholder="Name"
                 className="form-control mb-2"
+                onChange={handleChange}
               />
               {errors.name && touched.name && (
                 <ErrorMessage
@@ -71,6 +137,7 @@ const AddNewTool = ({ handleActivation }) => {
                 name="description"
                 placeholder="Description"
                 className="form-control mb-2"
+                onChange={handleChange}
               />
               {errors.description && touched.description && (
                 <ErrorMessage
@@ -114,7 +181,7 @@ const AddNewTool = ({ handleActivation }) => {
               </div>
 
               <button className="btn btn-danger">
-                {isLoading ? <Loading /> : "Add Tool"}
+                {isLoading ? <Loading /> : `${toolId ? "Edit" : "Add"} tool`}
               </button>
             </div>
           </Form>

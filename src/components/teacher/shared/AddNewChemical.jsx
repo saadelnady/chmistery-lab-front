@@ -63,7 +63,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
         chemical.molecularFormula
       );
 
-      setChemicalImage(`{${imageUrl}/${chemical.atomicStructure}`);
+      setChemicalImage(`${imageUrl}/${chemical.atomicStructure}`);
     }
   }, [chemical]);
 
@@ -102,10 +102,6 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
   };
 
   const handleEditChemical = (values) => {
-    const existedChemical = chemicals.find((chemical, index) => {
-      return chemical.name === values.name;
-    });
-
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("state", values.state);

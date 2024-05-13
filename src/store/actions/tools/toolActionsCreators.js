@@ -97,3 +97,20 @@ export const deleteToolFail = (payLoad) => {
     payLoad,
   };
 };
+// ==================================================================================
+export const clearTool = () => {
+  return {
+    type: TOOL_ACTIONS_TYPES.CLEAR_TOOL,
+  };
+};
+export const clearToolSuccess = () => {
+  return {
+    type: TOOL_ACTIONS_TYPES.CLEAR_TOOL_SUCCESS,
+  };
+};
+export const clearToolFail = (payLoad) => {
+  return {
+    type: TOOL_ACTIONS_TYPES.CLEAR_TOOL_FAIL,
+    payLoad,
+  };
+};

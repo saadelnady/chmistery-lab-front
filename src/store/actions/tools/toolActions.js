@@ -1,4 +1,4 @@
-import { deleteData, getData, postData, putData } from "../../../api/api";
+import { deleteData, getData, patchData, postData } from "../../../api/api";
 import { showToast } from "../../../helpers/toaste_helper";
 import * as actionsCreators from "./toolActionsCreators";
 // =========================================================================================
@@ -49,7 +49,7 @@ export const addTool = (toast, formData) => {
   };
 };
 // =========================================================================================
-export const getTool = (toolId) => {
+export const fetchTool = (toolId) => {
   return async (dispatch) => {
     dispatch(actionsCreators.getTool(toolId));
     try {
@@ -68,17 +68,34 @@ export const getTool = (toolId) => {
 export const editTool = (toast, formData, toolId) => {
   return async (dispatch) => {
     dispatch(actionsCreators.editTool());
+
     try {
-      const response = await putData(
+      const response = await patchData(
         `/virtual_lab/api/v1/tools/${toolId}`,
         formData
       );
-      // if (response.status === "success") {
-      //   dispatch(actionsCreators.editToolSuccess(response.data.data));
-      //   showToast(toast, "tool added successfully", "success");
-      // }
+      console.log("response------------->", response);
+
+      if (response.status === "sucess") {
+        dispatch(actionsCreators.editToolSuccess(response.data.data));
+        showToast(toast, "tool updated successfully", "success");
+      }
     } catch (error) {
+      console.log("error------------->" + error);
+
       dispatch(actionsCreators.editToolFail(error));
+    }
+  };
+};
+// =========================================================================================
+
+export const clearTool = () => {
+  return async (dispatch) => {
+    dispatch(actionsCreators.clearTool());
+    try {
+      dispatch(actionsCreators.clearToolSuccess());
+    } catch (error) {
+      dispatch(actionsCreators.clearToolFail(error));
     }
   };
 };
