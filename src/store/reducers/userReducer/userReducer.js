@@ -25,7 +25,6 @@ const userReducer = (state = initialState, action) => {
       };
 
     case USER_ACTIONS_TYPES.POST_USER_SIGNUP_FAIL:
-      console.log(" action.payLoad ===>", action.payLoad);
       return {
         ...state,
         isLoggedIn: false,
@@ -82,7 +81,6 @@ const userReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case USER_ACTIONS_TYPES.GET_USER_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
         isLoggedIn: true,

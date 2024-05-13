@@ -19,20 +19,15 @@ const chemicalReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case CHEMICALS_ACTIONS_TYPES.GET_CHEMICALS_SUCCESS:
-      console.log("action.payLoad ===> ", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         chemicals: action.payLoad,
         error: null,
       };
-
     case CHEMICALS_ACTIONS_TYPES.GET_CHEMICALS_FAIL:
-      console.log(" action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: false,
         isLoading: false,
         error: action.payLoad,
       };
@@ -48,7 +43,6 @@ const chemicalReducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        isLoggedIn: false,
         isLoading: false,
         chemicals: updatedChemicals,
         error: null,
@@ -57,7 +51,6 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
         error: action?.payLoad,
       };
     // ====================================================================================================
@@ -67,10 +60,8 @@ const chemicalReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case CHEMICAL_ACTIONS_TYPES.POST_CHEMICAL_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         chemicals: [...state.chemicals, action.payLoad],
         error: null,
@@ -79,7 +70,6 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: false,
         error: action?.payLoad,
       };
     // ====================================================================================================
@@ -89,10 +79,8 @@ const chemicalReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case CHEMICAL_ACTIONS_TYPES.GET_CHEMICAL_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         chemical: action.payLoad,
         error: null,
@@ -101,7 +89,6 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: false,
         error: action?.payLoad,
       };
     // ====================================================================================================
@@ -111,11 +98,13 @@ const chemicalReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case CHEMICAL_ACTIONS_TYPES.PUT_CHEMICAL_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
+      const filterdChemicals = state.chemicals?.filter(
+        (chemical) => chemical?._id !== action?.payLoad?._id
+      );
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
+        chemicals: [...filterdChemicals, action.payLoad],
         chemical: action.payLoad,
         error: null,
       };
@@ -123,9 +112,29 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: false,
         error: action?.payLoad,
       };
+    // ====================================================================================================
+    case CHEMICAL_ACTIONS_TYPES.CLEAR_CHEMICAL:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case CHEMICAL_ACTIONS_TYPES.CLEAR_CHEMICAL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        chemical: {},
+        error: null,
+      };
+    case CHEMICAL_ACTIONS_TYPES.CLEAR_CHEMICAL_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+
+        error: action?.payLoad,
+      };
+
     default:
       return state;
   }

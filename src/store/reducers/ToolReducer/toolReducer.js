@@ -19,20 +19,16 @@ const toolReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case TOOLS_ACTIONS_TYPES.GET_TOOLS_SUCCESS:
-      console.log("action.payLoad ===> ", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         tools: action.payLoad,
         error: null,
       };
 
     case TOOLS_ACTIONS_TYPES.GET_TOOLS_FAIL:
-      console.log(" action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: false,
         isLoading: false,
         error: action.payLoad,
       };
@@ -48,7 +44,6 @@ const toolReducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        isLoggedIn: false,
         isLoading: false,
         tools: updatedTools,
         error: null,
@@ -57,7 +52,6 @@ const toolReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: true,
         error: action?.payLoad,
       };
     // ====================================================================================================
@@ -67,10 +61,8 @@ const toolReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case TOOL_ACTIONS_TYPES.POST_TOOL_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         tools: [...state.tools, action.payLoad],
         error: null,
@@ -79,7 +71,6 @@ const toolReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: false,
         error: action?.payLoad,
       };
     // ====================================================================================================
@@ -89,10 +80,8 @@ const toolReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case TOOL_ACTIONS_TYPES.GET_TOOL_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         tool: action.payLoad,
         error: null,
@@ -101,7 +90,6 @@ const toolReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: false,
         error: action?.payLoad,
       };
     // ====================================================================================================
@@ -111,10 +99,8 @@ const toolReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case TOOL_ACTIONS_TYPES.PUT_TOOL_SUCCESS:
-      console.log("action.payLoad ===>", action.payLoad);
       return {
         ...state,
-        isLoggedIn: true,
         isLoading: false,
         tool: action.payLoad,
         error: null,
@@ -123,7 +109,6 @@ const toolReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isLoggedIn: false,
         error: action?.payLoad,
       };
     default:

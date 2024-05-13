@@ -32,8 +32,7 @@ const Chemicals = ({ isActive, handleActivation }) => {
 
   const handleShowDescription = (chemical) => {
     // Implement functionality to show chemical description
-    console.log("Description for", chemical.name);
-  };
+   };
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">

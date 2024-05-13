@@ -15,8 +15,8 @@ const AddNewTool = ({ handleActivation }) => {
     description: "",
     image: null, // Change this to null instead of an empty string
   };
-  const [fileContent, setFileContent] = useState(null); // State to hold the file content
-  console.log("fileContent: " + fileContent);
+  const [fileContent, setFileContent] = useState(null);
+  const [toolImage, setToolImage] = useState(null); // State to hold the file content
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("required"),
     description: Yup.string().required("required"),
@@ -24,6 +24,7 @@ const AddNewTool = ({ handleActivation }) => {
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
     setFileContent(file);
+    setToolImage(URL.createObjectURL(file));
   };
   const handleSubmit = (values) => {
     handleAddTool(values);
@@ -78,21 +79,39 @@ const AddNewTool = ({ handleActivation }) => {
                   fieldName="description"
                 />
               )}
+              <div className="d-flex align-items-center">
+                <label htmlFor="toolImage" className="btn active mb-3">
+                  tool image
+                </label>
 
-              <Field
-                type="file"
-                name="image"
-                className="form-control mb-2"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-              {errors.image && touched.image && (
-                <ErrorMessage
-                  touched={touched}
-                  errors={errors}
-                  fieldName="image"
+                <Field
+                  type="file"
+                  name="image"
+                  className="d-none mb-2"
+                  accept="image/*"
+                  id="toolImage"
+                  onChange={handleFileChange}
                 />
-              )}
+                {toolImage && (
+                  <img
+                    src={toolImage}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "contain",
+                      marginLeft: "10px",
+                    }}
+                  />
+                )}
+
+                {errors.image && touched.image && (
+                  <ErrorMessage
+                    touched={touched}
+                    errors={errors}
+                    fieldName="image"
+                  />
+                )}
+              </div>
 
               <button className="btn btn-danger">
                 {isLoading ? <Loading /> : "Add Tool"}

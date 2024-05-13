@@ -100,3 +100,21 @@ export const deleteChemicalFail = (payLoad) => {
     payLoad,
   };
 };
+// ==================================================================================
+
+export const clearChemical = () => {
+  return {
+    type: CHEMICAL_ACTIONS_TYPES.CLEAR_CHEMICAL,
+  };
+};
+export const clearChemicalSuccess = () => {
+  return {
+    type: CHEMICAL_ACTIONS_TYPES.CLEAR_CHEMICAL_SUCCESS,
+  };
+};
+export const clearChemicalFail = (payLoad) => {
+  return {
+    type: CHEMICAL_ACTIONS_TYPES.CLEAR_CHEMICAL_FAIL,
+    payLoad,
+  };
+};

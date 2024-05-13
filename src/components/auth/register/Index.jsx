@@ -43,8 +43,7 @@ const Index = () => {
       password: values?.password,
       role: values?.role,
     };
-    console.log("trimedValues =====>", trimedValues);
-    const payLoad = { values: trimedValues, toast, navigate };
+     const payLoad = { values: trimedValues, toast, navigate };
     dispatch(userSignUp(payLoad));
   };
 

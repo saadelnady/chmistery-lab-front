@@ -29,8 +29,7 @@ const Login = () => {
     };
     const payload = { values: trimedValues, toast, navigate };
     dispatch(userLogin(payload));
-    console.log("values ===>", values);
-  };
+   };
 
   return (
     <div className="pt-5 min-vh-100">

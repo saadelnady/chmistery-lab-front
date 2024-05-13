@@ -8,7 +8,6 @@ export const fetchTools = () => {
     dispatch(actionsCreators.getTools());
     try {
       const response = await getData(`/virtual_lab/api/v1/tools`);
-      console.log("response ===>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.getToolsSuccess(response.data.docs));
       }
@@ -24,7 +23,6 @@ export const deleteTool = (toolId, toast) => {
     dispatch(actionsCreators.deleteTool());
     try {
       const response = await deleteData(`/virtual_lab/api/v1/tools/${toolId}`);
-      console.log(response);
       if (response.status === "deletion success") {
         dispatch(actionsCreators.deleteToolSuccess(response.deletedObjectId));
         showToast(toast, "tool deleted successfully", "success");
@@ -41,7 +39,6 @@ export const addTool = (toast, formData) => {
     dispatch(actionsCreators.addTool());
     try {
       const response = await postData(`/virtual_lab/api/v1/tools`, formData);
-      console.log("response==>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.addToolSuccess(response.data.data));
         showToast(toast, "tool added successfully", "success");
@@ -76,7 +73,6 @@ export const editTool = (toast, formData, toolId) => {
         `/virtual_lab/api/v1/tools/${toolId}`,
         formData
       );
-      console.log("response==>", response);
       // if (response.status === "success") {
       //   dispatch(actionsCreators.editToolSuccess(response.data.data));
       //   showToast(toast, "tool added successfully", "success");

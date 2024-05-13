@@ -67,8 +67,7 @@ const Index = () => {
   const handleDropOnEquipment = (e) => {
     const equipment = e.currentTarget;
     const rect = equipment.getBoundingClientRect();
-    console.log("rect ===>", rect);
-    const x = e.clientX - rect.left;
+     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     setTools((prevTools) =>

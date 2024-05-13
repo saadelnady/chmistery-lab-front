@@ -6,23 +6,20 @@ import { toast } from "react-toastify";
 import ErrorMessage from "../../shared/ErrorMessage";
 import {
   addChemical,
-  getChemical,
+  editChemical,
+  fetchChemical,
 } from "../../../store/actions/chemical/chemicalActions";
 import Loading from "../../shared/Loading";
 import { showToast } from "../../../helpers/toaste_helper";
-import { editChemical } from "../../../store/actions/chemical/chemicalActionsCreators";
+import { isObjectNotEmpty } from "../../../helpers/object_checker";
+import { imageUrl } from "../../../api/api";
+import { useRef } from "react";
 
-const AddNewChemical = ({ handleActivation, chemicalId }) => {
+const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
   const { isLoading, chemicals, chemical } = useSelector(
     (state) => state.chemicalReducer
   );
-  const [fileContent, setFileContent] = useState(null); // State to hold the file content
-
-  const handleFileChange = (event) => {
-    const file = event.currentTarget.files[0];
-    setFileContent(file);
-  };
-  const dispatch = useDispatch();
+  const formikRef = useRef(null);
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -34,32 +31,46 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
     atomicStructure: null,
   });
 
-  useEffect(() => {
-    if (chemicalId) {
-      dispatch(getChemical(chemicalId));
-      setInitialValues(chemical);
-    }
-  }, [dispatch, chemicalId, initialValues]);
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("required"),
-    state: Yup.string().required("required"),
-    color: Yup.string().required("required"),
-    taste: Yup.string().required("required"),
-    smell: Yup.string().required("required"),
-    molecularFormula: Yup.string().required("required"),
-    // atomicStructure: Yup.mixed().required("File is required"),
-  });
+  const dispatch = useDispatch();
+  const [fileContent, setFileContent] = useState(null); // State to hold the file content
+  const [chemicalImage, setChemicalImage] = useState(null);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setInitialValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+  const handleFileChange = (event) => {
+    const file = event.currentTarget.files[0];
+    setFileContent(file);
+    setChemicalImage(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (values) => {
+  // =============================================================
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("required"),
+  });
+  useEffect(() => {
     if (chemicalId) {
+      dispatch(fetchChemical(chemicalId));
+    }
+  }, [chemicalId, dispatch]);
+
+  useEffect(() => {
+    if (isObjectNotEmpty(chemical) && chemicalId) {
+      formikRef.current.setFieldValue("name", chemical.name);
+      formikRef.current.setFieldValue("state", chemical.state);
+      formikRef.current.setFieldValue("color", chemical.color);
+      formikRef.current.setFieldValue("taste", chemical.taste);
+      formikRef.current.setFieldValue("smell", chemical.smell);
+      formikRef.current.setFieldValue(
+        "molecularFormula",
+        chemical.molecularFormula
+      );
+
+      setChemicalImage(`{${imageUrl}/${chemical.atomicStructure}`);
+    }
+  }, [chemical]);
+
+  // =============================================================
+
+  const handleSubmit = (values) => {
+    if (isObjectNotEmpty(chemical) && chemicalId) {
       handleEditChemical(values);
     } else {
       handleAddChemical(values);
@@ -74,14 +85,15 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
     } else {
       // Handle form submission here
       const formData = new FormData();
-      console.log("values ====>", values);
       formData.append("name", values?.name);
       formData.append("state", values?.state);
       formData.append("color", values?.color);
       formData.append("taste", values?.taste);
       formData.append("smell", values?.smell);
       formData.append("molecularFormula", values?.molecularFormula);
-      formData.append("atomicStructure", fileContent);
+      if (fileContent) {
+        formData.append("atomicStructure", fileContent);
+      }
       dispatch(addChemical(toast, formData));
       setTimeout(() => {
         handleActivation();
@@ -90,7 +102,10 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
   };
 
   const handleEditChemical = (values) => {
-    // Handle edit operation
+    const existedChemical = chemicals.find((chemical, index) => {
+      return chemical.name === values.name;
+    });
+
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("state", values.state);
@@ -98,26 +113,35 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
     formData.append("taste", values.taste);
     formData.append("smell", values.smell);
     formData.append("molecularFormula", values.molecularFormula);
-    formData.append("atomicStructure", fileContent);
+    if (fileContent) {
+      formData.append("atomicStructure", fileContent);
+    }
     dispatch(editChemical(toast, formData, chemicalId));
     setTimeout(() => {
+      handleChemicalId();
       handleActivation();
     }, 3000);
   };
-
+  const handleChange = (e) => {
+    formikRef.current.setFieldValue(e.target.name, e.target.value);
+  };
   return (
     <div className="overLay d-flex justify-content-center align-items-center">
       <Formik
+        innerRef={formikRef}
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ errors, touched }) => (
-          <Form className="add-new-chemical bg-light col-12 col-sm-6 col-md-6 col-lg-5 rounded py-3 px-2">
+          <Form className="add-new-chemical bg-light col-12 col-sm-8 col-md-6 col-lg-5 rounded py-3 px-2">
             <div className="d-flex justify-content-end">
               <i
                 className="bi bi-x-lg cursor-pointer fs-3"
-                onClick={handleActivation}
+                onClick={() => {
+                  handleActivation();
+                  handleChemicalId();
+                }}
               ></i>
             </div>
             <div className="d-flex flex-column">
@@ -126,7 +150,6 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
                 name="name"
                 placeholder="name"
                 className="form-control mb-3"
-                value={initialValues.name}
                 onChange={handleChange}
               />
               {errors.name && touched.name && (
@@ -140,7 +163,6 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
               <Field
                 type="text"
                 name="state"
-                value={initialValues.state}
                 placeholder="state"
                 className="form-control mb-3"
                 onChange={handleChange}
@@ -161,7 +183,6 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
                   name="color"
                   id="color"
                   className="mb-3 col-3"
-                  value={initialValues.color}
                   onChange={handleChange}
                 />
                 {errors.color && touched.color && (
@@ -179,7 +200,6 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
                 placeholder="taste"
                 className="form-control mb-3"
                 onChange={handleChange}
-                value={initialValues.taste}
               />
               {errors.taste && touched.taste && (
                 <ErrorMessage
@@ -195,7 +215,6 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
                 placeholder="smell"
                 className="form-control mb-3"
                 onChange={handleChange}
-                value={initialValues.smell}
               />
               {errors.smell && touched.smell && (
                 <ErrorMessage
@@ -210,7 +229,6 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
                 placeholder="molecular formula"
                 className="form-control mb-3"
                 onChange={handleChange}
-                value={initialValues.molecularFormula}
               />
               {errors.molecularFormula && touched.molecularFormula && (
                 <ErrorMessage
@@ -219,21 +237,38 @@ const AddNewChemical = ({ handleActivation, chemicalId }) => {
                   fieldName="molecularFormula"
                 />
               )}
-
-              <Field
-                type="file"
-                accept="image/*"
-                name="atomicStructure"
-                className="form-control mb-3"
-                onChange={handleFileChange}
-              />
-              {errors.atomicStructure && touched.atomicStructure && (
-                <ErrorMessage
-                  touched={touched}
-                  errors={errors}
-                  fieldName="atomicStructure"
+              <div className="d-flex align-items-center">
+                <label htmlFor="atomicStructure" className="btn active mb-3">
+                  Atomic structure
+                </label>
+                <Field
+                  type="file"
+                  accept="image/*"
+                  name="atomicStructure"
+                  className="d-none mb-3"
+                  id="atomicStructure"
+                  onChange={handleFileChange}
                 />
-              )}
+                {chemicalImage && (
+                  <img
+                    src={chemicalImage}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      objectFit: "contain",
+                      marginLeft: "10px",
+                    }}
+                  />
+                )}
+
+                {errors.atomicStructure && touched.atomicStructure && (
+                  <ErrorMessage
+                    touched={touched}
+                    errors={errors}
+                    fieldName="atomicStructure"
+                  />
+                )}
+              </div>
 
               <button className="btn btn-danger">
                 {isLoading ? (

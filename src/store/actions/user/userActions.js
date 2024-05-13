@@ -5,11 +5,9 @@ import * as actionCreators from "./userActionsCreators";
 export const userSignUp = ({ values, toast, navigate }) => {
   return async (dispatch) => {
     dispatch(actionCreators.postUserSignUp(values));
-    console.log("values ===>", values);
 
     try {
       const response = await postData("/virtual_lab/api/v1/signup", values);
-      console.log("response ==>", response);
       dispatch(actionCreators.postUserSignUpSuccess(response));
 
       showToast(toast, "Your account created successfully", "success");
@@ -25,7 +23,6 @@ export const userSignUp = ({ values, toast, navigate }) => {
       localStorage.setItem("token", response?.token);
     } catch (error) {
       dispatch(actionCreators.postUserSignUpFail(error));
-      console.log("error ====>", error);
       showToast(toast, error, "error");
 
       // showToast(toast, error?.response?.data?.message, "error");
@@ -40,7 +37,6 @@ export const userLogin = ({ values, toast, navigate }) => {
     try {
       const response = await postData(`/virtual_lab/api/v1/login`, values);
       if (response.status === "success") {
-        console.log("response ===>", response);
         localStorage.setItem("token", response?.token);
         dispatch(actionCreators.postUserLoginSuccess(response?.data?.user));
         showToast(toast, "logged in successfully", "success");
@@ -55,7 +51,6 @@ export const userLogin = ({ values, toast, navigate }) => {
       }
     } catch (error) {
       dispatch(actionCreators.postUserLoginFail(error));
-      console.log("error====>", error);
       showToast(
         toast,
         "somthing wrong email or password is not correct",
@@ -93,7 +88,6 @@ export const fetchUser = () => {
 
     try {
       const response = await getData(`/virtual_lab/api/v1/user`);
-      console.log("respopnse ====>", response);
       dispatch(actionCreators.getUserSuccess(response?.data?.data[0]));
     } catch (error) {
       dispatch(actionCreators.getUserFail());

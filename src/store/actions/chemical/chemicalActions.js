@@ -1,4 +1,10 @@
-import { deleteData, getData, postData, putData } from "../../../api/api";
+import {
+  deleteData,
+  getData,
+  patchData,
+  postData,
+  putData,
+} from "../../../api/api";
 import { showToast } from "../../../helpers/toaste_helper";
 import * as actionsCreators from "./chemicalActionsCreators";
 // =========================================================================================
@@ -25,7 +31,6 @@ export const deleteChemical = (chemicalId, toast) => {
       const response = await deleteData(
         `/virtual_lab/api/v1/chemicals/${chemicalId}`
       );
-      console.log(response);
       if (response.status === "deletion success") {
         dispatch(
           actionsCreators.deleteChemicalSuccess(response.deletedObjectId)
@@ -47,7 +52,6 @@ export const addChemical = (toast, formData) => {
         `/virtual_lab/api/v1/chemicals`,
         formData
       );
-      console.log("response==>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.addChemicalSuccess(response.data.data));
         showToast(toast, "chemical added successfully", "success");
@@ -58,7 +62,7 @@ export const addChemical = (toast, formData) => {
   };
 };
 // =========================================================================================
-export const getChemical = (chemicalId) => {
+export const fetchChemical = (chemicalId) => {
   return async (dispatch) => {
     dispatch(actionsCreators.getChemical(chemicalId));
     try {
@@ -79,18 +83,34 @@ export const getChemical = (chemicalId) => {
 export const editChemical = (toast, formData, chemicalId) => {
   return async (dispatch) => {
     dispatch(actionsCreators.editChemical());
+
     try {
-      const response = await putData(
+      const response = await patchData(
         `/virtual_lab/api/v1/chemicals/${chemicalId}`,
         formData
       );
-      console.log("response==>", response);
-      if (response.status === "success") {
+      console.log("response------------->", response);
+
+      if (response.status === "sucess") {
         dispatch(actionsCreators.editChemicalSuccess(response.data.data));
         showToast(toast, "chemical updated successfully", "success");
       }
     } catch (error) {
+      console.log("error------------->" + error);
+
       dispatch(actionsCreators.editChemicalFail(error));
+    }
+  };
+};
+// =========================================================================================
+
+export const clearChemical = (chemicalId, toast) => {
+  return async (dispatch) => {
+    dispatch(actionsCreators.clearChemical());
+    try {
+      dispatch(actionsCreators.clearChemicalSuccess());
+    } catch (error) {
+      dispatch(actionsCreators.clearChemicalFail(error));
     }
   };
 };

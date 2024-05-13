@@ -1,13 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import AddNewChemical from "../shared/AddNewChemical";
-import { deleteChemical } from "../../../store/actions/chemical/chemicalActions";
+import {
+  clearChemical,
+  deleteChemical,
+  fetchChemical,
+} from "../../../store/actions/chemical/chemicalActions";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
 const Chemicals = ({ isActive, handleActivation }) => {
+  const dispatch = useDispatch();
   const { chemicals } = useSelector((state) => state.chemicalReducer);
   const [chemicalId, setChemicalId] = useState(null);
-  const dispatch = useDispatch();
+  const handleChemicalId = () => {
+    setChemicalId(null);
+    dispatch(clearChemical());
+  };
   console.log("chemicalId===>", chemicalId);
   return (
     <div className="mt-5">
@@ -15,6 +23,7 @@ const Chemicals = ({ isActive, handleActivation }) => {
         <AddNewChemical
           handleActivation={handleActivation}
           chemicalId={chemicalId}
+          handleChemicalId={handleChemicalId}
         />
       )}
       {chemicals && chemicals?.length > 0 ? (
