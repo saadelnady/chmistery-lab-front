@@ -112,7 +112,9 @@ const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
                 className="bi bi-x-lg cursor-pointer fs-3"
                 onClick={() => {
                   handleActivation();
-                  handleToolId();
+                  if (toolId) {
+                    handleToolId();
+                  }
                 }}
               ></i>
             </div>

@@ -81,6 +81,7 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case EXPERIMENT_ACTIONS_TYPES.GET_EXPERIMENT_SUCCESS:
+      console.log("action.payLoad===>", action.payLoad);
       return {
         ...state,
         isLoading: false,

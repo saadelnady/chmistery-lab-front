@@ -11,8 +11,12 @@ import { fetchTools } from "../../store/actions/tools/toolActions.js";
 const Index = () => {
   const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);
+  const [isDescription, setIsDescription] = useState(false);
   const handleActivation = () => {
     setIsActive(!isActive);
+  };
+  const handleDescription = () => {
+    setIsDescription(!isDescription);
   };
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -33,11 +37,13 @@ const Index = () => {
           }
         />
         <Route
-          path="/add-experiment"
+          path="/add-experiment/:experimentId"
           element={
             <AddExperiment
               isActive={isActive}
               handleActivation={handleActivation}
+              isDescription={isDescription}
+              handleDescription={handleDescription}
             />
           }
         />

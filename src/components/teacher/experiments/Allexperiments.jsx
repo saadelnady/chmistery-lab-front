@@ -1,9 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { addExperiment } from "../../../store/actions/experiment/experimentActions";
-import { useDispatch } from "react-redux";
+import {
+  addExperiment,
+  deleteExperiment,
+} from "../../../store/actions/experiment/experimentActions";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Allexperiments = () => {
+  const { experiments } = useSelector((state) => state.experimentReducer);
   const dispatch = useDispatch();
   return (
     <div className="mt-5">
@@ -14,17 +19,26 @@ const Allexperiments = () => {
           <th>Delete</th>
         </thead>
         <tbody>
-          <tr>
-            <td className="fw-bold">White Smoke Experiment</td>
-            <td>
-              <NavLink to="/teacher/add-experiment">
-                <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>
-              </NavLink>{" "}
-            </td>
-            <td>
-              <i className="bi bi-trash3-fill fs-3 cursor-pointer"></i>
-            </td>
-          </tr>
+          {experiments &&
+            experiments.length > 0 &&
+            experiments.map((experiment, index) => (
+              <tr key={index}>
+                <td className="fw-bold">{experiment?.name}</td>
+                <td>
+                  <NavLink to={`/teacher/add-experiment/${experiment._id}`}>
+                    <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>
+                  </NavLink>
+                </td>
+                <td>
+                  <i
+                    className="bi bi-trash3-fill fs-3 cursor-pointer"
+                    onClick={() => {
+                      dispatch(deleteExperiment(experiment._id, toast));
+                    }}
+                  ></i>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 

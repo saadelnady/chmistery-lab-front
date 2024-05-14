@@ -14,9 +14,7 @@ const Index = () => {
   return (
     <nav className="navbar navbar-expand-lg d-flex justify-content-between shadow">
       <div className="container">
-        <NavLink className="fw-bold fs-2 col-md-3 " to="/">
-          Virtual Lab
-        </NavLink>
+        <h2 className="fw-bold">Virtual Lab</h2>
         <button
           className="navbar-toggler"
           type="button"

@@ -1,38 +1,45 @@
 import React, { useState } from "react";
 import AddNewTool from "../shared/AddNewTool";
+import { useSelector } from "react-redux";
+import ToolDescription from "../shared/ToolDescription";
 
-const Tools = ({ isActive, handleActivation }) => {
-  const tools = [
-    { value: "balance", label: "Balance" },
-    { value: "holder", label: "Holder" },
-    { value: "filter paper", label: "Filter Paper" },
-    { value: "rectangle glass", label: "Rectangle Glass" },
-    { value: "plastic funnel", label: "Plastic Funnel" },
-    { value: "empty vial", label: "Empty Vial" },
-    { value: "glass bottel with stopper", label: "Glass Bottle with Stopper" },
-  ];
-
-  const [selectedtoolList, setSelectedToolList] = useState([]);
+const Tools = ({
+  isActive,
+  handleActivation,
+  isDescription,
+  handleDescription,
+}) => {
+  const { tools } = useSelector((state) => state.toolReducer);
+  console.log("tools ==> ", tools);
+  const [tool, setTool] = useState({});
+  const [selectedTools, setSelectedTools] = useState([]); // Changed state name to plural
 
   const handleToolChange = (event) => {
-    const selectedtool = event.target.value;
-    if (selectedtool && !selectedtoolList.includes(selectedtool)) {
-      setSelectedToolList([...selectedtoolList, selectedtool]);
+    const selectedOption = tools.find(
+      (tool) => tool.name === event.target.value
+    );
+    console.log("selectedOption = =", selectedOption);
+
+    if (selectedOption && !selectedTools.includes(selectedOption)) {
+      setSelectedTools([...selectedTools, selectedOption]);
     }
   };
 
   const handleRemoveTool = (index) => {
-    const updatedtoolList = [...selectedtoolList];
-    updatedtoolList.splice(index, 1);
-    setSelectedToolList(updatedtoolList);
+    const updatedToolList = [...selectedTools];
+    updatedToolList.splice(index, 1);
+    setSelectedTools(updatedToolList);
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       {isActive && <AddNewTool handleActivation={handleActivation} />}
+      {isDescription && (
+        <ToolDescription handleDescription={handleDescription} tool={tool} />
+      )}
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
-        <h3 className="text-center fw-bold"> Choose your tools</h3>
-        <div className="d-flex justify-content-between  mt-4">
+        <h3 className="text-center fw-bold">Choose your tools</h3>
+        <div className="d-flex justify-content-between mt-4">
           <select
             id="dropdown"
             className="form-control"
@@ -42,9 +49,9 @@ const Tools = ({ isActive, handleActivation }) => {
             <option value="" disabled>
               Select tool
             </option>
-            {tools.map(({ value, label }, index) => (
-              <option key={index} value={value}>
-                {label}
+            {tools.map((tool, index) => (
+              <option key={index} value={tool.name}>
+                {tool.name}
               </option>
             ))}
           </select>
@@ -60,18 +67,24 @@ const Tools = ({ isActive, handleActivation }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th>tool Name</th>
+              <th>Tool Name</th>
               <th>Description</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {selectedtoolList.map((equipment, index) => (
+            {selectedTools.map((tool, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{equipment}</td>
+                <td>{tool.name}</td>
                 <td>
-                  <i className="bi bi-info-circle fs-3 cursor-pointer"></i>
+                  <i
+                    className="bi bi-info-circle fs-3 cursor-pointer"
+                    onClick={() => {
+                      setTool(tool);
+                      handleDescription();
+                    }}
+                  ></i>
                 </td>
                 <td>
                   <i
@@ -83,6 +96,7 @@ const Tools = ({ isActive, handleActivation }) => {
             ))}
           </tbody>
         </table>
+        <button className="btn active mt-4">Edit</button>
       </div>
     </div>
   );

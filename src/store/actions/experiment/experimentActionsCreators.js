@@ -83,9 +83,10 @@ export const editExperimentFail = (payLoad) => {
 };
 // ==================================================================================
 
-export const deleteExperiment = () => {
+export const deleteExperiment = (payLoad) => {
   return {
     type: EXPERIMENT_ACTIONS_TYPES.DELETE_EXPERIMENT,
+    payLoad,
   };
 };
 export const deleteExperimentSuccess = (payLoad) => {

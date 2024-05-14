@@ -14,9 +14,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchUser } from "./store/actions/user/userActions.js";
 import { fetchExperiments } from "./store/actions/experiment/experimentActions.js";
+import Loading from "./components/shared/Loading.jsx";
 
 function App() {
-  const { isLoggedIn, user } = useSelector((state) => state.userReducer);
+  const { isLoggedIn, isLoading, user } = useSelector(
+    (state) => state.userReducer
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -27,28 +30,35 @@ function App() {
   console.log("role ===>", user);
   return (
     <div className="App bg-light min-vh-100 position-relative">
-      <Header />
-      <Routes>
-        {!isLoggedIn && <Route path="/" element={<Login />} />}
-        {!isLoggedIn && <Route path="/register" element={<Register />} />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {" "}
+          <Header />
+          <Routes>
+            {!isLoggedIn && <Route path="/" element={<Login />} />}
+            {!isLoggedIn && <Route path="/register" element={<Register />} />}
 
-        {user.role === "teacher" && (
-          <Route path="/teacher/*" element={<Teacher />} />
-        )}
-        {user.role === "student" && (
-          <Route path="/student/*" element={<Student />} />
-        )}
-        <Route
-          path="*"
-          element={
-            <NotFoundPage
-              navigateTo={`${
-                user.role === "student" ? "/student" : "/teacher"
-              }`}
+            {user.role === "teacher" && (
+              <Route path="/teacher/*" element={<Teacher />} />
+            )}
+            {user.role === "student" && (
+              <Route path="/student/*" element={<Student />} />
+            )}
+            <Route
+              path="*"
+              element={
+                <NotFoundPage
+                  navigateTo={`${
+                    user.role === "student" ? "/student" : "/teacher"
+                  }`}
+                />
+              }
             />
-          }
-        />
-      </Routes>
+          </Routes>
+        </>
+      )}
 
       <ToastContainer
         position="top-center"

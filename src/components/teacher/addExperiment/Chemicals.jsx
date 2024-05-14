@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import AddNewChemical from "../shared/AddNewChemical";
+import { useSelector } from "react-redux";
+import ChemicalDescription from "../shared/ChemicalDescription";
 
-const Chemicals = ({ isActive, handleActivation }) => {
-  const chemicals = [
-    { name: "Water" },
-    { name: "NH4CL" },
-    { name: "NH3" },
-    { name: "AgNo3" },
-    { name: "Dilute H2so4" },
-    { name: "Soap" },
-    { name: "NaCl" },
-  ];
-
+const Chemicals = ({
+  isActive,
+  handleActivation,
+  isDescription,
+  handleDescription,
+}) => {
+  const { chemicals } = useSelector((state) => state.chemicalReducer);
   const [selectedChemical, setSelectedChemical] = useState(null);
   const [tableData, setTableData] = useState([]);
-
+  const [chemical, setChemical] = useState({});
   const handleSelectChange = (event) => {
     const selectedOption = chemicals.find(
       (chemical) => chemical.name === event.target.value
@@ -30,17 +28,13 @@ const Chemicals = ({ isActive, handleActivation }) => {
     setTableData(updatedData);
   };
 
-  const handleShowDescription = (chemical) => {
-    // Implement functionality to show chemical description
-   };
-
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
-      {isActive && (
-        <AddNewChemical
-          handleActivation={handleActivation}
-          tableData={tableData}
-          setTableData={setTableData}
+      {isActive && <AddNewChemical handleActivation={handleActivation} />}
+      {isDescription && (
+        <ChemicalDescription
+          handleDescription={handleDescription}
+          chemical={chemical}
         />
       )}
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
@@ -88,7 +82,10 @@ const Chemicals = ({ isActive, handleActivation }) => {
                 <td>
                   <i
                     className="bi bi-info-circle fs-3 cursor-pointer"
-                    onClick={() => handleShowDescription(chemical)}
+                    onClick={() => {
+                      handleDescription();
+                      setChemical(chemical);
+                    }}
                   ></i>
                 </td>
                 <td>
@@ -101,6 +98,7 @@ const Chemicals = ({ isActive, handleActivation }) => {
             ))}
           </tbody>
         </table>
+        <button className="btn active mt-4">Edit</button>
       </div>
     </div>
   );

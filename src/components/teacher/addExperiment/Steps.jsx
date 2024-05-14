@@ -200,6 +200,7 @@ const Steps = () => {
             ))}
           </tbody>
         </table>
+        <button className="btn active mt-4">Edit</button>
       </div>
     </div>
   );

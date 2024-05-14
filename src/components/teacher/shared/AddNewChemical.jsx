@@ -136,7 +136,9 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                 className="bi bi-x-lg cursor-pointer fs-3"
                 onClick={() => {
                   handleActivation();
-                  handleChemicalId();
+                  if (chemicalId) {
+                    handleChemicalId();
+                  }
                 }}
               ></i>
             </div>

@@ -1,30 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Generalinfo from "./Generalinfo";
 import Tools from "./Tools";
 import Chemicals from "./Chemicals";
 import Steps from "./Steps";
 import ExperimentImages from "./ExperimentImages";
 import "./assets/styles/styles.css";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchExperiment } from "../../../store/actions/experiment/experimentActions";
 
-const Index = ({ isActive, handleActivation }) => {
+const Index = ({
+  isActive,
+  isDescription,
+  handleActivation,
+  handleDescription,
+}) => {
   const [activeTab, setActiveTab] = useState("general");
+
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 
+  const { experimentId } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchExperiment(experimentId));
+  }, [dispatch, experimentId]);
   const renderContent = () => {
     switch (activeTab) {
       case "general":
         return <Generalinfo />;
       case "chemicals":
         return (
-          <Chemicals isActive={isActive} handleActivation={handleActivation} />
+          <Chemicals
+            isActive={isActive}
+            handleActivation={handleActivation}
+            isDescription={isDescription}
+            handleDescription={handleDescription}
+          />
         );
       case "images":
         return <ExperimentImages />;
       case "tools":
         return (
-          <Tools isActive={isActive} handleActivation={handleActivation} />
+          <Tools
+            isActive={isActive}
+            handleActivation={handleActivation}
+            isDescription={isDescription}
+            handleDescription={handleDescription}
+          />
         );
       case "steps":
         return <Steps />;
