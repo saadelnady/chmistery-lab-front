@@ -7,7 +7,6 @@ export const fetchExperiments = () => {
     dispatch(actionsCreators.getExperiments());
     try {
       const response = await getData(`/virtual_lab/api/v1/experiment`);
-      // console.log("response ===>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.getExperimentsSuccess(response.data.docs));
       }
@@ -41,7 +40,6 @@ export const fetchExperiment = (experimentId) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         null
       );
-      console.log("response=== >", response);
       if (response.status === "success") {
         dispatch(actionsCreators.getExperimentSuccess(response.data.data[0]));
       }
@@ -78,7 +76,6 @@ export const deleteExperiment = (experimentId, toast) => {
       const response = await deleteData(
         `/virtual_lab/api/v1/experiment/${experimentId}`
       );
-      console.log("response=== >", response);
       if (response.status === "deletion success") {
         dispatch(
           actionsCreators.deleteExperimentSuccess(response.deletedObjectId)

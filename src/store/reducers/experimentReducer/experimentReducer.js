@@ -61,7 +61,6 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case EXPERIMENT_ACTIONS_TYPES.POST_EXPERIMENT_SUCCESS:
-      console.log("actiooon ==>", action.payLoad);
       return {
         ...state,
         isLoading: false,
@@ -81,7 +80,6 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case EXPERIMENT_ACTIONS_TYPES.GET_EXPERIMENT_SUCCESS:
-      console.log("action.payLoad===>", action.payLoad);
       return {
         ...state,
         isLoading: false,
@@ -118,6 +116,7 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: false,
         error: action?.payLoad,
       };
+    // ====================================================================================================
 
     case EXPERIMENT_ACTIONS_TYPES.CLEAR_EXPERIMENT:
       return {

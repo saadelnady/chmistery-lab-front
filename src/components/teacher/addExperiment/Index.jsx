@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Generalinfo from "./Generalinfo";
 import Tools from "./Tools";
 import Chemicals from "./Chemicals";
-import Steps from "./Steps";
+import Steps from "./steps/Steps";
 import ExperimentImages from "./ExperimentImages";
 import "./assets/styles/styles.css";
 import { useParams } from "react-router-dom";
