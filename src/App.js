@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./components/auth/login/Index.jsx";
 import Register from "./components/auth/register/Index.jsx";
 import Header from "./components/shared/header/Index.jsx";
@@ -21,44 +21,45 @@ function App() {
     (state) => state.userReducer
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
       dispatch(fetchUser());
       dispatch(fetchExperiments());
+      if (user.role === "student") {
+        navigate("/student");
+      } else if (user.role === "teacher") {
+        navigate("/teacher");
+      }
     }
   }, [dispatch]);
   console.log("role ===>", user);
   return (
     <div className="App bg-light min-vh-100 position-relative">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {" "}
-          <Header />
-          <Routes>
-            {!isLoggedIn && <Route path="/" element={<Login />} />}
-            {!isLoggedIn && <Route path="/register" element={<Register />} />}
+      <>
+        <Header />
+        <Routes>
+          {!isLoggedIn && <Route path="/" element={<Login />} />}
+          {!isLoggedIn && <Route path="/register" element={<Register />} />}
 
-            {user.role === "teacher" && (
-              <Route path="/teacher/*" element={<Teacher />} />
-            )}
-            {user.role === "student" && (
-              <Route path="/student/*" element={<Student />} />
-            )}
-            <Route
-              path="*"
-              element={
-                <NotFoundPage
-                  navigateTo={`${
-                    user.role === "student" ? "/student" : "/teacher"
-                  }`}
-                />
-              }
-            />
-          </Routes>
-        </>
-      )}
+          {user.role === "teacher" && (
+            <Route path="/teacher/*" element={<Teacher />} />
+          )}
+          {user.role === "student" && (
+            <Route path="/student/*" element={<Student />} />
+          )}
+          <Route
+            path="*"
+            element={
+              <NotFoundPage
+                navigateTo={`${
+                  user.role === "student" ? "/student" : "/teacher"
+                }`}
+              />
+            }
+          />
+        </Routes>
+      </>
 
       <ToastContainer
         position="top-center"

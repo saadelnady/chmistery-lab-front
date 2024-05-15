@@ -13,14 +13,14 @@ const WeightOption = ({ tools }) => {
   };
   return (
     <div className="d-flex flex-wrap">
-      <input type="text" />
-      <span className="mx-3">by</span>
+      <input type="text" className="mb-2" />
+      <span className="mx-2">by</span>
       <DropDown
         data={tools}
         selectedValue={selectedValueOne}
         handleChange={handleChangeOne}
       />
-      <span className="mx-3">in</span>
+      <span className="mx-2">in</span>
       <DropDown
         data={tools}
         selectedValue={selectedValueTwo}

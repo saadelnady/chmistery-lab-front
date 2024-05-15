@@ -10,7 +10,7 @@ const VerbOptions = ({ step }) => {
   const { tools } = useSelector((state) => state.toolReducer);
   const { chemicals } = useSelector((state) => state.chemicalReducer);
   const renderOptions = () => {
-    switch (step.verb) {
+    switch (step.title) {
       case "fix":
       case "insert":
       case "pour":

@@ -18,7 +18,7 @@ const PutVerb = ({ chemicals, tools }) => {
         selectedValue={selectedValueOne}
         handleChange={handleChangeOne}
       />
-      <span className="mx-3">in</span>
+      <span className="mx-2">in</span>
       <DropDown
         data={tools}
         selectedValue={selectedValueTwo}

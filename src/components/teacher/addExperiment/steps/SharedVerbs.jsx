@@ -19,7 +19,7 @@ const SharedVerbs = ({ data }) => {
         selectedValue={selectedValueOne}
         handleChange={handleChangeOne}
       />
-      <span className="mx-3">in</span>
+      <span className="mx-2">in</span>
       <DropDown
         data={data}
         selectedValue={selectedValueTwo}

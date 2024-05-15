@@ -6,161 +6,57 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import VerbOptions from "./VerbOptions.jsx";
 
 const Steps = () => {
-  const steps = [
+  const verbs = [
     {
-      order: 0,
-      verb: "fix",
-      description: {
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "fix",
     },
     {
-      order: 1,
-      verb: "collaporate",
-      description: {
-        quantity: {
-          value: "",
-          title: "",
-        },
-        chemical: {
-          id: "",
-          title: "",
-        },
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "collaporate",
     },
     {
-      order: 2,
-      verb: "heat",
-      description: {
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-        temperature: {
-          value: "",
-          title: "",
-        },
-      },
+      title: "heat",
     },
     {
-      order: 3,
-      verb: "insert",
-      description: {
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "insert",
     },
     {
-      order: 4,
-      verb: "pour",
-      description: {
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "pour",
     },
     {
-      order: 5,
-      verb: "weight",
-      description: {
-        quantity: {
-          value: "",
-          title: "",
-        },
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "weight",
     },
     {
-      order: 6,
-      verb: "near",
-      description: {
-        tool_1: {
-          id: "",
-          title: "",
-        },
-        tool_2: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "near",
     },
     {
-      order: 7,
-      verb: "put",
-      description: {
-        chemical: {
-          id: "",
-          title: "",
-        },
-        tool_1: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "put",
     },
     {
-      order: 7,
-      verb: "remove",
-      description: {
-        tool: {
-          id: "",
-          title: "",
-        },
-      },
+      title: "remove",
     },
   ];
 
   const [tableData, setTableData] = useState([]);
+  const [steps, setSteps] = useState([]);
+  const [description, setDescription] = useState({});
   const selectRef = useRef();
-  console.log("tableData ===>", tableData);
+  console.log("steps ===>", steps);
   const handleStepChange = (e) => {
-    const selectedStep = steps.find((step) => step.verb === e.target.value);
+    const selectedStep = verbs.find((verb) => verb.title === e.target.value);
     const newTableData = [...tableData, selectedStep];
+
     setTableData(newTableData);
+    setSteps([...steps, { verb: selectedStep.title, order: steps.length }]);
     selectRef.current.value = "";
   };
 
   const handleDeleteStep = (index) => {
     const updatedData = [...tableData];
+    const updatedSteps = [...steps];
     updatedData.splice(index, 1);
+    updatedSteps.splice(index, 1);
     setTableData(updatedData);
+    setSteps(updatedSteps);
   };
   const moveItem = (dragIndex, hoverIndex) => {
     const updatedData = [...tableData];
@@ -206,7 +102,7 @@ const Steps = () => {
     return (
       <tr ref={ref} style={{ opacity }}>
         <td>{index + 1}</td>
-        <td>{item.verb}</td>
+        <td>{item.title}</td>
         <td>
           <VerbOptions step={item} />
         </td>
@@ -232,12 +128,10 @@ const Steps = () => {
               className="form-control"
               onChange={handleStepChange}
             >
-              <option value="" disabled>
-                Select step
-              </option>
-              {steps.map((step) => (
-                <option key={step.order} value={step.verb}>
-                  {step.verb}
+              <option disabled>select verb</option>
+              {verbs.map((verb) => (
+                <option key={verb.order} value={verb.title}>
+                  {verb.title}
                 </option>
               ))}
             </select>
@@ -254,7 +148,7 @@ const Steps = () => {
             </thead>
             <tbody>
               {tableData.map((step, index) => (
-                <Item key={step.order} item={step} index={index} />
+                <Item key={index} item={step} index={index} />
               ))}
             </tbody>
           </table>

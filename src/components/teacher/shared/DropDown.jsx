@@ -1,11 +1,4 @@
-import React from "react";
-
 const DropDown = ({ data, selectedValue, handleChange }) => {
-  if (!Array.isArray(data)) {
-    console.error("DropDown data is not an array.");
-    return null; // or a default message/error component
-  }
-
   return (
     <div>
       <select
@@ -13,6 +6,7 @@ const DropDown = ({ data, selectedValue, handleChange }) => {
         id="dropdown"
         value={selectedValue}
         onChange={handleChange}
+        className="mb-2"
       >
         <option value="" disabled>
           Select an option

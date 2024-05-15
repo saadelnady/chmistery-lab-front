@@ -3,7 +3,7 @@ import Generalinfo from "./Generalinfo";
 import Tools from "./Tools";
 import Chemicals from "./Chemicals";
 import Steps from "./steps/Steps";
-import ExperimentImages from "./ExperimentImages";
+import ExperimentImages from "./images/ExperimentImages";
 import "./assets/styles/styles.css";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";

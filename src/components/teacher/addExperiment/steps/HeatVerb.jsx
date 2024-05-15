@@ -24,7 +24,7 @@ const HeatVerb = ({ tools }) => {
         selectedValue={selectedValueTwo}
         handleChange={handleChangeTwo}
       />
-      <span>to</span>
+      <span className="mx-2">to</span>
       <input type="text" />
     </div>
   );
