@@ -74,15 +74,12 @@ export const editTool = (toast, formData, toolId) => {
         `/virtual_lab/api/v1/tools/${toolId}`,
         formData
       );
-      console.log("response------------->", response);
 
       if (response.status === "sucess") {
         dispatch(actionsCreators.editToolSuccess(response.data.data));
         showToast(toast, "tool updated successfully", "success");
       }
     } catch (error) {
-      console.log("error------------->" + error);
-
       dispatch(actionsCreators.editToolFail(error));
     }
   };

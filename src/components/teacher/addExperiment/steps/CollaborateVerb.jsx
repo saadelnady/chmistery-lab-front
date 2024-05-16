@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DropDown from "../../shared/DropDown";
 
-const CollaborateVerb = ({ chemicals, tools }) => {
+const CollaborateVerb = ({ index, chemicals, tools }) => {
   const [selectedValueOne, setSelectedValueOne] = useState("");
   const [selectedValueTwo, setSelectedValueTwo] = useState("");
   const [selectedValueThree, setSelectedValueThree] = useState("");
@@ -18,7 +18,7 @@ const CollaborateVerb = ({ chemicals, tools }) => {
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
-  
+
   return (
     <div className="d-flex flex-wrap">
       <input

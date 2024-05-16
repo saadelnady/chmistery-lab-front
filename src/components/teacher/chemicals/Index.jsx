@@ -15,7 +15,6 @@ const Chemicals = ({ isActive, handleActivation }) => {
     setChemicalId(null);
     dispatch(clearChemical());
   };
-  console.log("chemicalId===>", chemicalId);
   return (
     <div className="mt-5">
       {isActive && (

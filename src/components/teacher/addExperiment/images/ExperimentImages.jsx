@@ -29,9 +29,7 @@ const ExperimentImages = () => {
     setDraggableImages(currentDraggableImages);
     toolsInputRef.current.value = ""; // Clear the tools input field
   };
-  useEffect(() => {
-    console.log("draggableImages------->", draggableImages);
-  }, [draggableImages]);
+  useEffect(() => {}, [draggableImages]);
 
   const handleRemoveToolImage = (index) => {
     const updatedImages = [...toolsImages];
@@ -52,9 +50,7 @@ const ExperimentImages = () => {
     setDeviceImage("");
     parentDiv.current.value = "";
   };
-  useEffect(() => {
-    console.log("draggableImages-------------->", draggableImages);
-  }, [draggableImages]);
+  useEffect(() => {}, [draggableImages]);
   // ========================================================
   const [parentDimention, setParentDimensions] = useState({
     width: 0,

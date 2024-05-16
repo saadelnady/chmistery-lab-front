@@ -83,15 +83,12 @@ export const editChemical = (toast, formData, chemicalId) => {
         `/virtual_lab/api/v1/chemicals/${chemicalId}`,
         formData
       );
-      console.log("response------------->", response);
 
       if (response.status === "sucess") {
         dispatch(actionsCreators.editChemicalSuccess(response.data.data));
         showToast(toast, "chemical updated successfully", "success");
       }
     } catch (error) {
-      console.log("error------------->" + error);
-
       dispatch(actionsCreators.editChemicalFail(error));
     }
   };

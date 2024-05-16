@@ -16,7 +16,6 @@ const Tools = ({ isActive, handleActivation }) => {
     setToolId(null);
     dispatch(clearTool());
   };
-  console.log("toolId===>", toolId);
 
   return (
     <div className="mt-5">

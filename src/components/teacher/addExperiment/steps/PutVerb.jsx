@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DropDown from "../../shared/DropDown";
 
-const PutVerb = ({ chemicals, tools }) => {
+const PutVerb = ({ index, chemicals, tools }) => {
   const [selectedValueOne, setSelectedValueOne] = useState("");
   const [selectedValueTwo, setSelectedValueTwo] = useState("");
 

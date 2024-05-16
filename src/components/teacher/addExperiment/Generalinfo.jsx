@@ -27,7 +27,6 @@ const Generalinfo = () => {
   });
 
   const handleSubmit = (values) => {
-    console.log("values=== >", values);
     const info = { ...values };
     dispatch(editExperiment(experimentId, info));
   };

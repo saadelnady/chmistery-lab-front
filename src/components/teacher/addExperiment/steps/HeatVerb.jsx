@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DropDown from "../../shared/DropDown";
 
-const HeatVerb = ({ tools }) => {
+const HeatVerb = ({ index, tools }) => {
   const [selectedValueOne, setSelectedValueOne] = useState("");
   const [selectedValueTwo, setSelectedValueTwo] = useState("");
 

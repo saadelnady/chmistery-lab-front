@@ -16,17 +16,18 @@ export const fetchExperiments = () => {
   };
 };
 // =============================================================
-export const addExperiment = () => {
+export const addExperiment = (toast) => {
   return async (dispatch) => {
     dispatch(actionsCreators.addExperiment());
     try {
       const response = await postData(`/virtual_lab/api/v1/experiment`);
-      console.log("response=== >", response);
-      //   if (response.status === "success") {
-      //     dispatch(actionsCreators.addExperimentSuccess(response.data.docs));
-      //   }
+      if (response.status === "success") {
+        dispatch(
+          actionsCreators.addExperimentSuccess(response.data.newExperiment)
+        );
+        showToast(toast, "experiment added successfully", "success");
+      }
     } catch (error) {
-      console.log("error ====>", error);
       dispatch(actionsCreators.addExperimentFail(error));
     }
   };
@@ -44,7 +45,6 @@ export const fetchExperiment = (experimentId) => {
         dispatch(actionsCreators.getExperimentSuccess(response.data.data[0]));
       }
     } catch (error) {
-      console.log("error ====>", error);
       dispatch(actionsCreators.getExperimentFail(error));
     }
   };
@@ -58,12 +58,10 @@ export const editExperiment = (experimentId, data) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         data
       );
-      console.log("response=== >", response);
       // if (response.status === "success") {
       //   dispatch(actionsCreators.getExperimentSuccess(response.data.data[0]));
       // }
     } catch (error) {
-      console.log("error ====>", error);
       dispatch(actionsCreators.editExperiment(error));
     }
   };
@@ -83,7 +81,6 @@ export const deleteExperiment = (experimentId, toast) => {
         showToast(toast, "chemical deleted successfully", "success");
       }
     } catch (error) {
-      console.log("error ====>", error);
       dispatch(actionsCreators.deleteExperiment(error));
     }
   };

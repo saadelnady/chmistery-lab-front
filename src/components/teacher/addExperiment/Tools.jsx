@@ -10,7 +10,6 @@ const Tools = ({
   handleDescription,
 }) => {
   const { tools } = useSelector((state) => state.toolReducer);
-  console.log("tools ==> ", tools);
   const [tool, setTool] = useState({});
   const [selectedTools, setSelectedTools] = useState([]); // Changed state name to plural
 
@@ -18,7 +17,6 @@ const Tools = ({
     const selectedOption = tools.find(
       (tool) => tool.name === event.target.value
     );
-    console.log("selectedOption = =", selectedOption);
 
     if (selectedOption && !selectedTools.includes(selectedOption)) {
       setSelectedTools([...selectedTools, selectedOption]);

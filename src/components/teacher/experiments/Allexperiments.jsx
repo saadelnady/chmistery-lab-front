@@ -45,7 +45,7 @@ const Allexperiments = () => {
       <button
         className="btn bg-light active"
         onClick={() => {
-          dispatch(addExperiment());
+          dispatch(addExperiment(toast));
         }}
       >
         Add new experiment

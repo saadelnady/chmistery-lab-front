@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useDrag, useDrop, DndProvider } from "react-dnd";
 
@@ -40,13 +40,75 @@ const Steps = () => {
   const [steps, setSteps] = useState([]);
   const [description, setDescription] = useState({});
   const selectRef = useRef();
-  console.log("steps ===>", steps);
+  useEffect(() => {
+    console.log("currentSteps: ---------------->", steps);
+  }, [steps]);
+  const createSuitableDescription = (verb) => {
+    let suitableDescription = {};
+
+    switch (verb) {
+      case "fix":
+      case "insert":
+      case "pour":
+      case "near":
+        suitableDescription = {
+          tool1: { id: null, title: null },
+          tool2: { id: null, title: null },
+        };
+        break;
+
+      case "collaborate":
+        suitableDescription = {
+          quantity: { value: null, title: null },
+          chemical: { id: null, title: null },
+          tool1: { id: null, title: null },
+          tool2: { id: null, title: null },
+        };
+        break;
+
+      case "heat":
+        suitableDescription = {
+          tool1: { id: null, title: null },
+          tool2: { id: null, title: null },
+          temperature: { value: null, title: null },
+        };
+        break;
+
+      case "weigh":
+        suitableDescription = {
+          quantity: { value: null, title: null },
+          tool1: { id: null, title: null },
+          tool2: { id: null, title: null },
+        };
+        break;
+
+      case "put":
+        suitableDescription = {
+          chemical: { id: null, title: null },
+          tool1: { id: null, title: null },
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    return suitableDescription;
+  };
+
   const handleStepChange = (e) => {
     const selectedStep = verbs.find((verb) => verb.title === e.target.value);
     const newTableData = [...tableData, selectedStep];
 
     setTableData(newTableData);
-    setSteps([...steps, { verb: selectedStep.title, order: steps.length }]);
+    setSteps([
+      ...steps,
+      {
+        verb: selectedStep.title,
+        description: createSuitableDescription(selectedStep.title),
+        order: steps.length,
+      },
+    ]);
     selectRef.current.value = "";
   };
 
@@ -64,6 +126,7 @@ const Steps = () => {
     updatedData.splice(dragIndex, 1);
     updatedData.splice(hoverIndex, 0, dragItem);
     setTableData(updatedData);
+    setSteps(updatedData);
   };
   const Item = ({ item, index }) => {
     const ref = useRef(null);
@@ -104,7 +167,12 @@ const Steps = () => {
         <td>{index + 1}</td>
         <td>{item.title}</td>
         <td>
-          <VerbOptions step={item} />
+          <VerbOptions
+            index={index}
+            step={item}
+            steps={steps}
+            setSteps={setSteps}
+          />
         </td>
         <td>
           <i

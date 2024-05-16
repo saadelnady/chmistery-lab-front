@@ -33,7 +33,6 @@ function App() {
       }
     }
   }, [dispatch]);
-  console.log("role ===>", user);
   return (
     <div className="App bg-light min-vh-100 position-relative">
       <>

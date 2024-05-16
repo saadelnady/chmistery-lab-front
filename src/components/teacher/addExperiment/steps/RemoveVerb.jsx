@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DropDown from "../../shared/DropDown";
 
-const RemoveVerb = ({ tools }) => {
+const RemoveVerb = ({ index, tools }) => {
   const [selectedValueOne, setSelectedValueOne] = useState("");
   const handleChangeOne = (e) => {
     setSelectedValueOne(e.target.value);
