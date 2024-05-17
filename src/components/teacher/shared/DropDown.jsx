@@ -6,11 +6,13 @@ const DropDown = ({ data, selectedValue, handleChange }) => {
       onChange={handleChange}
       className="mb-2"
     >
-      <option value="" disabled>
-        Select an option
-      </option>
+      <option value="Select verb">Select an option</option>
       {data.map((option, index) => (
-        <option key={index} value={option._id}>
+        <option
+          key={index}
+          value={option._id}
+          selected={selectedValue === option._id}
+        >
           {option.name}
         </option>
       ))}

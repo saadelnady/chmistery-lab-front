@@ -1,10 +1,16 @@
 import { useState } from "react";
 import DropDown from "../../shared/DropDown";
 
-const SharedVerbs = ({ rowIndex, data, steps, setSteps }) => {
+const SharedVerbs = ({ rowIndex, data, steps, setSteps, currentStep }) => {
   const [selectedValues, setSelectedValues] = useState({
-    tool1: "",
-    tool2: "",
+    tool1: {
+      id: currentStep.description.tool1.id || null,
+      title: currentStep.description.tool1.title || null,
+    },
+    tool2: {
+      id: currentStep.description.tool2.id || null,
+      title: currentStep.description.tool2.title || null,
+    },
   });
 
   const handleChange = (tool) => (e) => {
@@ -14,32 +20,24 @@ const SharedVerbs = ({ rowIndex, data, steps, setSteps }) => {
 
     setSelectedValues((prevValues) => ({
       ...prevValues,
-      [tool]: selectedId,
+      [tool]: {
+        id: selectedId,
+        title: selectedTitle,
+      },
     }));
 
     const updatedSteps = [...steps];
 
-    console.log("updatedSteps---------------->?", updatedSteps);
-    console.log("tool---------------->?", tool);
-    console.log("tool---------------->?", tool);
-    console.log(
-      "updatedSteps[rowIndex].description[tool] ---------------->?",
-      updatedSteps[rowIndex].description[tool]
-    );
-    console.log(
-      "updatedSteps[rowIndex].description[tool].id---------------->?",
-      updatedSteps[rowIndex].description[tool].id
-    );
-    // updatedSteps[rowIndex].description[tool].title = selectedTitle;
-    // updatedSteps[rowIndex].description[tool].id = selectedId;
-    // setSteps(updatedSteps);
+    updatedSteps[rowIndex].description[tool].title = selectedTitle;
+    updatedSteps[rowIndex].description[tool].id = selectedId;
+    setSteps(updatedSteps);
   };
 
   return (
-    <div className="d-flex flex-wrap">
+    <div className="d-flex flex-wrap ">
       <DropDown
         data={data}
-        selectedValue={selectedValues.tool1}
+        selectedValue={selectedValues?.tool1?.id}
         handleChange={handleChange("tool1")}
       />
 
@@ -47,7 +45,7 @@ const SharedVerbs = ({ rowIndex, data, steps, setSteps }) => {
 
       <DropDown
         data={data}
-        selectedValue={selectedValues.tool2}
+        selectedValue={selectedValues?.tool2?.id}
         handleChange={handleChange("tool2")}
       />
     </div>

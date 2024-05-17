@@ -12,6 +12,7 @@ const Tools = ({
   const { tools } = useSelector((state) => state.toolReducer);
   const [tool, setTool] = useState({});
   const [selectedTools, setSelectedTools] = useState([]); // Changed state name to plural
+  const [selectedTool, setSelectedTool] = useState(""); // Changed state name to plural
 
   const handleToolChange = (event) => {
     const selectedOption = tools.find(
@@ -20,6 +21,7 @@ const Tools = ({
 
     if (selectedOption && !selectedTools.includes(selectedOption)) {
       setSelectedTools([...selectedTools, selectedOption]);
+      setSelectedTool(selectedOption.name);
     }
   };
 
@@ -40,23 +42,18 @@ const Tools = ({
         <div className="d-flex justify-content-between mt-4">
           <select
             id="dropdown"
-            className="form-control"
+            className="form-control w-75"
             onChange={handleToolChange}
-            value=""
+            value={selectedTool}
           >
-            <option value="" disabled>
-              Select tool
-            </option>
+            <option value="">Select tool</option>
             {tools.map((tool, index) => (
               <option key={index} value={tool.name}>
                 {tool.name}
               </option>
             ))}
           </select>
-          <button
-            className="btn btn-danger col-3 fs-5"
-            onClick={handleActivation}
-          >
+          <button className="btn btn-danger " onClick={handleActivation}>
             Add new Tool
           </button>
         </div>

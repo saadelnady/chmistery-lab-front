@@ -39,17 +39,15 @@ const Chemicals = ({
       )}
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
         <h3 className="text-center fw-bold">Choose your chemicals</h3>
-        <div className="d-flex justify-content-between mt-4">
+        <div className="d-flex justify-content-between mt-4 align-items-center">
           <select
             name="chemical"
             id="chemical"
-            className="form-control"
+            className="form-control w-75"
             value={selectedChemical ? selectedChemical.name : ""}
             onChange={handleSelectChange}
           >
-            <option value="" disabled>
-              Select chemical
-            </option>
+            <option value="">Select chemical</option>
 
             {chemicals.map((chemical, index) => (
               <option key={index} value={chemical.name}>
@@ -57,10 +55,7 @@ const Chemicals = ({
               </option>
             ))}
           </select>
-          <button
-            className="btn btn-danger col-3 fs-5"
-            onClick={handleActivation}
-          >
+          <button className="btn btn-danger " onClick={handleActivation}>
             Add new chemical
           </button>
         </div>

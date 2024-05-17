@@ -21,20 +21,63 @@ const VerbOptions = ({ index, step, steps, setSteps }) => {
             data={tools}
             steps={steps}
             setSteps={setSteps}
+            currentStep={steps[index]}
+          />
+        );
+      case "collaporate":
+        return (
+          <CollaborateVerb
+            rowIndex={index}
+            chemicals={chemicals}
+            tools={tools}
+            steps={steps}
+            setSteps={setSteps}
+            currentStep={steps[index]}
           />
         );
       case "put":
-        return <PutVerb index={index} chemicals={chemicals} tools={tools} />;
-      case "weight":
-        return <WeightVerb index={index} tools={tools} />;
-      case "heat":
-        return <HeatVerb index={index} tools={tools} />;
-      case "collaporate":
         return (
-          <CollaborateVerb index={index} tools={tools} chemicals={chemicals} />
+          <PutVerb
+            rowIndex={index}
+            chemicals={chemicals}
+            tools={tools}
+            steps={steps}
+            setSteps={setSteps}
+            currentStep={steps[index]}
+          />
         );
+      case "weight":
+        return (
+          <WeightVerb
+            rowIndex={index}
+            data={tools}
+            steps={steps}
+            setSteps={setSteps}
+            currentStep={steps[index]}
+          />
+        );
+
+      case "heat":
+        return (
+          <HeatVerb
+            rowIndex={index}
+            data={tools}
+            steps={steps}
+            setSteps={setSteps}
+            currentStep={steps[index]}
+          />
+        );
+
       case "remove":
-        return <RemoveVerb index={index} tools={tools} />;
+        return (
+          <RemoveVerb
+            rowIndex={index}
+            data={tools}
+            steps={steps}
+            setSteps={setSteps}
+            currentStep={steps[index]}
+          />
+        );
       default:
         return null;
     }

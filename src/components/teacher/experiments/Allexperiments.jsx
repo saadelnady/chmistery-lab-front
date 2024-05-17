@@ -23,7 +23,9 @@ const Allexperiments = () => {
             experiments.length > 0 &&
             experiments.map((experiment, index) => (
               <tr key={index}>
-                <td className="fw-bold">{experiment?.name}</td>
+                <td className="fw-bold">
+                  {experiment?.info?.name || "untitled"}
+                </td>
                 <td>
                   <NavLink to={`/teacher/add-experiment/${experiment._id}`}>
                     <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>

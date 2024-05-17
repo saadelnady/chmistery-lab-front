@@ -8,6 +8,7 @@ import "./assets/styles/styles.css";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchExperiment } from "../../../store/actions/experiment/experimentActions";
+import ExampleDragAndDrop from "./ExampleDragAndDrop";
 
 const Index = ({
   isActive,
@@ -52,6 +53,8 @@ const Index = ({
         );
       case "steps":
         return <Steps />;
+      case "drag":
+        return <ExampleDragAndDrop />;
       default:
         return <Generalinfo />;
     }
@@ -100,6 +103,14 @@ const Index = ({
             onClick={() => handleTabChange("steps")}
           >
             Steps
+          </li>
+          <li
+            className={`btn ${
+              activeTab === "steps" ? "active bg-danger text-light" : ""
+            }`}
+            onClick={() => handleTabChange("drag")}
+          >
+            drag
           </li>
         </ul>
       </div>
