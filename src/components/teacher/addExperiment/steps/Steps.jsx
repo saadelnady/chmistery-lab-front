@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { useDrop, useDrag, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import VerbOptions from "./VerbOptions.jsx";
-import update from "immutability-helper";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { editExperiment } from "../../../../store/actions/experiment/experimentActions.js";
+import { useParams } from "react-router-dom";
 
 const Steps = () => {
   const verbs = [
@@ -36,9 +39,10 @@ const Steps = () => {
     },
   ];
 
-  const [tableData, setTableData] = useState([]);
   const [selectedStepValue, setSelectedStepValue] = useState("selectverb");
   const [steps, setSteps] = useState([]);
+  const dispatch = useDispatch();
+  const { experimentId } = useParams();
 
   useEffect(() => {
     console.log("currentSteps: ---------------->", steps);
@@ -104,16 +108,14 @@ const Steps = () => {
 
   const handleStepChange = (e) => {
     const selectedStep = verbs.find((verb) => verb.title === e.target.value);
+    console.log("Selected step", selectedStep);
     if (selectedStep) {
-      const newTableData = [...tableData, selectedStep];
-      setTableData(newTableData);
       setSelectedStepValue(selectedStep.title);
       setSteps([
         ...steps,
         {
           verb: selectedStep.title,
           description: createSuitableDescription(selectedStep.title),
-          order: steps.length,
         },
       ]);
     }
@@ -121,30 +123,28 @@ const Steps = () => {
   };
 
   const handleDeleteStep = (index) => {
-    const updatedData = [...tableData];
     const updatedSteps = [...steps];
-    updatedData.splice(index, 1);
     updatedSteps.splice(index, 1);
-    setTableData(updatedData);
     setSteps(updatedSteps);
   };
 
-  // const swapSteps = (index1, index2) => {
-  //   const clonedSteps = [...steps];
-  //   const stepOne = { ...steps[index1] };
-  //   const stepTwo = { ...steps[index2] };
-  //   let finalSteps = [];
-  //   clonedSteps.map((element, index) => {
-  //     if (index1 === index) {
-  //       return finalSteps.push(stepTwo);
-  //     }
-  //     if (index2 === index) {
-  //       return finalSteps.push(stepOne);
-  //     }
-  //     return finalSteps.push(element);
-  //   });
-  //   setSteps([...finalSteps]);
-  // };
+  function swapObjects(dragIndex, hoverIndex) {
+    const tempSteps = [...steps];
+
+    if (
+      dragIndex >= 0 &&
+      dragIndex < tempSteps.length &&
+      hoverIndex >= 0 &&
+      hoverIndex < tempSteps.length
+    ) {
+      let temp = tempSteps[dragIndex];
+      tempSteps[dragIndex] = tempSteps[hoverIndex];
+      tempSteps[hoverIndex] = temp;
+    } else {
+      console.error("Index out of bounds");
+    }
+    return tempSteps;
+  }
 
   const Item = ({ item, index, items, setItems }) => {
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -160,22 +160,15 @@ const Steps = () => {
       drop: (droppedItem) => {
         const dragIndex = droppedItem.index;
         const hoverIndex = index;
-        console.log("dragIndex ==============>", dragIndex);
-        console.log("hoverIndex ==============>", hoverIndex);
-        console.log("droppedItem ==============>", droppedItem);
+
         if (dragIndex === hoverIndex) {
           return; // Do nothing if dropped onto itself
         }
 
-        // Reorder items in the list
-        const updatedItems = update(items, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, droppedItem.index],
-          ],
-        });
+        const updatedItems = swapObjects(dragIndex, hoverIndex);
 
-        // Update state with the reordered items
+        console.log("updatedItems ==============>", updatedItems);
+
         setItems(updatedItems);
       },
     }));
@@ -185,7 +178,7 @@ const Steps = () => {
         style={{ opacity: isDragging ? 0.5 : 1 }}
       >
         <td>{index + 1}</td>
-        <td>{item.title}</td>
+        <td>{item.verb}</td>
         <td>
           <VerbOptions
             index={index}
@@ -204,26 +197,133 @@ const Steps = () => {
     );
   };
 
+  const validateDescriptions = (mArray) => {
+    const errorsArray = [];
+
+    mArray.forEach((element, index) => {
+      const { verb, description } = element;
+      const { tool1, tool2, quantity, chemical, temperature } = description;
+
+      const checkTool = (tool, toolNumber) => {
+        if (
+          tool?.id === null ||
+          tool?.title === null ||
+          tool?.title === "Select an option"
+        ) {
+          errorsArray.push({
+            step: index,
+            message: `Step ${index + 1} Tool #${toolNumber} Must Have A Value`,
+          });
+        }
+      };
+
+      const checkQuantity = () => {
+        if (quantity?.value === null || quantity?.value === "") {
+          errorsArray.push({
+            step: index,
+            message: `Step ${index + 1} Quantity Must Have A Value`,
+          });
+        }
+      };
+
+      const checkChemical = () => {
+        if (
+          chemical?.id === null ||
+          chemical?.title === null ||
+          chemical?.title === "Select an option"
+        ) {
+          errorsArray.push({
+            step: index,
+            message: `Step ${index + 1} Chemical Must Have A Value`,
+          });
+        }
+      };
+
+      const checkTemperature = () => {
+        if (temperature?.value === null || temperature?.value === "") {
+          errorsArray.push({
+            step: index,
+            message: `Step ${index + 1} Temperature Must Have A Value`,
+          });
+        }
+      };
+
+      switch (verb) {
+        case "fix":
+        case "pour":
+        case "near":
+        case "insert":
+          checkTool(tool1, 1);
+          checkTool(tool2, 2);
+          break;
+
+        case "put":
+          checkChemical();
+          checkTool(tool1, 1);
+          break;
+
+        case "weight":
+        case "collaporate":
+          checkQuantity();
+          checkChemical();
+          checkTool(tool1, 1);
+          checkTool(tool2, 2);
+          if (verb === "collaporate") checkChemical();
+          break;
+
+        case "heat":
+          checkTemperature();
+          checkTool(tool1, 1);
+          checkTool(tool2, 2);
+
+          break;
+
+        case "remove":
+          checkTool(tool1, 1);
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    return errorsArray;
+  };
+
+  const handelEditSteps = () => {
+    if (steps.length === 0) {
+      toast.error(`steps is required`);
+    }
+
+    if (validateDescriptions(steps) && validateDescriptions(steps).length > 0) {
+      validateDescriptions(steps).forEach((error) => {
+        toast.error(error.message);
+      });
+    } else {
+      console.log(experimentId);
+      console.log(steps);
+      dispatch(editExperiment(experimentId, { steps: steps }, toast));
+    }
+  };
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="d-flex justify-content-center align-items-center mt-3 py-3">
-        <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
-          <h3 className="text-center fw-bold">Choose your steps</h3>
+    <div className="d-flex justify-content-center align-items-center mt-3 py-3">
+      <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
+        <h3 className="text-center fw-bold">Choose your steps</h3>
 
-          <select
-            id="dropdown"
-            className="form-control my-3"
-            value={selectedStepValue}
-            onChange={handleStepChange}
-          >
-            <option>select verb</option>
-            {verbs.map((verb, index) => (
-              <option key={index} value={verb.title}>
-                {verb.title}
-              </option>
-            ))}
-          </select>
-
+        <select
+          id="dropdown"
+          className="form-control my-3"
+          value={selectedStepValue}
+          onChange={handleStepChange}
+        >
+          <option>select verb</option>
+          {verbs.map((verb, index) => (
+            <option key={index} value={verb.title}>
+              {verb.title}
+            </option>
+          ))}
+        </select>
+        <DndProvider backend={HTML5Backend}>
           <table className="col-12 table mt-3">
             <thead>
               <tr>
@@ -234,21 +334,26 @@ const Steps = () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((step, index) => (
-                <Item
-                  key={index}
-                  item={step}
-                  index={index}
-                  items={tableData}
-                  setItems={setTableData}
-                />
-              ))}
+              {steps?.map((step, index) => {
+                console.log(step);
+                return (
+                  <Item
+                    key={index}
+                    item={step}
+                    index={index}
+                    items={steps}
+                    setItems={setSteps}
+                  />
+                );
+              })}
             </tbody>
           </table>
-          <button className="btn active mt-4">Edit</button>
-        </div>
+        </DndProvider>
+        <button className="btn active mt-4" onClick={handelEditSteps}>
+          Edit
+        </button>
       </div>
-    </DndProvider>
+    </div>
   );
 };
 

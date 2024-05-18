@@ -27,8 +27,9 @@ const Generalinfo = () => {
   });
 
   const handleSubmit = (values) => {
-    const info = { ...values };
-    dispatch(editExperiment(experimentId, info));
+    // You can now send 'formData' using an HTTP request (e.g., fetch or axios)
+    console.log("formData", values);
+    dispatch(editExperiment(experimentId, { info: values }));
   };
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">

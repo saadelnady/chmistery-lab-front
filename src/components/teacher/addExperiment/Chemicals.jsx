@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import AddNewChemical from "../shared/AddNewChemical";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChemicalDescription from "../shared/ChemicalDescription";
+import { toast } from "react-toastify";
+import { editExperiment } from "../../../store/actions/experiment/experimentActions";
+import { useParams } from "react-router-dom";
 
 const Chemicals = ({
   isActive,
@@ -13,6 +16,9 @@ const Chemicals = ({
   const [selectedChemical, setSelectedChemical] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [chemical, setChemical] = useState({});
+  const selectedChemicalsIds = tableData.map((chemical) => chemical._id);
+  const dispatch = useDispatch();
+  const { experimentId } = useParams();
   const handleSelectChange = (event) => {
     const selectedOption = chemicals.find(
       (chemical) => chemical.name === event.target.value
@@ -28,6 +34,15 @@ const Chemicals = ({
     setTableData(updatedData);
   };
 
+  const handleEditChemicals = () => {
+    if (selectedChemicalsIds.length === 0) {
+      toast.error(`please select one chemical at least`);
+    } else {
+      dispatch(
+        editExperiment(experimentId, { chemicals: selectedChemicalsIds }, toast)
+      );
+    }
+  };
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       {isActive && <AddNewChemical handleActivation={handleActivation} />}
@@ -93,7 +108,9 @@ const Chemicals = ({
             ))}
           </tbody>
         </table>
-        <button className="btn active mt-4">Edit</button>
+        <button className="btn active mt-4" onClick={handleEditChemicals}>
+          Edit
+        </button>
       </div>
     </div>
   );

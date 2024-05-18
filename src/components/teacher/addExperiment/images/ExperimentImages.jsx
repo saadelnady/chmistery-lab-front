@@ -8,10 +8,13 @@ const ExperimentImages = () => {
   const [draggableImages, setDraggableImages] = useState([]);
   const parentDiv = useRef(null);
   const toolsInputRef = useRef(null);
-
+  // console.log("draggableImages ===>", draggableImages);
+  console.log("deviceImage ===>", deviceImage);
   const handleToolImageUpload = (e) => {
+    console.log("e.target.files ===>", e.target.files);
     const files = Array.from(e.target.files);
     const urls = files.map((file) => URL.createObjectURL(file));
+    console.log("files===>", files);
     setToolsImages((prevImages) => [...prevImages, ...urls]);
     const currentDraggableImages = [
       ...draggableImages,

@@ -41,6 +41,7 @@ export const fetchExperiment = (experimentId) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         null
       );
+
       if (response.status === "success") {
         dispatch(actionsCreators.getExperimentSuccess(response.data.data[0]));
       }
@@ -50,7 +51,7 @@ export const fetchExperiment = (experimentId) => {
   };
 };
 // =============================================================
-export const editExperiment = (experimentId, data) => {
+export const editExperiment = (experimentId, data, toast) => {
   return async (dispatch) => {
     dispatch(actionsCreators.editExperiment());
     try {
@@ -58,11 +59,15 @@ export const editExperiment = (experimentId, data) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         data
       );
-      // if (response.status === "success") {
-      //   dispatch(actionsCreators.getExperimentSuccess(response.data.data[0]));
-      // }
+      console.log(response);
+      if (response.status === "success") {
+        dispatch(
+          actionsCreators.editExperimentSuccess(response.data.newExperiment)
+        );
+        showToast(toast, "experiment updated successfully", "success");
+      }
     } catch (error) {
-      dispatch(actionsCreators.editExperiment(error));
+      dispatch(actionsCreators.editExperimentFail(error));
     }
   };
 };

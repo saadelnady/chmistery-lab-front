@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import AddNewTool from "../shared/AddNewTool";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ToolDescription from "../shared/ToolDescription";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { editExperiment } from "../../../store/actions/experiment/experimentActions";
 
 const Tools = ({
   isActive,
@@ -13,7 +16,9 @@ const Tools = ({
   const [tool, setTool] = useState({});
   const [selectedTools, setSelectedTools] = useState([]); // Changed state name to plural
   const [selectedTool, setSelectedTool] = useState(""); // Changed state name to plural
-
+  const selectedToolsIds = selectedTools.map((tool) => tool._id);
+  const dispatch = useDispatch();
+  const { experimentId } = useParams();
   const handleToolChange = (event) => {
     const selectedOption = tools.find(
       (tool) => tool.name === event.target.value
@@ -30,7 +35,15 @@ const Tools = ({
     updatedToolList.splice(index, 1);
     setSelectedTools(updatedToolList);
   };
-
+  const handleEditTools = () => {
+    if (selectedToolsIds.length === 0) {
+      toast.error(`please select one tool at least`);
+    } else {
+      dispatch(
+        editExperiment(experimentId, { tools: selectedToolsIds }, toast)
+      );
+    }
+  };
   return (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       {isActive && <AddNewTool handleActivation={handleActivation} />}
@@ -91,7 +104,9 @@ const Tools = ({
             ))}
           </tbody>
         </table>
-        <button className="btn active mt-4">Edit</button>
+        <button className="btn active mt-4" onClick={handleEditTools}>
+          Edit
+        </button>
       </div>
     </div>
   );
