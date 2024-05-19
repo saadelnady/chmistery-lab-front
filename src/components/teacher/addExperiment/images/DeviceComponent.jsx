@@ -1,16 +1,29 @@
-const DeviceComponent = () => {
+import { DndProvider } from "react-dnd";
+import DraggableImage from "./DraggableImage";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+const DeviceComponent = ({
+  deviceImage,
+  parentDiv,
+  deviceInputRef,
+  toolsImagesPreview,
+  handleRemoveDeviceImage,
+  draggableImages,
+  setDraggableImages,
+  handleDeviceImageUpload,
+}) => {
   return (
     <div className="col-12 col-sm-6">
       <h3>Device :</h3>
       {deviceImage ? (
-        <div ref={parentDiv} className="mt-5 position-relative  ">
+        <div ref={parentDiv} className="mt-5 position-relative">
           <img
             src={deviceImage}
             alt="Device"
-            className="img-thumbnail bg-transparent w-100"
+            className="img-thumbnail bg-transparent "
           />
           <DndProvider backend={HTML5Backend}>
-            {toolsImages.map((image, index) => (
+            {toolsImagesPreview.map((image, index) => (
               <DraggableImage
                 key={index}
                 src={image}
@@ -37,7 +50,7 @@ const DeviceComponent = () => {
         </label>
       )}
       <input
-        ref={parentDiv}
+        ref={deviceInputRef}
         type="file"
         className="d-none"
         accept="image/jpeg, image/png" // Specify accepted MIME types here

@@ -8,7 +8,6 @@ const DraggableImage = ({
   setDraggableImages,
 }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  console.log("dimensions ==>", dimensions);
   const [{ isDragging }, drag] = useDrag({
     type: "image",
     item: { src, offset: { x: 0, y: 0 } },

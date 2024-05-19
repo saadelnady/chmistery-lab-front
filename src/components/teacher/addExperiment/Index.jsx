@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Generalinfo from "./Generalinfo";
 import Tools from "./Tools";
 import Chemicals from "./Chemicals";
 import Steps from "./steps/Steps";
-import ExperimentImages from "./images/ExperimentImages";
+import ExperimentImages from "./images/Index";
 import "./assets/styles/styles.css";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -63,7 +63,8 @@ const Index = ({
     <div className="pt-5 container">
       <div className="d-flex justify-content-between align-items-center mt-4 ">
         <div className="d-flex align-items-center">
-          Experiment name :<h4>{experiment?.info?.name || "untitled"}</h4>
+          <span className="fw-bold"> Name :</span>
+          <p>{experiment?.info?.name || "untitled"}</p>
         </div>
         <ul className="d-flex justify-content-between align-items-center col-12 col-md-10 col-lg-8 shadow rounded  p-4 navlinks flex-wrap">
           <li
