@@ -1,22 +1,24 @@
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const Index = () => {
+  const { user } = useSelector((state) => state.userReducer);
+  const { experiments } = useSelector((state) => state.experimentReducer);
   return (
     <div className="min-vh-100 d-flex justify-content-evenly align-items-center flex-column">
-      <h2>Student Mode</h2>
+      <h2>Wellcome back {user.firstName}</h2>
       <ul className="d-flex flex-column shadow p-4 rounded">
-        <NavLink to="/student/experiment" className="btn active mb-3 ">
-          <li> Experiment 1</li>
-        </NavLink>
-        <NavLink to="/student/experiment" className="btn active mb-3 ">
-          <li> Experiment 2</li>
-        </NavLink>
-        <NavLink to="/student/experiment" className="btn active mb-3 ">
-          <li> Experiment 3</li>
-        </NavLink>
-        <NavLink to="/student/experiment" className="btn active mb-3 ">
-          <li> Experiment 4</li>
-        </NavLink>
+        {experiments?.map((experiment, index) => {
+          return (
+            <NavLink
+              to={`/student/experiment/${experiment._id}`}
+              className="btn active mb-3 "
+              key={index}
+            >
+              <li>{experiment?.info?.name || "untitled"} </li>
+            </NavLink>
+          );
+        })}
       </ul>
     </div>
   );

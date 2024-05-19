@@ -1,22 +1,28 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMessage from "../../../components/shared/ErrorMessage";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { editExperiment } from "../../../store/actions/experiment/experimentActions";
-
+import { toast } from "react-toastify";
+import { isObjectNotEmpty } from "../../../helpers/object_checker";
+import Loading from "../../shared/Loading";
 const Generalinfo = () => {
+  const { experiment, isLoading } = useSelector(
+    (state) => state.experimentReducer
+  );
   const dispatch = useDispatch();
+  const formikRef = useRef();
   const { experimentId } = useParams();
-  const [info, setInfo] = useState({
+  const info = {
     name: "",
     description: "",
     observation: "",
     conclusion: "",
     equation: "",
     objective: "",
-  });
+  };
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("required"),
     description: Yup.string().required("required"),
@@ -25,15 +31,34 @@ const Generalinfo = () => {
     equation: Yup.string().required("required"),
     objective: Yup.string().required("required"),
   });
-
+  useEffect(() => {
+    if (isObjectNotEmpty(experiment)) {
+      formikRef.current.setFieldValue("name", experiment?.info?.name);
+      formikRef.current.setFieldValue(
+        "description",
+        experiment?.info?.description
+      );
+      formikRef.current.setFieldValue(
+        "observation",
+        experiment?.info?.observation
+      );
+      formikRef.current.setFieldValue(
+        "conclusion",
+        experiment?.info?.conclusion
+      );
+      formikRef.current.setFieldValue("equation", experiment?.info?.equation);
+      formikRef.current.setFieldValue("objective", experiment?.info?.objective);
+    }
+  }, [dispatch, experiment, experimentId]);
   const handleSubmit = (values) => {
-    // You can now send 'formData' using an HTTP request (e.g., fetch or axios)
-    console.log("formData", values);
-    dispatch(editExperiment(experimentId, { info: values }));
+    dispatch(editExperiment(experimentId, { info: values }, toast));
   };
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       <Formik
+        innerRef={formikRef}
         initialValues={info}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}

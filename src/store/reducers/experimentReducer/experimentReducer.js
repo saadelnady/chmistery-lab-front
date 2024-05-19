@@ -107,6 +107,7 @@ const experimentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         experiments: [...filteredExperiments, action.payLoad],
+        experiment: action.payLoad,
         chemical: action.payLoad,
         error: null,
       };

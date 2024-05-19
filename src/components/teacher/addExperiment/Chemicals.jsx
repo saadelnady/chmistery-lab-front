@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddNewChemical from "../shared/AddNewChemical";
 import { useDispatch, useSelector } from "react-redux";
 import ChemicalDescription from "../shared/ChemicalDescription";
 import { toast } from "react-toastify";
 import { editExperiment } from "../../../store/actions/experiment/experimentActions";
 import { useParams } from "react-router-dom";
-
+import { isObjectNotEmpty } from "../../../helpers/object_checker";
+import Loading from "../../shared/Loading";
 const Chemicals = ({
   isActive,
   handleActivation,
@@ -13,6 +14,9 @@ const Chemicals = ({
   handleDescription,
 }) => {
   const { chemicals } = useSelector((state) => state.chemicalReducer);
+  const { experiment, isLoading } = useSelector(
+    (state) => state.experimentReducer
+  );
   const [selectedChemical, setSelectedChemical] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [chemical, setChemical] = useState({});
@@ -24,7 +28,8 @@ const Chemicals = ({
       (chemical) => chemical.name === event.target.value
     );
     setSelectedChemical(selectedOption);
-    if (selectedOption && !tableData.includes(selectedOption)) {
+
+    if (selectedOption && !tableData.includes(selectedOption.name)) {
       setTableData([...tableData, selectedOption]);
     }
   };
@@ -43,7 +48,14 @@ const Chemicals = ({
       );
     }
   };
-  return (
+  useEffect(() => {
+    if (isObjectNotEmpty(experiment)) {
+      setTableData(experiment.chemicals);
+    }
+  }, [experiment]);
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       {isActive && <AddNewChemical handleActivation={handleActivation} />}
       {isDescription && (

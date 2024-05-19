@@ -14,19 +14,23 @@ const ChemicalDescription = ({ handleDescription, chemical }) => {
         </div>
         <div className="text-center">
           <img
-            src={`${imageUrl}/${chemical?.atomicStructure}`}
-            alt=""
+            src={
+              chemical?.atomicStructure
+                ? `${imageUrl}/${chemical?.atomicStructure}`
+                : ""
+            }
+            alt="chemical-img"
             style={{
               width: "100px",
               height: "100px",
               objectFit: "contain",
             }}
           />
-          <p>name : {chemical.name}</p>
-          <p>state : {chemical.state}</p>
-          <p>color : {chemical.color}</p>
-          <p>taste : {chemical.taste}</p>
-          <p>molecular formula : {chemical.molecularFormula}</p>
+          <p>name : {chemical?.name}</p>
+          <p>state : {chemical?.state}</p>
+          <p>color : {chemical?.color}</p>
+          <p>taste : {chemical?.taste}</p>
+          <p>molecular formula : {chemical?.molecularFormula}</p>
         </div>
       </div>
     </div>

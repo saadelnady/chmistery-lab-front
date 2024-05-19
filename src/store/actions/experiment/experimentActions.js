@@ -43,7 +43,7 @@ export const fetchExperiment = (experimentId) => {
       );
 
       if (response.status === "success") {
-        dispatch(actionsCreators.getExperimentSuccess(response.data.data[0]));
+        dispatch(actionsCreators.getExperimentSuccess(response?.data?.data[0]));
       }
     } catch (error) {
       dispatch(actionsCreators.getExperimentFail(error));
@@ -62,7 +62,7 @@ export const editExperiment = (experimentId, data, toast) => {
       console.log(response);
       if (response.status === "success") {
         dispatch(
-          actionsCreators.editExperimentSuccess(response.data.newExperiment)
+          actionsCreators.editExperimentSuccess(response?.data?.newExperiment)
         );
         showToast(toast, "experiment updated successfully", "success");
       }

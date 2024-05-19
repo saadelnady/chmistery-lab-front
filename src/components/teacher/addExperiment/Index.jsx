@@ -6,7 +6,7 @@ import Steps from "./steps/Steps";
 import ExperimentImages from "./images/ExperimentImages";
 import "./assets/styles/styles.css";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchExperiment } from "../../../store/actions/experiment/experimentActions";
 
 const Index = ({
@@ -16,7 +16,7 @@ const Index = ({
   handleDescription,
 }) => {
   const [activeTab, setActiveTab] = useState("general");
-
+  const { experiment } = useSelector((state) => state.experimentReducer);
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -61,7 +61,10 @@ const Index = ({
 
   return (
     <div className="pt-5 container">
-      <div className="d-flex justify-content-end align-items-center mt-4 ">
+      <div className="d-flex justify-content-between align-items-center mt-4 ">
+        <div className="d-flex align-items-center">
+          Experiment name :<h4>{experiment?.info?.name || "untitled"}</h4>
+        </div>
         <ul className="d-flex justify-content-between align-items-center col-12 col-md-10 col-lg-8 shadow rounded  p-4 navlinks flex-wrap">
           <li
             className={`btn ${
@@ -105,6 +108,7 @@ const Index = ({
           </li>
         </ul>
       </div>
+
       {renderContent()}
     </div>
   );

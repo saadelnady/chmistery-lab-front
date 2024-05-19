@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddNewTool from "../shared/AddNewTool";
 import { useDispatch, useSelector } from "react-redux";
 import ToolDescription from "../shared/ToolDescription";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { editExperiment } from "../../../store/actions/experiment/experimentActions";
+import { isObjectNotEmpty } from "../../../helpers/object_checker";
+import Loading from "../../shared/Loading";
 
 const Tools = ({
   isActive,
@@ -13,6 +15,9 @@ const Tools = ({
   handleDescription,
 }) => {
   const { tools } = useSelector((state) => state.toolReducer);
+  const { experiment, isLoading } = useSelector(
+    (state) => state.experimentReducer
+  );
   const [tool, setTool] = useState({});
   const [selectedTools, setSelectedTools] = useState([]); // Changed state name to plural
   const [selectedTool, setSelectedTool] = useState(""); // Changed state name to plural
@@ -30,6 +35,11 @@ const Tools = ({
     }
   };
 
+  useEffect(() => {
+    if (isObjectNotEmpty(experiment)) {
+      setSelectedTools(experiment.tools);
+    }
+  }, [experiment]);
   const handleRemoveTool = (index) => {
     const updatedToolList = [...selectedTools];
     updatedToolList.splice(index, 1);
@@ -44,7 +54,9 @@ const Tools = ({
       );
     }
   };
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       {isActive && <AddNewTool handleActivation={handleActivation} />}
       {isDescription && (

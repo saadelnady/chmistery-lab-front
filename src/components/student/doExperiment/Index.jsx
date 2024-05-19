@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Loading from "../../shared/Loading";
 import icEquipment from "./assets/ic_equipment.png";
 import icFlame from "./assets/ic_flame.png";
 import icFlask from "./assets/ic_flask.png";
 import icHolder from "./assets/ic_holder.png";
 import icIceTube from "./assets/ic_iceTube.png";
 import icTestTube from "./assets/ic_testTube.png";
-
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchExperiment } from "../../../store/actions/experiment/experimentActions";
+import ExperimentDetails from "./ExperimentDetails";
+import ExperimentResult from "./ExperimentResult";
 const Index = () => {
+  const { isLoading, experiment } = useSelector(
+    (state) => state.experimentReducer
+  );
   const [tools, setTools] = useState([
     {
       id: "flame",
@@ -67,7 +75,7 @@ const Index = () => {
   const handleDropOnEquipment = (e) => {
     const equipment = e.currentTarget;
     const rect = equipment.getBoundingClientRect();
-     const x = e.clientX - rect.left;
+    const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     setTools((prevTools) =>
@@ -78,48 +86,19 @@ const Index = () => {
       )
     );
   };
-
-  return (
-    <>
-      <div className="container">
-        <div className="mt-5 row justify-content-between  ">
-          <ul className="shadow col-12 col-sm-4 col-md-3 p-3">
-            <p className="fw-bold text-center">Chemicals</p>
-            <li> Silver Nitrate</li>
-            <li>Silver cloride</li>
-            <li>SoduimNitrate</li>
-            <li>Soduim cloride</li>
-          </ul>
-          <ul className="shadow col-12  col-sm-4 col-md-3 p-3">
-            <p className="fw-bold text-center">Steps</p>
-            <li className="mb-3">
-              <span>1.</span> measure 30g of Silver Nitrate solution in test
-              tube
-            </li>
-            <li className="mb-3">
-              <span>2.</span> pour the test tube into the retort measure 30g of
-              Soduim cloride
-            </li>
-            <li className="mb-3">
-              <span>3.</span> solution in test tube pour the test tube into the
-              retort Observe the
-            </li>
-            <li className="mb-3">
-              <span>4.</span> pour the test tube into the retort measure 30g of
-              Soduim cloride reaction
-            </li>
-          </ul>
-          <ul className="shadow col-12  col-sm-4 col-md-3 p-3">
-            <p className="fw-bold text-center">Tools</p>
-
-            <li> Test tube </li>
-            <li>Test tube holder</li>
-            <li>Balance</li>
-            <li>Filter paper</li>
-            <li> pipette </li>
-          </ul>
-        </div>
-      </div>
+  const { experimentId } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchExperiment(experimentId));
+  }, [experimentId]);
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <div className="container">
+      <h2 className="text-center mt-4">
+        {experiment?.info.name || "untitled"}
+      </h2>
+      <ExperimentDetails />
       <div className="row mt-4 py-3 px-2 shadow justify-content-between flex-wrap">
         <div className="d-flex col-12 col-sm-5 flex-wrap border rounded p-3">
           <p className="fw-bold fs-1">Tools :</p>
@@ -156,15 +135,8 @@ const Index = () => {
           />
         </div>
       </div>
-      <div className="container mb-4">
-        <ul className="shadow col-12 py-3">
-          <p className="fw-bold text-center">Observations:</p>
-          <p className="text-center">Observations of the experiment</p>
-          <p className="fw-bold text-center">Conclusion :</p>
-          <p className="text-center">Conclusion of the experiment</p>
-        </ul>
-      </div>
-    </>
+      <ExperimentResult />
+    </div>
   );
 };
 

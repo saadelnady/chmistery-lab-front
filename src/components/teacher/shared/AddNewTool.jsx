@@ -46,9 +46,11 @@ const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
   }, [toolId, dispatch]);
   useEffect(() => {
     if (isObjectNotEmpty(tool) && toolId) {
-      formikRef.current.setFieldValue("name", tool.name);
-      formikRef.current.setFieldValue("description", tool.description);
-      setToolImage(`${imageUrl}/${tool.image}`);
+      formikRef.current.setFieldValue("name", tool?.name);
+      formikRef.current.setFieldValue("description", tool?.description);
+      if (tool.image) {
+        setToolImage(`${imageUrl}/${tool?.image}`);
+      }
     }
   }, [tool]);
 
@@ -80,14 +82,14 @@ const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
 
   const handleAddTool = (values) => {
     const existedTool = tools.find((tool, index) => {
-      return tool.name === values.name;
+      return tool?.name === values?.name;
     });
     if (existedTool) {
       showToast(toast, "tool is already exists", "error");
     } else {
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("description", values.description);
+      formData.append("name", values?.name);
+      formData.append("description", values?.description);
       if (fileContent) {
         formData.append("image", fileContent);
       }
@@ -126,7 +128,7 @@ const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
                 className="form-control mb-2"
                 onChange={handleChange}
               />
-              {errors.name && touched.name && (
+              {errors?.name && touched?.name && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -141,7 +143,7 @@ const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
                 className="form-control mb-2"
                 onChange={handleChange}
               />
-              {errors.description && touched.description && (
+              {errors?.description && touched?.description && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -173,7 +175,7 @@ const AddNewTool = ({ handleActivation, toolId, handleToolId }) => {
                   />
                 )}
 
-                {errors.image && touched.image && (
+                {errors?.image && touched?.image && (
                   <ErrorMessage
                     touched={touched}
                     errors={errors}

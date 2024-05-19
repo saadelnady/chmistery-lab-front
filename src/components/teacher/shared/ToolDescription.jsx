@@ -14,8 +14,8 @@ const ToolDescription = ({ handleDescription, tool }) => {
         </div>
         <div className="text-center">
           <img
-            src={`${imageUrl}/${tool?.image}`}
-            alt=""
+            src={tool?.image ? `${imageUrl}/${tool?.image}` : ""}
+            alt="tool-img"
             style={{
               width: "100px",
               height: "100px",

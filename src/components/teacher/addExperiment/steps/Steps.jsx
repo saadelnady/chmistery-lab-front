@@ -4,9 +4,11 @@ import { useDrop, useDrag, DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import VerbOptions from "./VerbOptions.jsx";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editExperiment } from "../../../../store/actions/experiment/experimentActions.js";
 import { useParams } from "react-router-dom";
+import { isObjectNotEmpty } from "../../../../helpers/object_checker.js";
+import Loading from "../../../shared/Loading.jsx";
 
 const Steps = () => {
   const verbs = [
@@ -38,7 +40,9 @@ const Steps = () => {
       title: "remove",
     },
   ];
-
+  const { experiment, isLoading } = useSelector(
+    (state) => state.experimentReducer
+  );
   const [selectedStepValue, setSelectedStepValue] = useState("selectverb");
   const [steps, setSteps] = useState([]);
   const dispatch = useDispatch();
@@ -290,6 +294,11 @@ const Steps = () => {
     return errorsArray;
   };
 
+  useEffect(() => {
+    if (isObjectNotEmpty(experiment)) {
+      setSteps(experiment.steps);
+    }
+  }, [experiment]);
   const handelEditSteps = () => {
     if (steps.length === 0) {
       toast.error(`steps is required`);
@@ -305,7 +314,9 @@ const Steps = () => {
       dispatch(editExperiment(experimentId, { steps: steps }, toast));
     }
   };
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="d-flex justify-content-center align-items-center mt-3 py-3">
       <div className="col-12 col-lg-10 px-4 py-5 rounded shadow">
         <h3 className="text-center fw-bold">Choose your steps</h3>

@@ -21,7 +21,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
   );
   const formikRef = useRef(null);
 
-  const [initialValues, setInitialValues] = useState({
+  const initialValues = {
     name: "",
     state: "",
     color: "",
@@ -29,7 +29,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
     smell: "",
     molecularFormula: "",
     atomicStructure: null,
-  });
+  };
 
   const dispatch = useDispatch();
   const [fileContent, setFileContent] = useState(null); // State to hold the file content
@@ -53,17 +53,17 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
 
   useEffect(() => {
     if (isObjectNotEmpty(chemical) && chemicalId) {
-      formikRef.current.setFieldValue("name", chemical.name);
-      formikRef.current.setFieldValue("state", chemical.state);
-      formikRef.current.setFieldValue("color", chemical.color);
-      formikRef.current.setFieldValue("taste", chemical.taste);
-      formikRef.current.setFieldValue("smell", chemical.smell);
-      formikRef.current.setFieldValue(
+      formikRef?.current?.setFieldValue("name", chemical?.name);
+      formikRef?.current?.setFieldValue("state", chemical?.state);
+      formikRef?.current?.setFieldValue("color", chemical?.color);
+      formikRef.current?.setFieldValue("taste", chemical?.taste);
+      formikRef?.current?.setFieldValue("smell", chemical.smell);
+      formikRef?.current?.setFieldValue(
         "molecularFormula",
-        chemical.molecularFormula
+        chemical?.molecularFormula
       );
 
-      setChemicalImage(`${imageUrl}/${chemical.atomicStructure}`);
+      setChemicalImage(`${imageUrl}/${chemical?.atomicStructure}`);
     }
   }, [chemical]);
 
@@ -103,12 +103,12 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
 
   const handleEditChemical = (values) => {
     const formData = new FormData();
-    formData.append("name", values.name);
-    formData.append("state", values.state);
-    formData.append("color", values.color);
-    formData.append("taste", values.taste);
-    formData.append("smell", values.smell);
-    formData.append("molecularFormula", values.molecularFormula);
+    formData.append("name", values?.name);
+    formData.append("state", values?.state);
+    formData.append("color", values?.color);
+    formData.append("taste", values?.taste);
+    formData.append("smell", values?.smell);
+    formData.append("molecularFormula", values?.molecularFormula);
     if (fileContent) {
       formData.append("atomicStructure", fileContent);
     }
@@ -119,7 +119,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
     }, 3000);
   };
   const handleChange = (e) => {
-    formikRef.current.setFieldValue(e.target.name, e.target.value);
+    formikRef.current.setFieldValue(e?.target?.name, e?.target?.value);
   };
   return (
     <div className="overLay d-flex justify-content-center align-items-center">
@@ -150,7 +150,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                 className="form-control mb-3"
                 onChange={handleChange}
               />
-              {errors.name && touched.name && (
+              {errors?.name && touched?.name && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -165,7 +165,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                 className="form-control mb-3"
                 onChange={handleChange}
               />
-              {errors.state && touched.state && (
+              {errors?.state && touched?.state && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -183,7 +183,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                   className="mb-3 col-3"
                   onChange={handleChange}
                 />
-                {errors.color && touched.color && (
+                {errors?.color && touched?.color && (
                   <ErrorMessage
                     touched={touched}
                     errors={errors}
@@ -199,7 +199,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                 className="form-control mb-3"
                 onChange={handleChange}
               />
-              {errors.taste && touched.taste && (
+              {errors?.taste && touched?.taste && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -214,7 +214,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                 className="form-control mb-3"
                 onChange={handleChange}
               />
-              {errors.smell && touched.smell && (
+              {errors?.smell && touched?.smell && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -228,7 +228,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                 className="form-control mb-3"
                 onChange={handleChange}
               />
-              {errors.molecularFormula && touched.molecularFormula && (
+              {errors?.molecularFormula && touched?.molecularFormula && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -259,7 +259,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
                   />
                 )}
 
-                {errors.atomicStructure && touched.atomicStructure && (
+                {errors?.atomicStructure && touched?.atomicStructure && (
                   <ErrorMessage
                     touched={touched}
                     errors={errors}

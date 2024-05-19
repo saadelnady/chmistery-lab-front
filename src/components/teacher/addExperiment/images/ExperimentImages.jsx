@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import DraggableImage from "./DraggableImage";
+import ToolsComponent from "./ToolsComponent";
 const ExperimentImages = () => {
   const [toolsImages, setToolsImages] = useState([]);
   const [deviceImage, setDeviceImage] = useState("");
   const [draggableImages, setDraggableImages] = useState([]);
   const parentDiv = useRef(null);
   const toolsInputRef = useRef(null);
-  // console.log("draggableImages ===>", draggableImages);
-  console.log("deviceImage ===>", deviceImage);
+
   const handleToolImageUpload = (e) => {
     console.log("e.target.files ===>", e.target.files);
     const files = Array.from(e.target.files);
@@ -33,7 +33,7 @@ const ExperimentImages = () => {
     toolsInputRef.current.value = ""; // Clear the tools input field
   };
   useEffect(() => {}, [draggableImages]);
-
+  console.log("deviceImage === >", deviceImage);
   const handleRemoveToolImage = (index) => {
     const updatedImages = [...toolsImages];
     updatedImages.splice(index, 1);
@@ -106,28 +106,10 @@ const ExperimentImages = () => {
               />
             </>
           )}
-          <div className="d-flex flex-wrap align-items-center">
-            {toolsImages.map((image, index) => (
-              <div key={index} className="my-4 position-relative fit-content  ">
-                <img
-                  src={image}
-                  alt={`Tool ${index + 1}`}
-                  className="cursor-pointer  "
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "contain",
-                  }}
-                />
-                <button
-                  className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                  onClick={() => handleRemoveToolImage(index)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
-          </div>
+          <ToolsComponent
+            toolsImages={toolsImages}
+            handleRemoveToolImage={handleRemoveToolImage}
+          />
         </div>
         <div className="col-12 col-sm-6">
           <h3>Device :</h3>

@@ -6,7 +6,7 @@ const index = () => {
     <div>
       <Routes>
         <Route path="/" element={<Student />} />
-        <Route path="/experiment" element={<Experiment />} />
+        <Route path="/experiment/:experimentId" element={<Experiment />} />
       </Routes>
     </div>
   );
