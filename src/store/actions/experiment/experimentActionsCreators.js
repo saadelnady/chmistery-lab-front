@@ -118,3 +118,81 @@ export const clearExperimentFail = (payLoad) => {
     payLoad,
   };
 };
+// ==================================================================================
+export const addToolImage = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE,
+    payLoad,
+  };
+};
+export const addToolImageSuccess = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE_SUCCESS,
+    payLoad,
+  };
+};
+export const addToolImageFail = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE_FAIL,
+    payLoad,
+  };
+};
+// ==================================================================================
+export const addDeviceImage = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE,
+    payLoad,
+  };
+};
+export const addDeviceImageSuccess = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_SUCCESS,
+    payLoad,
+  };
+};
+export const addDeviceImageFail = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_FAIL,
+    payLoad,
+  };
+};
+// ==================================================================================
+
+export const deleteToolImage = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE,
+    payLoad,
+  };
+};
+export const deleteToolImageSuccess = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_SUCCESS,
+    payLoad,
+  };
+};
+export const deleteToolImageFail = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_FAIL,
+    payLoad,
+  };
+};
+// ==================================================================================
+
+export const deleteDeviceImage = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE,
+    payLoad,
+  };
+};
+export const deleteDeviceImageSuccess = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE_SUCCESS,
+    payLoad,
+  };
+};
+export const deleteDeviceImageFail = (payLoad) => {
+  return {
+    type: EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE_FAIL,
+    payLoad,
+  };
+};

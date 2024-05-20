@@ -90,3 +90,81 @@ export const deleteExperiment = (experimentId, toast) => {
     }
   };
 };
+// =============================================================
+// ExperimentImages
+export const addExperimentToolImage = (toast) => {
+  return async (dispatch) => {
+    dispatch(actionsCreators.addToolImage());
+    try {
+      const response = await postData(`/virtual_lab/api/v1/experiment`);
+      console.log("response ===>", response);
+      // if (response.status === "success") {
+      //   dispatch(
+      //     actionsCreators.addToolImageSuccess(response.data.newExperiment)
+      //   );
+      //   showToast(toast, "experiment added successfully", "success");
+      // }
+    } catch (error) {
+      dispatch(actionsCreators.addToolImageFail(error));
+    }
+  };
+};
+export const addExperimentDeviceImage = (toast) => {
+  return async (dispatch) => {
+    dispatch(actionsCreators.addDeviceImage());
+    try {
+      const response = await postData(`/virtual_lab/api/v1/experiment`);
+      console.log("response ===>", response);
+      // if (response.status === "success") {
+      //   dispatch(
+      //     actionsCreators.addDeviceImageSuccess(response.data.newExperiment)
+      //   );
+      //   showToast(toast, "experiment added successfully", "success");
+      // }
+    } catch (error) {
+      dispatch(actionsCreators.addDeviceImageFail(error));
+    }
+  };
+};
+
+// =============================================================
+export const deleteExperimentToolImage = (imageId, toast) => {
+  return async (dispatch) => {
+    dispatch(actionsCreators.deleteExperimentToolImage());
+    try {
+      const response = await deleteData(
+        `/virtual_lab/api/v1/experiment/${imageId}`
+      );
+      console.log("response ===>", response);
+
+      // if (response.status === "deletion success") {
+      //   dispatch(
+      //     actionsCreators.deleteExperimentToolImageSuccess(response.deletedObjectId)
+      //   );
+      //   showToast(toast, "chemical deleted successfully", "success");
+      // }
+    } catch (error) {
+      dispatch(actionsCreators.deleteToolImageFail(error));
+    }
+  };
+};
+export const deleteExperimentDeviceImage = (imageId, toast) => {
+  return async (dispatch) => {
+    dispatch(actionsCreators.deleteDeviceImage());
+    try {
+      const response = await deleteData(
+        `/virtual_lab/api/v1/experiment/${imageId}`
+      );
+      console.log("response ===>", response);
+
+      // if (response.status === "deletion success") {
+      //   dispatch(
+      //     actionsCreators.deleteDeviceImageSuccess(response.deletedObjectId)
+      //   );
+      //   showToast(toast, "chemical deleted successfully", "success");
+      // }
+    } catch (error) {
+      dispatch(actionsCreators.deleteDeviceImageFail(error));
+    }
+  };
+};

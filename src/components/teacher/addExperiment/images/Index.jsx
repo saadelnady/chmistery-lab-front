@@ -15,23 +15,20 @@ const Index = () => {
   const toolsInputRef = useRef(null);
   const parentDiv = useRef(null);
   // ========================================================
-  // for getting tools files and device file
-  const [selectedToolsFiles, setSelectedToolsFiles] = useState([]);
-  const [selectedDeviceFile, setSelectedDeviceFile] = useState(null);
-  // ========================================================
 
   const [images, setImages] = useState({
     device: {
-      image: "IMAGE",
+      image: "URL",
+      imageID: "IMAGE_ID",
       dimensions: {
-        width: "100px",
-        height: "100px",
+        width: "",
+        height: "",
       },
     },
-    toolsImages: [
+    tools: [
       {
         order: 1,
-        image: "IMAGE",
+        image: "URL",
         position: {
           x: "100px",
           y: "100px",
@@ -43,7 +40,31 @@ const Index = () => {
       },
       {
         order: 2,
-        image: "IMAGE",
+        image: "URL",
+        position: {
+          x: "100px",
+          y: "100px",
+        },
+        dimensions: {
+          width: "100px",
+          height: "100px",
+        },
+      },
+      {
+        order: 3,
+        image: "URL",
+        position: {
+          x: "100px",
+          y: "100px",
+        },
+        dimensions: {
+          width: "100px",
+          height: "100px",
+        },
+      },
+      {
+        order: 4,
+        image: "URL",
         position: {
           x: "100px",
           y: "100px",
@@ -55,24 +76,35 @@ const Index = () => {
       },
     ],
   });
-  const [parentDimention, setParentDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
-  console.log("selectedToolsFiles ===>", selectedToolsFiles);
-  console.log("selectedDeviceFile ===>", selectedDeviceFile);
-  console.log(
-    "deviceInputRef.current.value ===>",
-    deviceInputRef?.current?.value
-  );
+
+  // ========================================================
+  useEffect(() => {}, [draggableImages]);
+  // ========================================================
+
   const handleToolImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    setSelectedToolsFiles((prevFiles) => {
-      return [...prevFiles, ...files];
-    });
 
     const urls = files.map((file) => URL.createObjectURL(file));
     setToolsImagesPreview((prevImages) => [...prevImages, ...urls]);
+
+    setImages((prevImages) => ({
+      ...prevImages,
+      tools: [
+        ...prevImages.tools,
+        {
+          order: prevImages.tools.length,
+          image: "",
+          position: {
+            x: "100px",
+            y: "100px",
+          },
+          dimensions: {
+            width: "100px",
+            height: "100px",
+          },
+        },
+      ],
+    }));
 
     const currentDraggableImages = [
       ...draggableImages,
@@ -90,7 +122,7 @@ const Index = () => {
     setDraggableImages(currentDraggableImages);
     toolsInputRef.current.value = ""; // Clear the tools input field
   };
-  useEffect(() => {}, [draggableImages]);
+
   const handleRemoveToolImage = (index) => {
     const updatedImages = [...toolsImagesPreview];
     updatedImages.splice(index, 1);
@@ -98,46 +130,67 @@ const Index = () => {
     const updatedDragableImages = [...draggableImages];
     updatedDragableImages.splice(index, 1);
     setDraggableImages(updatedDragableImages);
-
-    const updatedTools = [...selectedToolsFiles];
-    updatedTools.splice(index, 1);
-    setSelectedToolsFiles(updatedTools);
   };
 
   const handleDeviceImageUpload = (e) => {
     const file = e.target.files[0];
     setDeviceImage(URL.createObjectURL(file));
-    setSelectedDeviceFile(file);
+
+    setImages((prevImages) => ({
+      ...prevImages,
+      device: {
+        ...prevImages.device,
+        image: file,
+      },
+    }));
   };
+  console.log("images===>", images);
 
   const handleRemoveDeviceImage = () => {
     setDeviceImage("");
+    setImages((prevImages) => ({
+      ...prevImages,
+      device: {
+        ...prevImages.device,
+        image: "",
+        dimensions: {
+          ...prevImages.device.dimensions,
+          width: "",
+          height: "",
+        },
+      },
+    }));
     deviceInputRef.current.value = null;
   };
-  useEffect(() => {}, [draggableImages]);
+
   // ========================================================
 
   useEffect(() => {
     const handleResize = () => {
       if (parentDiv.current) {
-        // console.log("parentDimention", parentDimention);
         const { clientWidth, clientHeight } = parentDiv.current;
-        setParentDimensions({ width: clientWidth, height: clientHeight });
+        setImages((prevImages) => ({
+          ...prevImages,
+          device: {
+            ...prevImages.device,
+            dimensions: {
+              ...prevImages.device.dimensions,
+              width: clientWidth,
+              height: clientHeight,
+            },
+          },
+        }));
       }
     };
-
     handleResize();
-
     // Event listener for window resize
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [deviceImage]);
 
   // ========================================================
-  // console.log("dragaable images", draggableImages);
   return (
     <div className="shadow mt-4 py-5 px-3 rounded">
       <div className="row justify-content-between">

@@ -20,7 +20,7 @@ const Chemicals = ({
   const [selectedChemical, setSelectedChemical] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [chemical, setChemical] = useState({});
-  const selectedChemicalsIds = tableData.map((chemical) => chemical._id);
+  const selectedChemicalsIds = tableData.map((chemical) => chemical?._id);
   const dispatch = useDispatch();
   const { experimentId } = useParams();
   const handleSelectChange = (event) => {

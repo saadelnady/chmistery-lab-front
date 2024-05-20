@@ -23,7 +23,6 @@ const ToolsComponent = ({
             className="d-none"
             id="tools"
             onChange={handleToolImageUpload}
-            multiple
           />
         </>
       )}

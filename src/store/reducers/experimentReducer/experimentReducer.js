@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   experiment: {},
   experiments: [],
+  experimentImages: {},
   error: null,
 };
 
@@ -118,7 +119,6 @@ const experimentReducer = (state = initialState, action) => {
         error: action?.payLoad,
       };
     // ====================================================================================================
-
     case EXPERIMENT_ACTIONS_TYPES.CLEAR_EXPERIMENT:
       return {
         ...state,
@@ -132,6 +132,97 @@ const experimentReducer = (state = initialState, action) => {
         error: null,
       };
     case EXPERIMENT_ACTIONS_TYPES.CLEAR_EXPERIMENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action?.payLoad,
+      };
+    // ====================================================================================================
+    case EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        experimentImages: {
+          ...state.experimentImages,
+          tools: [...state.experimentImages.tools, { image: action.payLoad }],
+        },
+        error: null,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action?.payLoad,
+      };
+    // ====================================================================================================
+    case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        experimentImages: {
+          ...state.experimentImages,
+          device: { ...state.experimentImages.device, image: action.payLoad },
+        },
+        error: null,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action?.payLoad,
+      };
+    // ====================================================================================================
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        experimentImages: {
+          ...state.experimentImages,
+          device: { ...state.experimentImages.device, image: "" },
+        },
+        error: null,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action?.payLoad,
+      };
+    // ====================================================================================================
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_SUCCESS:
+      const updatedExperimentToolsImages = state.experimentImages.tools.filter(
+        (tool) => tool !== action?.payLoad
+      );
+      return {
+        ...state,
+        isLoading: false,
+        experimentImages: {
+          ...state.experimentImages,
+          tools: [...state.experimentImages.tools, { image: updatedExperimentToolsImages }],
+        },
+        error: null,
+      };
+    case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_FAIL:
       return {
         ...state,
         isLoading: false,
