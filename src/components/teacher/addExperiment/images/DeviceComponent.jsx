@@ -1,35 +1,80 @@
 import { DndProvider } from "react-dnd";
 import DraggableImage from "./DraggableImage";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addExperimentDeviceImage,
+  deleteExperimentDeviceImage,
+} from "../../../../store/actions/experiment/experimentActions";
+import { useEffect, useRef } from "react";
 
 const DeviceComponent = ({
-  deviceImage,
-  parentDiv,
-  deviceInputRef,
   toolsImagesPreview,
-  handleRemoveDeviceImage,
   draggableImages,
   setDraggableImages,
-  handleDeviceImageUpload,
 }) => {
+  const { experimentImages } = useSelector((state) => state.experimentReducer);
+  const dispatch = useDispatch();
+  const parentDiv = useRef(null);
+  const handleRemoveDeviceImage = () => {
+    dispatch(deleteExperimentDeviceImage(experimentImages?.device?.imageId));
+  };
+  const handleDeviceImageUpload = (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("photo", file);
+    dispatch(addExperimentDeviceImage(formData));
+    e.target.value = "";
+  };
+
+  useEffect(
+    () => {
+      const handleResize = () => {
+        if (parentDiv.current) {
+          const { clientWidth, clientHeight } = parentDiv.current;
+          // setImages((prevImages) => ({
+          //   ...prevImages,
+          //   device: {
+          //     ...prevImages.device,
+          //     dimensions: {
+          //       ...prevImages.device.dimensions,
+          //       width: clientWidth,
+          //       height: clientHeight,
+          //     },
+          //   },
+          // }));
+        }
+      };
+      handleResize();
+      // Event listener for window resize
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    },
+    [
+      // deviceImage
+    ]
+  );
+
   return (
     <div className="col-12 col-sm-6">
       <h3>Device :</h3>
-      {deviceImage ? (
+      {experimentImages?.device?.image ? (
         <div ref={parentDiv} className="mt-5 position-relative">
           <img
-            src={deviceImage}
+            src={experimentImages?.device?.image || ""}
             alt="Device"
-            className="img-thumbnail bg-transparent "
+            className="img-thumbnail bg-transparent"
           />
           <DndProvider backend={HTML5Backend}>
-            {toolsImagesPreview.map((image, index) => (
+            {experimentImages?.tools?.map((tool, index) => (
               <DraggableImage
                 key={index}
-                src={image}
+                src={tool?.image}
                 index={index}
                 draggableImages={draggableImages}
-                setDraggableImages={setDraggableImages}
+                // setDraggableImages={setDraggableImages}
               />
             ))}
           </DndProvider>
@@ -50,7 +95,6 @@ const DeviceComponent = ({
         </label>
       )}
       <input
-        ref={deviceInputRef}
         type="file"
         className="d-none"
         accept="image/jpeg, image/png" // Specify accepted MIME types here

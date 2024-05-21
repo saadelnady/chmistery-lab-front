@@ -4,8 +4,8 @@ import { useDrag } from "react-dnd";
 const DraggableImage = ({
   src,
   index,
-  draggableImages,
-  setDraggableImages,
+  // draggableImages,
+  // setDraggableImages,
 }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [{ isDragging }, drag] = useDrag({
@@ -36,16 +36,16 @@ const DraggableImage = ({
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
 
-      const currentDraggebleImages = draggableImages;
-      currentDraggebleImages[index].position = {
-        x: divRef.current.style.left,
-        y: divRef.current.style.top,
-      };
-      currentDraggebleImages[index].dimensions = {
-        width: width,
-        height: height,
-      };
-      setDraggableImages([...currentDraggebleImages]);
+      // const currentDraggebleImages = draggableImages;
+      // currentDraggebleImages[index].position = {
+      //   x: divRef.current.style.left,
+      //   y: divRef.current.style.top,
+      // };
+      // currentDraggebleImages[index].dimensions = {
+      //   width: width,
+      //   height: height,
+      // };
+      // setDraggableImages([...currentDraggebleImages]);
     });
 
     observer.observe(divElement);
@@ -79,16 +79,16 @@ const DraggableImage = ({
     divRef.current.style.left = `${newLeft - parentRect.left}px`;
     divRef.current.style.top = `${newTop - parentRect.top}px`;
 
-    const currentDraggebleImages = draggableImages;
-    currentDraggebleImages[index].position = {
-      x: divRef.current.style.left,
-      y: divRef.current.style.top,
-    };
-    currentDraggebleImages[index].dimensions = {
-      width: divRef.current.style.width,
-      height: divRef.current.style.height,
-    };
-    setDraggableImages([...currentDraggebleImages]);
+    // const currentDraggebleImages = draggableImages;
+    // currentDraggebleImages[index].position = {
+    //   x: divRef.current.style.left,
+    //   y: divRef.current.style.top,
+    // };
+    // currentDraggebleImages[index].dimensions = {
+    //   width: divRef.current.style.width,
+    //   height: divRef.current.style.height,
+    // };
+    // setDraggableImages([...currentDraggebleImages]);
   };
 
   return (

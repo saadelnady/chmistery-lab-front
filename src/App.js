@@ -32,7 +32,7 @@ function App() {
         navigate("/teacher");
       }
     }
-  }, [dispatch]);
+  }, [isLoggedIn]);
   return (
     <div className="App bg-light min-vh-100 position-relative">
       <>

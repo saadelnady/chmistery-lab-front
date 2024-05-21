@@ -92,36 +92,37 @@ export const deleteExperiment = (experimentId, toast) => {
 };
 // =============================================================
 // ExperimentImages
-export const addExperimentToolImage = (toast) => {
+export const addExperimentToolImage = (formData) => {
   return async (dispatch) => {
     dispatch(actionsCreators.addToolImage());
     try {
-      const response = await postData(`/virtual_lab/api/v1/experiment`);
+      const response = await postData(`/virtual_lab/api/v1/photo/v2`, formData);
       console.log("response ===>", response);
-      // if (response.status === "success") {
-      //   dispatch(
-      //     actionsCreators.addToolImageSuccess(response.data.newExperiment)
-      //   );
-      //   showToast(toast, "experiment added successfully", "success");
-      // }
+      if (response.status === "success") {
+        dispatch(actionsCreators.addToolImageSuccess(response?.data?.photo));
+        // showToast(toast, "experiment added successfully", "success");
+      }
     } catch (error) {
+      console.log("error ==>", error);
       dispatch(actionsCreators.addToolImageFail(error));
     }
   };
 };
-export const addExperimentDeviceImage = (toast) => {
+// =============================================================
+
+export const addExperimentDeviceImage = (formData) => {
   return async (dispatch) => {
     dispatch(actionsCreators.addDeviceImage());
     try {
-      const response = await postData(`/virtual_lab/api/v1/experiment`);
+      const response = await postData(`/virtual_lab/api/v1/photo/v2`, formData);
+
       console.log("response ===>", response);
-      // if (response.status === "success") {
-      //   dispatch(
-      //     actionsCreators.addDeviceImageSuccess(response.data.newExperiment)
-      //   );
-      //   showToast(toast, "experiment added successfully", "success");
-      // }
+      if (response.status === "success") {
+        dispatch(actionsCreators.addDeviceImageSuccess(response?.data?.photo));
+        // showToast(toast, "experiment added successfully", "success");
+      }
     } catch (error) {
+      console.log("error ===>", error);
       dispatch(actionsCreators.addDeviceImageFail(error));
     }
   };
@@ -130,19 +131,17 @@ export const addExperimentDeviceImage = (toast) => {
 // =============================================================
 export const deleteExperimentToolImage = (imageId, toast) => {
   return async (dispatch) => {
-    dispatch(actionsCreators.deleteExperimentToolImage());
+    dispatch(actionsCreators.deleteToolImage());
     try {
       const response = await deleteData(
-        `/virtual_lab/api/v1/experiment/${imageId}`
+        `/virtual_lab/api/v1/photo/v2/${imageId}`
       );
       console.log("response ===>", response);
 
-      // if (response.status === "deletion success") {
-      //   dispatch(
-      //     actionsCreators.deleteExperimentToolImageSuccess(response.deletedObjectId)
-      //   );
-      //   showToast(toast, "chemical deleted successfully", "success");
-      // }
+      if (response.status === "deletion success") {
+        dispatch(actionsCreators.deleteToolImageSuccess(response));
+        // showToast(toast, "chemical deleted successfully", "success");
+      }
     } catch (error) {
       dispatch(actionsCreators.deleteToolImageFail(error));
     }
@@ -153,16 +152,16 @@ export const deleteExperimentDeviceImage = (imageId, toast) => {
     dispatch(actionsCreators.deleteDeviceImage());
     try {
       const response = await deleteData(
-        `/virtual_lab/api/v1/experiment/${imageId}`
+        `/virtual_lab/api/v1/photo/v2/${imageId}`
       );
       console.log("response ===>", response);
 
-      // if (response.status === "deletion success") {
-      //   dispatch(
-      //     actionsCreators.deleteDeviceImageSuccess(response.deletedObjectId)
-      //   );
-      //   showToast(toast, "chemical deleted successfully", "success");
-      // }
+      if (response.status === "deletion success") {
+        dispatch(
+          actionsCreators.deleteDeviceImageSuccess(response.deletedObjectId)
+        );
+        // showToast(toast, "chemical deleted successfully", "success");
+      }
     } catch (error) {
       dispatch(actionsCreators.deleteDeviceImageFail(error));
     }

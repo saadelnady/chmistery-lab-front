@@ -62,8 +62,9 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
         "molecularFormula",
         chemical?.molecularFormula
       );
-
-      setChemicalImage(`${imageUrl}/${chemical?.atomicStructure}`);
+      if (chemical.atomicStructure) {
+        setChemicalImage(`${imageUrl}/${chemical?.atomicStructure}`);
+      }
     }
   }, [chemical]);
 

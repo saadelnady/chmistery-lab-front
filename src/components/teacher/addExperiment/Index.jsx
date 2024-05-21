@@ -62,7 +62,7 @@ const Index = ({
   return (
     <div className="pt-5 container">
       <div className="d-flex justify-content-between align-items-center mt-4 ">
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center cd-flex align-items-center flex-wrap">
           <span className="fw-bold"> Name :</span>
           <p>{experiment?.info?.name || "untitled"}</p>
         </div>

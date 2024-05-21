@@ -149,7 +149,10 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: false,
         experimentImages: {
           ...state.experimentImages,
-          tools: [...state.experimentImages.tools, { image: action.payLoad }],
+          tools: [
+            ...(state.experimentImages.tools || []), // Ensure tools is an array
+            { image: action.payLoad.url, imageId: action.payLoad._id },
+          ],
         },
         error: null,
       };
@@ -171,7 +174,11 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: false,
         experimentImages: {
           ...state.experimentImages,
-          device: { ...state.experimentImages.device, image: action.payLoad },
+          device: {
+            ...state.experimentImages.device,
+            image: action.payLoad.url,
+            imageId: action.payLoad._id,
+          },
         },
         error: null,
       };
@@ -193,7 +200,11 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: false,
         experimentImages: {
           ...state.experimentImages,
-          device: { ...state.experimentImages.device, image: "" },
+          device: {
+            ...state.experimentImages.device,
+            image: null,
+            imageId: "",
+          },
         },
         error: null,
       };
@@ -210,15 +221,15 @@ const experimentReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_SUCCESS:
-      const updatedExperimentToolsImages = state.experimentImages.tools.filter(
-        (tool) => tool !== action?.payLoad
+      const updatedExperimentTools = state.experimentImages.tools.filter(
+        (tool) => tool.imageId !== action?.payLoad?.deletedObjectId
       );
       return {
         ...state,
         isLoading: false,
         experimentImages: {
           ...state.experimentImages,
-          tools: [...state.experimentImages.tools, { image: updatedExperimentToolsImages }],
+          tools: updatedExperimentTools,
         },
         error: null,
       };
