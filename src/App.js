@@ -4,22 +4,19 @@ import Register from "./components/auth/register/Index.jsx";
 import Header from "./components/shared/header/Index.jsx";
 import NotFoundPage from "./components/shared/NotFoundPage.jsx";
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 
 import Teacher from "./layouts/teacher/Index.jsx";
 import Student from "./layouts/student/index.jsx";
 
-import "./App.css";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchUser } from "./store/actions/user/userActions.js";
 import { fetchExperiments } from "./store/actions/experiment/experimentActions.js";
-import Loading from "./components/shared/Loading.jsx";
 
 function App() {
-  const { isLoggedIn, isLoading, user } = useSelector(
-    (state) => state.userReducer
-  );
+  const { isLoggedIn, user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {

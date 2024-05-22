@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
+import { useDispatch } from "react-redux";
+import {
+  setToolDimensions,
+  setToolPosition,
+} from "../../../../store/actions/experiment/experimentActionsCreators";
 
-const DraggableImage = ({
-  src,
-  index,
-  // draggableImages,
-  // setDraggableImages,
-}) => {
+const DraggableImage = ({ src, index }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [{ isDragging }, drag] = useDrag({
     type: "image",
@@ -18,7 +18,7 @@ const DraggableImage = ({
 
   const divRef = useRef(null);
   const [parentRect, setParentRect] = useState(null);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (divRef.current) {
       const rect = divRef.current.getBoundingClientRect();
@@ -35,17 +35,14 @@ const DraggableImage = ({
     const divElement = divRef.current;
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
-
-      // const currentDraggebleImages = draggableImages;
-      // currentDraggebleImages[index].position = {
-      //   x: divRef.current.style.left,
-      //   y: divRef.current.style.top,
-      // };
-      // currentDraggebleImages[index].dimensions = {
-      //   width: width,
-      //   height: height,
-      // };
-      // setDraggableImages([...currentDraggebleImages]);
+      dispatch(setToolDimensions(index, width, height));
+      dispatch(
+        setToolPosition(
+          index,
+          divRef.current.style.left,
+          divRef.current.style.top
+        )
+      );
     });
 
     observer.observe(divElement);
@@ -53,7 +50,7 @@ const DraggableImage = ({
     return () => {
       observer.unobserve(divElement);
     };
-  }, []);
+  }, [dispatch, index]);
 
   const handleDragStart = (e) => {
     e.stopPropagation(); // Stop event bubbling
@@ -78,17 +75,8 @@ const DraggableImage = ({
 
     divRef.current.style.left = `${newLeft - parentRect.left}px`;
     divRef.current.style.top = `${newTop - parentRect.top}px`;
-
-    // const currentDraggebleImages = draggableImages;
-    // currentDraggebleImages[index].position = {
-    //   x: divRef.current.style.left,
-    //   y: divRef.current.style.top,
-    // };
-    // currentDraggebleImages[index].dimensions = {
-    //   width: divRef.current.style.width,
-    //   height: divRef.current.style.height,
-    // };
-    // setDraggableImages([...currentDraggebleImages]);
+    console.log("divRef.current.style.left--->", divRef.current.style.left);
+    dispatch(setToolPosition(index, newLeft, newTop));
   };
 
   return (

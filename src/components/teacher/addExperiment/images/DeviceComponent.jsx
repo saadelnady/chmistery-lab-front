@@ -7,17 +7,15 @@ import {
   deleteExperimentDeviceImage,
 } from "../../../../store/actions/experiment/experimentActions";
 import { useEffect, useRef } from "react";
+import { setDeviceDimensions } from "../../../../store/actions/experiment/experimentActionsCreators";
 
-const DeviceComponent = ({
-  toolsImagesPreview,
-  draggableImages,
-  setDraggableImages,
-}) => {
-  const { experimentImages } = useSelector((state) => state.experimentReducer);
+const DeviceComponent = () => {
+  const { experiment } = useSelector((state) => state.experimentReducer);
   const dispatch = useDispatch();
   const parentDiv = useRef(null);
+  const deviceImgRef = useRef(null);
   const handleRemoveDeviceImage = () => {
-    dispatch(deleteExperimentDeviceImage(experimentImages?.device?.imageId));
+    dispatch(deleteExperimentDeviceImage(experiment?.images?.device?.imageId));
   };
   const handleDeviceImageUpload = (e) => {
     const file = e.target.files[0];
@@ -27,55 +25,44 @@ const DeviceComponent = ({
     e.target.value = "";
   };
 
-  useEffect(
-    () => {
-      const handleResize = () => {
-        if (parentDiv.current) {
-          const { clientWidth, clientHeight } = parentDiv.current;
-          // setImages((prevImages) => ({
-          //   ...prevImages,
-          //   device: {
-          //     ...prevImages.device,
-          //     dimensions: {
-          //       ...prevImages.device.dimensions,
-          //       width: clientWidth,
-          //       height: clientHeight,
-          //     },
-          //   },
-          // }));
-        }
-      };
-      handleResize();
-      // Event listener for window resize
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    },
-    [
-      // deviceImage
-    ]
-  );
+  useEffect(() => {
+    const handleResize = () => {
+      if (parentDiv.current && deviceImgRef.current) {
+        const { clientWidth } = parentDiv.current;
+        const { clientHeight } = deviceImgRef.current;
+        dispatch(setDeviceDimensions(clientWidth, clientHeight));
+      }
+    };
 
+    if (experiment?.images?.device?.image) {
+      const img = new Image();
+      img.src = experiment?.images?.device.image;
+      img.onload = () => {
+        setTimeout(handleResize, 0);
+      };
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [dispatch, experiment?.images?.device?.image]);
+
+  console.log(experiment);
   return (
     <div className="col-12 col-sm-6">
       <h3>Device :</h3>
-      {experimentImages?.device?.image ? (
+      {experiment?.images?.device?.image ? (
         <div ref={parentDiv} className="mt-5 position-relative">
           <img
-            src={experimentImages?.device?.image || ""}
+            ref={deviceImgRef}
+            src={experiment?.images?.device?.image || ""}
             alt="Device"
-            className="img-thumbnail bg-transparent"
+            className="img-thumbnail bg-transparent w-100 p-0"
           />
           <DndProvider backend={HTML5Backend}>
-            {experimentImages?.tools?.map((tool, index) => (
-              <DraggableImage
-                key={index}
-                src={tool?.image}
-                index={index}
-                draggableImages={draggableImages}
-                // setDraggableImages={setDraggableImages}
-              />
+            {experiment?.images?.tools?.map((tool, index) => (
+              <DraggableImage key={index} src={tool?.image} index={index} />
             ))}
           </DndProvider>
           <button

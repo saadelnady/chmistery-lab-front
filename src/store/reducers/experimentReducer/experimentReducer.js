@@ -7,7 +7,6 @@ const initialState = {
   isLoading: false,
   experiment: {},
   experiments: [],
-  experimentImages: {},
   error: null,
 };
 
@@ -143,101 +142,189 @@ const experimentReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        experimentImages: {
-          ...state.experimentImages,
-          tools: [
-            ...(state.experimentImages.tools || []), // Ensure tools is an array
-            { image: action.payLoad.url, imageId: action.payLoad._id },
-          ],
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...((state.experiment && state.experiment.images) || {}), // Ensure images is defined
+            tools: [
+              ...(state.experiment.images.tools || []), // Ensure tools is an array
+              {
+                image: action.payLoad.url,
+                imageId: action.payLoad._id,
+                order: state?.experiment?.images?.tools?.length || 0, // ترتيب الصورة الجديدة
+              },
+            ],
+          },
         },
         error: null,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.POST_TOOL_IMAGE_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
       };
+
     // ====================================================================================================
     case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE:
       return {
         ...state,
         isLoading: true,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_SUCCESS:
+      console.log("actoion .payload", action.payLoad);
       return {
         ...state,
         isLoading: false,
-        experimentImages: {
-          ...state.experimentImages,
-          device: {
-            ...state.experimentImages.device,
-            image: action.payLoad.url,
-            imageId: action.payLoad._id,
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...((state.experiment && state.experiment.images) || {}), // Ensure images is defined
+            device: {
+              // Ensure device is defined
+              image: action.payLoad.url,
+              imageId: action.payLoad._id,
+            },
           },
         },
         error: null,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
       };
+
     // ====================================================================================================
     case EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE:
       return {
         ...state,
         isLoading: true,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        experimentImages: {
-          ...state.experimentImages,
-          device: {
-            ...state.experimentImages.device,
-            image: null,
-            imageId: "",
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...((state.experiment && state.experiment.images) || {}),
+            device: {},
           },
         },
         error: null,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.DELETE_DEVICE_IMAGE_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
       };
+
     // ====================================================================================================
     case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE:
       return {
         ...state,
         isLoading: true,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_SUCCESS:
-      const updatedExperimentTools = state.experimentImages.tools.filter(
-        (tool) => tool.imageId !== action?.payLoad?.deletedObjectId
-      );
+      const updatedExperimentTools = state.experiment.images.tools
+        .filter((tool) => tool.imageId !== action?.payLoad?.deletedObjectId)
+        .map((tool, index) => ({ ...tool, order: index }));
+
       return {
         ...state,
         isLoading: false,
-        experimentImages: {
-          ...state.experimentImages,
-          tools: updatedExperimentTools,
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...state.experiment.images, // Ensure other image properties are preserved
+            tools: updatedExperimentTools,
+          },
         },
         error: null,
       };
+
     case EXPERIMENT_ACTIONS_TYPES.DELETE_TOOL_IMAGE_FAIL:
       return {
         ...state,
         isLoading: false,
         error: action?.payLoad,
+      };
+
+    // ====================================================================================================
+
+    case EXPERIMENT_ACTIONS_TYPES.SET_DEVICE_DIMENSIONS:
+      return {
+        ...state,
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...((state.experiment && state.experiment.images) || {}),
+            device: {
+              ...((state.experiment.images && state.experiment.images.device) ||
+                {}),
+              dimensions: {
+                width: action.payload.width + "px",
+                height: action.payload.height + "px",
+              },
+            },
+          },
+        },
+      };
+
+    // ====================================================================================================
+    case EXPERIMENT_ACTIONS_TYPES.SET_TOOL_DIMENSIONS:
+      const { index, width, height } = action.payload;
+      return {
+        ...state,
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...((state.experiment && state.experiment.images) || {}),
+            tools: state.experiment.images.tools.map((tool, idx) =>
+              idx === index
+                ? {
+                    ...tool,
+                    dimensions: {
+                      width: width + "px",
+                      height: height + "px",
+                    },
+                  }
+                : tool
+            ),
+          },
+        },
+      };
+
+    // ====================================================================================================
+    case EXPERIMENT_ACTIONS_TYPES.SET_TOOL_POSITION:
+      const { toolIndex, x, y } = action.payload;
+      return {
+        ...state,
+        experiment: {
+          ...state.experiment,
+          images: {
+            ...((state.experiment && state.experiment.images) || {}),
+            tools: state.experiment.images.tools.map((tool, idx) =>
+              idx === toolIndex
+                ? { ...tool, position: { x: x + "px", y: y + "px" } }
+                : tool
+            ),
+          },
+        },
       };
     default:
       return state;

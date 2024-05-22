@@ -196,3 +196,16 @@ export const deleteDeviceImageFail = (payLoad) => {
     payLoad,
   };
 };
+export const setDeviceDimensions = (width, height) => ({
+  type: EXPERIMENT_ACTIONS_TYPES.SET_DEVICE_DIMENSIONS,
+  payload: { width, height },
+});
+
+export const setToolDimensions = (index, width, height) => ({
+  type: EXPERIMENT_ACTIONS_TYPES.SET_TOOL_DIMENSIONS,
+  payload: { index, width, height },
+});
+export const setToolPosition = (toolIndex, x, y) => ({
+  type: EXPERIMENT_ACTIONS_TYPES.SET_TOOL_POSITION,
+  payload: { toolIndex, x, y },
+});

@@ -5,7 +5,7 @@ import {
 } from "../../../../store/actions/experiment/experimentActions";
 
 const ToolsComponent = () => {
-  const { experimentImages } = useSelector((state) => state.experimentReducer);
+  const { experiment } = useSelector((state) => state.experimentReducer);
   const dispatch = useDispatch();
   const handleToolImageUpload = (e) => {
     const file = e.target.files[0];
@@ -60,7 +60,8 @@ const ToolsComponent = () => {
   return (
     <div className="col-12 col-sm-5">
       <h3>Tools :</h3>
-      {(!experimentImages?.tools || experimentImages?.tools?.length < 10) && (
+      {(!experiment?.images?.tools ||
+        experiment?.images?.tools?.length < 10) && (
         <>
           <label
             htmlFor="tools"
@@ -79,7 +80,7 @@ const ToolsComponent = () => {
         </>
       )}
       <div className="d-flex flex-wrap align-items-center">
-        {experimentImages?.tools?.map((tool, index) => (
+        {experiment?.images?.tools?.map((tool, index) => (
           <div key={index} className="my-4 position-relative fit-content">
             <img
               src={tool?.image || ""}

@@ -59,7 +59,6 @@ export const editExperiment = (experimentId, data, toast) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         data
       );
-      console.log(response);
       if (response.status === "success") {
         dispatch(
           actionsCreators.editExperimentSuccess(response?.data?.newExperiment)
@@ -97,7 +96,6 @@ export const addExperimentToolImage = (formData) => {
     dispatch(actionsCreators.addToolImage());
     try {
       const response = await postData(`/virtual_lab/api/v1/photo/v2`, formData);
-      console.log("response ===>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.addToolImageSuccess(response?.data?.photo));
         // showToast(toast, "experiment added successfully", "success");
@@ -115,8 +113,7 @@ export const addExperimentDeviceImage = (formData) => {
     dispatch(actionsCreators.addDeviceImage());
     try {
       const response = await postData(`/virtual_lab/api/v1/photo/v2`, formData);
-
-      console.log("response ===>", response);
+      console.log("response===>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.addDeviceImageSuccess(response?.data?.photo));
         // showToast(toast, "experiment added successfully", "success");
@@ -136,7 +133,6 @@ export const deleteExperimentToolImage = (imageId, toast) => {
       const response = await deleteData(
         `/virtual_lab/api/v1/photo/v2/${imageId}`
       );
-      console.log("response ===>", response);
 
       if (response.status === "deletion success") {
         dispatch(actionsCreators.deleteToolImageSuccess(response));
@@ -154,7 +150,6 @@ export const deleteExperimentDeviceImage = (imageId, toast) => {
       const response = await deleteData(
         `/virtual_lab/api/v1/photo/v2/${imageId}`
       );
-      console.log("response ===>", response);
 
       if (response.status === "deletion success") {
         dispatch(
