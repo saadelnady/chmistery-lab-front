@@ -13,44 +13,6 @@ const ToolsComponent = () => {
     formData.append("photo", file);
     dispatch(addExperimentToolImage(formData));
     e.target.value = "";
-
-    // const urls = files.map((file) => URL.createObjectURL(file));
-    // setToolsImagesPreview((prevImages) => [...prevImages, ...urls]);
-
-    // setImages((prevImages) => ({
-    //   ...prevImages,
-    //   tools: [
-    //     ...prevImages.tools,
-    //     {
-    //       order: prevImages.tools.length,
-    //       image: "",
-    //       position: {
-    //         x: "100px",
-    //         y: "100px",
-    //       },
-    //       dimensions: {
-    //         width: "100px",
-    //         height: "100px",
-    //       },
-    //     },
-    //   ],
-    // }));
-
-    // const currentDraggableImages = [
-    //   ...draggableImages,
-    //   {
-    //     position: {
-    //       x: 0,
-    //       y: 0,
-    //     },
-    //     dimensions: {
-    //       width: 100,
-    //       height: 100,
-    //     },
-    //   },
-    // ];
-    // setDraggableImages(currentDraggableImages);
-    // toolsInputRef.current.value = ""; // Clear the tools input field
   };
   const handleRemoveToolImage = (imageId) => {
     console.log(imageId);

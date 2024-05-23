@@ -59,6 +59,7 @@ export const editExperiment = (experimentId, data, toast) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         data
       );
+      console.log("response ==>", response);
       if (response.status === "success") {
         dispatch(
           actionsCreators.editExperimentSuccess(response?.data?.newExperiment)
@@ -143,19 +144,19 @@ export const deleteExperimentToolImage = (imageId, toast) => {
     }
   };
 };
-export const deleteExperimentDeviceImage = (imageId, toast) => {
+export const deleteExperimentDeviceImage = (imageId) => {
   return async (dispatch) => {
     dispatch(actionsCreators.deleteDeviceImage());
     try {
       const response = await deleteData(
         `/virtual_lab/api/v1/photo/v2/${imageId}`
       );
+      console.log("response ==>", response);
 
       if (response.status === "deletion success") {
         dispatch(
           actionsCreators.deleteDeviceImageSuccess(response.deletedObjectId)
         );
-        // showToast(toast, "chemical deleted successfully", "success");
       }
     } catch (error) {
       dispatch(actionsCreators.deleteDeviceImageFail(error));

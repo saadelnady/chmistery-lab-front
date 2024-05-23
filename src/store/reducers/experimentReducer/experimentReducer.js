@@ -150,13 +150,13 @@ const experimentReducer = (state = initialState, action) => {
         experiment: {
           ...state.experiment,
           images: {
-            ...((state.experiment && state.experiment.images) || {}), // Ensure images is defined
+            ...((state.experiment && state.experiment.images) || {}),
             tools: [
-              ...(state.experiment.images.tools || []), // Ensure tools is an array
+              ...(state.experiment.images.tools || []),
               {
                 image: action.payLoad.url,
                 imageId: action.payLoad._id,
-                order: state?.experiment?.images?.tools?.length || 0, // ترتيب الصورة الجديدة
+                order: state?.experiment?.images?.tools?.length || 0,
               },
             ],
           },
@@ -186,9 +186,8 @@ const experimentReducer = (state = initialState, action) => {
         experiment: {
           ...state.experiment,
           images: {
-            ...((state.experiment && state.experiment.images) || {}), // Ensure images is defined
+            ...((state.experiment && state.experiment.images) || {}),
             device: {
-              // Ensure device is defined
               image: action.payLoad.url,
               imageId: action.payLoad._id,
             },
@@ -250,7 +249,7 @@ const experimentReducer = (state = initialState, action) => {
         experiment: {
           ...state.experiment,
           images: {
-            ...state.experiment.images, // Ensure other image properties are preserved
+            ...state.experiment.images,
             tools: updatedExperimentTools,
           },
         },

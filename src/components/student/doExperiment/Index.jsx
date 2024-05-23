@@ -96,7 +96,7 @@ const Index = () => {
   ) : (
     <div className="container">
       <h2 className="text-center mt-4">
-        {experiment?.info.name || "untitled"}
+        {experiment?.info?.name || "untitled"}
       </h2>
       <ExperimentDetails />
       <div className="row mt-4 py-3 px-2 shadow justify-content-between flex-wrap">

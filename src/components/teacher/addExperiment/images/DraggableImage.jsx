@@ -19,30 +19,32 @@ const DraggableImage = ({ src, index }) => {
   const divRef = useRef(null);
   const [parentRect, setParentRect] = useState(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (divRef.current) {
       const rect = divRef.current.getBoundingClientRect();
       setDimensions({ width: rect.width, height: rect.height });
 
-      // Get parent div's bounding rect
       const parentElement = divRef.current.parentElement;
       const parentRect = parentElement.getBoundingClientRect();
       setParentRect(parentRect);
+
+      dispatch(setToolDimensions(index, rect.width, rect.height));
+      dispatch(setToolPosition(index, rect.left, rect.top));
     }
-  }, []);
+  }, [dispatch, index]);
 
   useEffect(() => {
     const divElement = divRef.current;
+    if (!divElement) return;
+
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
       dispatch(setToolDimensions(index, width, height));
-      dispatch(
-        setToolPosition(
-          index,
-          divRef.current.style.left,
-          divRef.current.style.top
-        )
-      );
+      const computedStyle = getComputedStyle(divElement);
+      const left = parseInt(computedStyle.left, 10);
+      const top = parseInt(computedStyle.top, 10);
+      dispatch(setToolPosition(index, left, top));
     });
 
     observer.observe(divElement);
@@ -50,20 +52,19 @@ const DraggableImage = ({ src, index }) => {
     return () => {
       observer.unobserve(divElement);
     };
-  }, [dispatch, index]);
+  }, [dispatch, index, divRef]);
 
   const handleDragStart = (e) => {
-    e.stopPropagation(); // Stop event bubbling
-    e.dataTransfer.setData("text/plain", ""); // Necessary for drag to work
+    e.stopPropagation();
+    e.dataTransfer.setData("text/plain", "");
   };
 
   const handleDrag = (e) => {
-    if (!parentRect) return; // Return if parentRect is not set yet
+    if (!parentRect) return;
 
-    const offsetX = e.clientX - dimensions.width / 2; // Adjust position to center the element
-    const offsetY = e.clientY - dimensions.height / 2; // Adjust position to center the element
+    const offsetX = e.clientX - dimensions.width / 2;
+    const offsetY = e.clientY - dimensions.height / 2;
 
-    // Apply constraints to the element's position
     let newLeft = Math.min(
       Math.max(offsetX, parentRect.left),
       parentRect.right - dimensions.width
@@ -75,8 +76,9 @@ const DraggableImage = ({ src, index }) => {
 
     divRef.current.style.left = `${newLeft - parentRect.left}px`;
     divRef.current.style.top = `${newTop - parentRect.top}px`;
-    console.log("divRef.current.style.left--->", divRef.current.style.left);
-    dispatch(setToolPosition(index, newLeft, newTop));
+    dispatch(
+      setToolPosition(index, newLeft - parentRect.left, newTop - parentRect.top)
+    );
   };
 
   return (
@@ -96,7 +98,7 @@ const DraggableImage = ({ src, index }) => {
         resize: "both",
         overflow: "auto",
       }}
-      draggable // Make the div draggable
+      draggable
     >
       <img
         src={src}

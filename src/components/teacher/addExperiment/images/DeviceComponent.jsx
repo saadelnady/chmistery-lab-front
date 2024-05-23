@@ -15,6 +15,7 @@ const DeviceComponent = () => {
   const parentDiv = useRef(null);
   const deviceImgRef = useRef(null);
   const handleRemoveDeviceImage = () => {
+    console.log("experiment?.images?.device?.imageId", experiment?.images);
     dispatch(deleteExperimentDeviceImage(experiment?.images?.device?.imageId));
   };
   const handleDeviceImageUpload = (e) => {
