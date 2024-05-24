@@ -10,12 +10,12 @@ const Step = ({ step, index }) => {
   const Collaporate = () => {
     return (
       <p>
-        {step?.description?.quantity.value}
+        {step?.description?.quantity?.value}
         <span className="mx-3">of</span>
-        {step?.description.chemical.title}
+        {step?.description?.chemical?.title}
         <span className="mx-3">by</span>
-        {step.description.tool1.title} <span className="mx-3">in</span>
-        {step.description.tool2.title}
+        {step?.description?.tool1?.title} <span className="mx-3">in</span>
+        {step?.description?.tool2?.title}
       </p>
     );
   };
@@ -31,7 +31,7 @@ const Step = ({ step, index }) => {
   const Weight = () => {
     return (
       <p>
-        {step?.description?.quantity.value} <span className="mx-3">by</span>
+        {step?.description?.quantity?.value} <span className="mx-3">by</span>
         {step?.description?.tool1?.title} <span className="mx-3">in</span>
         {step?.description?.tool2?.title}
       </p>
@@ -78,9 +78,9 @@ const Step = ({ step, index }) => {
   }
 
   return (
-    <li className="mb-3 d-flex align-items-center">
+    <li className="mb-3 d-flex align-items-center border-bottom py-1">
       <span>{index + 1}.</span>
-      <button className="btn border">{step.verb}</button>
+      <button className="btn border">{step?.verb}</button>
       {content}
     </li>
   );

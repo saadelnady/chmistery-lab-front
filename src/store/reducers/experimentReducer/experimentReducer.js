@@ -318,9 +318,7 @@ const experimentReducer = (state = initialState, action) => {
           images: {
             ...((state.experiment && state.experiment.images) || {}),
             tools: state.experiment.images.tools.map((tool, idx) =>
-              idx === toolIndex
-                ? { ...tool, position: { x: x + "px", y: y + "px" } }
-                : tool
+              idx === toolIndex ? { ...tool, position: { x, y } } : tool
             ),
           },
         },

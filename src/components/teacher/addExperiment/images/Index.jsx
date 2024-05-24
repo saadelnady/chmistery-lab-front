@@ -67,6 +67,7 @@ const Index = () => {
   //   ],
   // });
   const { experiment } = useSelector((state) => state.experimentReducer);
+  console.log("experiment===>", experiment);
   const dispatch = useDispatch();
   const { experimentId } = useParams();
   const handleEditExperimentImages = () => {

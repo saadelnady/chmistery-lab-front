@@ -54,7 +54,14 @@ const DeviceComponent = () => {
     <div className="col-12 col-sm-6">
       <h3>Device :</h3>
       {experiment?.images?.device?.image ? (
-        <div ref={parentDiv} className="mt-5 position-relative">
+        <div
+          ref={parentDiv}
+          className="mt-5 position-relative"
+          // style={{
+          //   width: experiment?.images?.device?.dimensions?.width,
+          //   height: experiment?.images?.device?.dimensions?.height,
+          // }}
+        >
           <img
             ref={deviceImgRef}
             src={experiment?.images?.device?.image || ""}
@@ -63,7 +70,12 @@ const DeviceComponent = () => {
           />
           <DndProvider backend={HTML5Backend}>
             {experiment?.images?.tools?.map((tool, index) => (
-              <DraggableImage key={index} src={tool?.image} index={index} />
+              <DraggableImage
+                key={index}
+                src={tool?.image}
+                index={index}
+                tool={tool}
+              />
             ))}
           </DndProvider>
           <button

@@ -6,7 +6,7 @@ import {
   setToolPosition,
 } from "../../../../store/actions/experiment/experimentActionsCreators";
 
-const DraggableImage = ({ src, index }) => {
+const DraggableImage = ({ src, index, tool }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [{ isDragging }, drag] = useDrag({
     type: "image",
@@ -91,10 +91,10 @@ const DraggableImage = ({ src, index }) => {
         position: "absolute",
         zIndex: 100,
         opacity: isDragging ? 0.5 : 1,
-        width: "100px",
-        height: "100px",
-        left: 0,
-        top: 0,
+        width: tool?.dimensions?.width ? tool?.dimensions?.width : "100px",
+        height: tool?.dimensions?.height ? tool?.dimensions?.height : "100px",
+        left: tool?.position?.x ? tool?.position?.x : 0,
+        top: tool?.position?.y ? tool?.position?.y : 0,
         resize: "both",
         overflow: "auto",
       }}

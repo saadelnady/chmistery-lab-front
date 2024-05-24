@@ -25,7 +25,7 @@ const ExperimentDetails = () => {
             <Step step={step} index={index} />
           ))
         ) : (
-          <p className="mt-4">No chemicals to show</p>
+          <p className="mt-4">No steps to show</p>
         )}
       </ul>
       <ul className="shadow col-12  col-sm-4 col-md-3 p-3">
