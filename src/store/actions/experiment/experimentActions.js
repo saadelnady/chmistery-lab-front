@@ -59,7 +59,6 @@ export const editExperiment = (experimentId, data, toast) => {
         `/virtual_lab/api/v1/experiment/${experimentId}`,
         data
       );
-      console.log("response ==>", response);
       if (response.status === "success") {
         dispatch(
           actionsCreators.editExperimentSuccess(response?.data?.newExperiment)
@@ -102,7 +101,6 @@ export const addExperimentToolImage = (formData) => {
         // showToast(toast, "experiment added successfully", "success");
       }
     } catch (error) {
-      console.log("error ==>", error);
       dispatch(actionsCreators.addToolImageFail(error));
     }
   };
@@ -114,13 +112,11 @@ export const addExperimentDeviceImage = (formData) => {
     dispatch(actionsCreators.addDeviceImage());
     try {
       const response = await postData(`/virtual_lab/api/v1/photo/v2`, formData);
-      console.log("response===>", response);
       if (response.status === "success") {
         dispatch(actionsCreators.addDeviceImageSuccess(response?.data?.photo));
         // showToast(toast, "experiment added successfully", "success");
       }
     } catch (error) {
-      console.log("error ===>", error);
       dispatch(actionsCreators.addDeviceImageFail(error));
     }
   };
@@ -151,7 +147,6 @@ export const deleteExperimentDeviceImage = (imageId) => {
       const response = await deleteData(
         `/virtual_lab/api/v1/photo/v2/${imageId}`
       );
-      console.log("response ==>", response);
 
       if (response.status === "deletion success") {
         dispatch(

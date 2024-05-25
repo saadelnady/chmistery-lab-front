@@ -179,7 +179,6 @@ const experimentReducer = (state = initialState, action) => {
       };
 
     case EXPERIMENT_ACTIONS_TYPES.POST_DEVICE_IMAGE_SUCCESS:
-      console.log("actoion .payload", action.payLoad);
       return {
         ...state,
         isLoading: false,

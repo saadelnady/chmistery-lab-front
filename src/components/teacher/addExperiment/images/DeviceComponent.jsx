@@ -15,7 +15,6 @@ const DeviceComponent = () => {
   const parentDiv = useRef(null);
   const deviceImgRef = useRef(null);
   const handleRemoveDeviceImage = () => {
-    console.log("experiment?.images?.device?.imageId", experiment?.images);
     dispatch(deleteExperimentDeviceImage(experiment?.images?.device?.imageId));
   };
   const handleDeviceImageUpload = (e) => {
@@ -49,7 +48,14 @@ const DeviceComponent = () => {
     };
   }, [dispatch, experiment?.images?.device?.image]);
 
-  console.log(experiment);
+  // useEffect(() => {
+  //   const { clientWidth } = parentDiv.current;
+  //   const { clientHeight } = deviceImgRef.current;
+
+  //   console.log("clientWidth======>", clientWidth);
+  //   console.log("clientHeight======>", clientHeight);
+  // }, [parentDiv.current]);
+
   return (
     <div className="col-12 col-sm-6">
       <h3>Device :</h3>

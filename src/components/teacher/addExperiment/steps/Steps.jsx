@@ -48,10 +48,6 @@ const Steps = () => {
   const dispatch = useDispatch();
   const { experimentId } = useParams();
 
-  useEffect(() => {
-    console.log("currentSteps: ---------------->", steps);
-  }, [JSON.stringify(steps)]);
-
   const createSuitableDescription = (verb) => {
     let suitableDescription = {};
 
@@ -112,7 +108,6 @@ const Steps = () => {
 
   const handleStepChange = (e) => {
     const selectedStep = verbs.find((verb) => verb.title === e.target.value);
-    console.log("Selected step", selectedStep);
     if (selectedStep) {
       setSelectedStepValue(selectedStep.title);
       setSteps([
@@ -170,8 +165,6 @@ const Steps = () => {
         }
 
         const updatedItems = swapObjects(dragIndex, hoverIndex);
-
-        console.log("updatedItems ==============>", updatedItems);
 
         setItems(updatedItems);
       },

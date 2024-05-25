@@ -40,7 +40,6 @@ const CollaborateVerb = ({
   // }, [JSON.stringify(steps)]);
 
   const handleChange = (field) => (e) => {
-    console.log("steps from collaborate --->", steps);
     const selectedId = e.target.value;
     const selectedTitle =
       e.nativeEvent.target[e.nativeEvent.target.selectedIndex]?.text || "";

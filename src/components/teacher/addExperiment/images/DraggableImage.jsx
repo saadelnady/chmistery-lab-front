@@ -34,23 +34,52 @@ const DraggableImage = ({ src, index, tool }) => {
     }
   }, [dispatch, index]);
 
+  // useEffect(() => {
+  //   const divElement = divRef.current;
+  //   if (!divElement) return;
+
+  //   const observer = new ResizeObserver((entries) => {
+  //     const { width, height } = entries[0].contentRect;
+  //     dispatch(setToolDimensions(index, width, height));
+  //     const computedStyle = getComputedStyle(divElement);
+  //     const left = parseInt(computedStyle.left, 10);
+  //     const top = parseInt(computedStyle.top, 10);
+  //     dispatch(setToolPosition(index, left, top));
+  //   });
+
+  //   observer.observe(divElement);
+
+  //   return () => {
+  //     observer.unobserve(divElement);
+  //   };
+  // }, [dispatch, index, divRef]);
+
   useEffect(() => {
     const divElement = divRef.current;
     if (!divElement) return;
 
-    const observer = new ResizeObserver((entries) => {
-      const { width, height } = entries[0].contentRect;
+    const updateDimensionsAndPosition = () => {
+      const { width, height } = divElement.getBoundingClientRect();
       dispatch(setToolDimensions(index, width, height));
       const computedStyle = getComputedStyle(divElement);
       const left = parseInt(computedStyle.left, 10);
       const top = parseInt(computedStyle.top, 10);
       dispatch(setToolPosition(index, left, top));
-    });
+    };
 
-    observer.observe(divElement);
+    // Update dimensions and position initially
+    updateDimensionsAndPosition();
+
+    // Add event listeners
+    window.addEventListener("resize", updateDimensionsAndPosition);
+    divElement.addEventListener("transitionend", updateDimensionsAndPosition);
 
     return () => {
-      observer.unobserve(divElement);
+      window.removeEventListener("resize", updateDimensionsAndPosition);
+      divElement.removeEventListener(
+        "transitionend",
+        updateDimensionsAndPosition
+      );
     };
   }, [dispatch, index, divRef]);
 
