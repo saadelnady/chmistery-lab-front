@@ -17,11 +17,12 @@ const DraggableTool = ({ tool }) => {
     <div
       ref={drag}
       style={{
-        width: tool?.dimensions?.width,
-        height: tool?.dimensions?.height,
+        width: "100px",
+        height: "100px",
         cursor: "move",
         transition: "transform 0.3s ease",
         opacity: isDragging ? 0.5 : 1,
+        border: "1px solid gray",
       }}
     >
       <img
@@ -38,9 +39,18 @@ const DraggableTool = ({ tool }) => {
 };
 
 const DropZone = ({ tool, onDrop }) => {
+  const [showImage, setShowImage] = useState(false);
+
   const [{ isOver }, drop] = useDrop({
     accept: "TOOL",
-    drop: (item) => onDrop(item, tool),
+    drop: (item, monitor) => {
+      const dropPosition = monitor.getSourceClientOffset();
+      const offsetPosition = monitor.getClientOffset();
+      const correctDrop = onDrop(item, tool, dropPosition, offsetPosition);
+      if (correctDrop) {
+        setShowImage(true); // عرض الصورة عندما يكون الإفلات في المكان الصحيح
+      }
+    },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -59,31 +69,36 @@ const DropZone = ({ tool, onDrop }) => {
         border: "1px dashed gray",
         transition: "left 0.3s ease, top 0.3s ease",
       }}
-    />
+    >
+      {showImage && (
+        <img
+          src={tool.image}
+          alt=""
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            transform: "translate(-50%, -50%)",
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+          }}
+        />
+      )}
+    </div>
   );
 };
 
 const ExperimentAnimation = () => {
   const { experiment } = useSelector((state) => state.experimentReducer);
-  const [correctDrops, setCorrectDrops] = useState([]);
 
-  const handleDrop = (item, targetTool) => {
+  const handleDrop = (item, targetTool, dropPosition, offsetPosition) => {
     if (item.order === targetTool.order) {
-      const droppedTool = experiment?.images?.tools.find(
-        (tool) => tool._id === item.id
-      );
-
-      if (
-        droppedTool &&
-        !correctDrops.some((drop) => drop._id === droppedTool._id)
-      ) {
-        setCorrectDrops((prevDrops) => [
-          ...prevDrops,
-          { ...droppedTool, position: targetTool.position },
-        ]);
-      }
+      console.log("Drop Correctly:", item, targetTool._id);
+      return true;
     } else {
       toast.error("Incorrect Drop!");
+      return false;
     }
   };
 
@@ -99,14 +114,13 @@ const ExperimentAnimation = () => {
           </div>
         </div>
         <div className="rounded border">
-          <p className="fw-bold fs-1">Device :</p>
+          <p className="fw-bold fs-1 mb-5">Device :</p>
           <div
             style={{
               width: experiment?.images?.device?.dimensions?.width,
               height: experiment?.images?.device?.dimensions?.height,
               position: "relative",
             }}
-            className="mt-5"
           >
             <img
               src={experiment?.images?.device?.image}
@@ -115,28 +129,6 @@ const ExperimentAnimation = () => {
             />
             {experiment?.images?.tools.map((tool) => (
               <DropZone key={tool._id} tool={tool} onDrop={handleDrop} />
-            ))}
-            {correctDrops.map((drop) => (
-              <div
-                key={drop._id}
-                style={{
-                  position: "absolute",
-                  width: drop.dimensions.width,
-                  height: drop.dimensions.height,
-                  left: drop.position.x,
-                  top: drop.position.y,
-                }}
-              >
-                <img
-                  src={drop.image}
-                  alt="tool-img"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </div>
             ))}
           </div>
         </div>
