@@ -3,7 +3,6 @@ import Step from "./Step";
 
 const ExperimentDetails = () => {
   const { experiment } = useSelector((state) => state.experimentReducer);
-  console.log(experiment.steps);
   return (
     <div className="mt-5 row justify-content-between  ">
       <ul className="shadow col-12 col-sm-4 col-md-3 p-3">

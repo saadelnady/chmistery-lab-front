@@ -78,10 +78,11 @@ const Step = ({ step, index }) => {
   }
 
   return (
-    <li className="mb-3 d-flex align-items-center border-bottom py-1">
+    <li className="mb-3 d-flex border-bottom py-1">
       <span>{index + 1}.</span>
-      <button className="btn border">{step?.verb}</button>
-      {content}
+      <p>
+        {step?.verb} {content}
+      </p>
     </li>
   );
 };

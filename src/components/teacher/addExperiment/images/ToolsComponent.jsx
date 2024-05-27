@@ -3,31 +3,36 @@ import {
   addExperimentToolImage,
   deleteExperimentToolImage,
 } from "../../../../store/actions/experiment/experimentActions";
+import { toast } from "react-toastify";
 
 const ToolsComponent = () => {
   const { experiment } = useSelector((state) => state.experimentReducer);
   const dispatch = useDispatch();
   const handleToolImageUpload = (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("photo", file);
-    dispatch(addExperimentToolImage(formData));
-    e.target.value = "";
+    if (experiment?.images?.device?.image) {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("photo", file);
+      dispatch(addExperimentToolImage(formData));
+      e.target.value = "";
+    } else {
+      e.target.value = "";
+      toast.error("please upload device image first");
+    }
   };
   const handleRemoveToolImage = (imageId) => {
-    console.log(imageId);
     dispatch(deleteExperimentToolImage(imageId));
   };
 
   return (
     <div className="col-12 col-sm-5">
-      <h3>Tools :</h3>
+      <h3 className="mb-5">Tools :</h3>
       {(!experiment?.images?.tools ||
         experiment?.images?.tools?.length < 10) && (
         <>
           <label
             htmlFor="tools"
-            className="btn active border text-center fw-bold d-flex align-items-center fs-3 mt-4"
+            className="btn active border text-center fw-bold d-flex align-items-center fs-3 "
           >
             <i className="bi bi-cloud-arrow-up text-danger me-3 fs-1"></i>
             Upload Your Tools

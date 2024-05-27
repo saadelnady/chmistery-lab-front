@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setToolDimensions,
   setToolPosition,
 } from "../../../../store/actions/experiment/experimentActionsCreators";
 
-const DraggableImage = ({ src, index, tool }) => {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+const DraggableImage = ({ src, index, tool, parentRef }) => {
+  const { experiment } = useSelector((state) => state.experimentReducer);
+  const { tools } = experiment.images;
+
+  // const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [{ isDragging }, drag] = useDrag({
     type: "image",
     item: { src, offset: { x: 0, y: 0 } },
@@ -23,63 +26,38 @@ const DraggableImage = ({ src, index, tool }) => {
   useEffect(() => {
     if (divRef.current) {
       const rect = divRef.current.getBoundingClientRect();
-      setDimensions({ width: rect.width, height: rect.height });
+      // setDimensions({ width: rect.width, height: rect.height });
 
-      const parentElement = divRef.current.parentElement;
-      const parentRect = parentElement.getBoundingClientRect();
-      setParentRect(parentRect);
+      setParentRect(parentRef);
 
       dispatch(setToolDimensions(index, rect.width, rect.height));
-      dispatch(setToolPosition(index, rect.left, rect.top));
+      dispatch(
+        setToolPosition(
+          index,
+          tools[index]?.position?.x || 0,
+          tools[index]?.position?.y || 0
+        )
+      );
     }
-  }, [dispatch, index]);
-
-  // useEffect(() => {
-  //   const divElement = divRef.current;
-  //   if (!divElement) return;
-
-  //   const observer = new ResizeObserver((entries) => {
-  //     const { width, height } = entries[0].contentRect;
-  //     dispatch(setToolDimensions(index, width, height));
-  //     const computedStyle = getComputedStyle(divElement);
-  //     const left = parseInt(computedStyle.left, 10);
-  //     const top = parseInt(computedStyle.top, 10);
-  //     dispatch(setToolPosition(index, left, top));
-  //   });
-
-  //   observer.observe(divElement);
-
-  //   return () => {
-  //     observer.unobserve(divElement);
-  //   };
-  // }, [dispatch, index, divRef]);
+  }, [index]);
 
   useEffect(() => {
     const divElement = divRef.current;
     if (!divElement) return;
 
-    const updateDimensionsAndPosition = () => {
-      const { width, height } = divElement.getBoundingClientRect();
+    const observer = new ResizeObserver((entries) => {
+      const { width, height } = entries[0].contentRect;
       dispatch(setToolDimensions(index, width, height));
       const computedStyle = getComputedStyle(divElement);
       const left = parseInt(computedStyle.left, 10);
       const top = parseInt(computedStyle.top, 10);
       dispatch(setToolPosition(index, left, top));
-    };
+    });
 
-    // Update dimensions and position initially
-    updateDimensionsAndPosition();
-
-    // Add event listeners
-    window.addEventListener("resize", updateDimensionsAndPosition);
-    divElement.addEventListener("transitionend", updateDimensionsAndPosition);
+    observer.observe(divElement);
 
     return () => {
-      window.removeEventListener("resize", updateDimensionsAndPosition);
-      divElement.removeEventListener(
-        "transitionend",
-        updateDimensionsAndPosition
-      );
+      observer.unobserve(divElement);
     };
   }, [dispatch, index, divRef]);
 
@@ -88,28 +66,42 @@ const DraggableImage = ({ src, index, tool }) => {
     e.dataTransfer.setData("text/plain", "");
   };
 
-  const handleDrag = (e) => {
-    if (!parentRect) return;
+  const handleDrag = (event) => {
+    event.preventDefault();
 
-    const offsetX = e.clientX - dimensions.width / 2;
-    const offsetY = e.clientY - dimensions.height / 2;
+    // Get the bounding rectangles of the draggable and parent elements
+    const parentRect = parentRef.current.getBoundingClientRect();
+    const draggableRect = event.target.getBoundingClientRect();
 
-    let newLeft = Math.min(
-      Math.max(offsetX, parentRect.left),
-      parentRect.right - dimensions.width
-    );
-    let newTop = Math.min(
-      Math.max(offsetY, parentRect.top),
-      parentRect.bottom - dimensions.height
-    );
+    // Calculate the new position of the draggable element
+    let newLeft = event.clientX - draggableRect.width / 2;
+    let newTop = event.clientY - draggableRect.height / 2;
 
+    // Ensure the draggable element stays within the parent boundaries
+    if (newLeft < parentRect.left) {
+      newLeft = parentRect.left;
+    } else if (newLeft + draggableRect.width > parentRect.right) {
+      newLeft = parentRect.right - draggableRect.width;
+    }
+
+    if (newTop < parentRect.top) {
+      newTop = parentRect.top;
+    } else if (newTop + draggableRect.height > parentRect.bottom) {
+      newTop = parentRect.bottom - draggableRect.height;
+    }
+
+    // Update the position of the draggable element
+    event.target.style.left = `${newLeft - parentRect.left}px`;
+    event.target.style.top = `${newTop - parentRect.top}px`;
     divRef.current.style.left = `${newLeft - parentRect.left}px`;
     divRef.current.style.top = `${newTop - parentRect.top}px`;
+
     dispatch(
       setToolPosition(index, newLeft - parentRect.left, newTop - parentRect.top)
     );
   };
 
+  console.log("tool?.position?.x------------------>", tool?.position);
   return (
     <div
       ref={divRef}
@@ -119,11 +111,11 @@ const DraggableImage = ({ src, index, tool }) => {
         cursor: "move",
         position: "absolute",
         zIndex: 100,
-        opacity: isDragging ? 0.5 : 1,
-        width: tool?.dimensions?.width ? tool?.dimensions?.width : "100px",
-        height: tool?.dimensions?.height ? tool?.dimensions?.height : "100px",
-        left: tool?.position?.x ? tool?.position?.x : 0,
-        top: tool?.position?.y ? tool?.position?.y : 0,
+        // opacity: isDragging ? 0.5 : 1,
+        width: tool?.dimensions?.width || "100px",
+        height: tool?.dimensions?.height || "100px",
+        left: tool?.position?.x || 0,
+        top: tool?.position?.y || 0,
         resize: "both",
         overflow: "auto",
       }}

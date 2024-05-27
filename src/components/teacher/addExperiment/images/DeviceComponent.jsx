@@ -36,7 +36,7 @@ const DeviceComponent = () => {
 
     if (experiment?.images?.device?.image) {
       const img = new Image();
-      img.src = experiment?.images?.device.image;
+      img.src = experiment?.images?.device?.image;
       img.onload = () => {
         setTimeout(handleResize, 0);
       };
@@ -58,11 +58,11 @@ const DeviceComponent = () => {
 
   return (
     <div className="col-12 col-sm-6">
-      <h3>Device :</h3>
+      <h3 className="mb-5">Device :</h3>
       {experiment?.images?.device?.image ? (
         <div
           ref={parentDiv}
-          className="mt-5 position-relative"
+          className="position-relative"
           // style={{
           //   width: experiment?.images?.device?.dimensions?.width,
           //   height: experiment?.images?.device?.dimensions?.height,
@@ -81,6 +81,7 @@ const DeviceComponent = () => {
                 src={tool?.image}
                 index={index}
                 tool={tool}
+                parentRef={parentDiv}
               />
             ))}
           </DndProvider>

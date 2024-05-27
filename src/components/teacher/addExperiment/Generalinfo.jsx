@@ -33,21 +33,24 @@ const Generalinfo = () => {
   });
   useEffect(() => {
     if (isObjectNotEmpty(experiment)) {
-      formikRef.current.setFieldValue("name", experiment?.info?.name);
-      formikRef.current.setFieldValue(
+      formikRef?.current?.setFieldValue("name", experiment?.info?.name);
+      formikRef?.current?.setFieldValue(
         "description",
         experiment?.info?.description
       );
-      formikRef.current.setFieldValue(
+      formikRef?.current?.setFieldValue(
         "observation",
         experiment?.info?.observation
       );
-      formikRef.current.setFieldValue(
+      formikRef?.current?.setFieldValue(
         "conclusion",
         experiment?.info?.conclusion
       );
-      formikRef.current.setFieldValue("equation", experiment?.info?.equation);
-      formikRef.current.setFieldValue("objective", experiment?.info?.objective);
+      formikRef?.current?.setFieldValue("equation", experiment?.info?.equation);
+      formikRef?.current?.setFieldValue(
+        "objective",
+        experiment?.info?.objective
+      );
     }
   }, [dispatch, experiment, experimentId]);
   const handleSubmit = (values) => {
