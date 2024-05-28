@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,7 +20,7 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
   });
 
   const divRef = useRef(null);
-  const [parentRect, setParentRect] = useState(null);
+  // const [parentRect, setParentRect] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
       const rect = divRef.current.getBoundingClientRect();
       // setDimensions({ width: rect.width, height: rect.height });
 
-      setParentRect(parentRef);
+      // setParentRect(parentRef);
 
       dispatch(setToolDimensions(index, rect.width, rect.height));
       dispatch(
@@ -111,7 +111,6 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
         cursor: "move",
         position: "absolute",
         zIndex: 100,
-        // opacity: isDragging ? 0.5 : 1,
         width: tool?.dimensions?.width || "100px",
         height: tool?.dimensions?.height || "100px",
         left: tool?.position?.x || 0,

@@ -22,7 +22,6 @@ const DraggableTool = ({ tool }) => {
         cursor: "move",
         transition: "transform 0.3s ease",
         opacity: isDragging ? 0.5 : 1,
-        border: "1px solid gray",
       }}
     >
       <img
@@ -38,7 +37,7 @@ const DraggableTool = ({ tool }) => {
   );
 };
 
-const DropZone = ({ tool, onDrop }) => {
+const DropZone = ({ tool, onDrop, length, index, counter, setCounter }) => {
   const [showImage, setShowImage] = useState(false);
 
   const [{ isOver }, drop] = useDrop({
@@ -49,6 +48,7 @@ const DropZone = ({ tool, onDrop }) => {
       const correctDrop = onDrop(item, tool, dropPosition, offsetPosition);
       if (correctDrop) {
         setShowImage(true); // عرض الصورة عندما يكون الإفلات في المكان الصحيح
+        setCounter((previousCount) => previousCount + 1);
       }
     },
     collect: (monitor) => ({
@@ -68,11 +68,12 @@ const DropZone = ({ tool, onDrop }) => {
         backgroundColor: isOver ? "lightgreen" : "transparent",
         border: "1px dashed gray",
         transition: "left 0.3s ease, top 0.3s ease",
+        zIndex: length - index,
       }}
     >
       {showImage && (
         <img
-          src={tool.image}
+          src={tool?.image}
           alt=""
           style={{
             width: "100%",
@@ -89,7 +90,7 @@ const DropZone = ({ tool, onDrop }) => {
   );
 };
 
-const ExperimentAnimation = () => {
+const ExperimentAnimation = ({ counter, setCounter }) => {
   const { experiment } = useSelector((state) => state.experimentReducer);
 
   const handleDrop = (item, targetTool, dropPosition, offsetPosition) => {
@@ -127,8 +128,16 @@ const ExperimentAnimation = () => {
               alt="Equipment"
               className="img-thumbnail bg-transparent w-100 p-0"
             />
-            {experiment?.images?.tools.map((tool) => (
-              <DropZone key={tool._id} tool={tool} onDrop={handleDrop} />
+            {experiment?.images?.tools.map((tool, index, tools) => (
+              <DropZone
+                key={tool._id}
+                tool={tool}
+                onDrop={handleDrop}
+                length={tools?.length}
+                index={index}
+                counter={counter}
+                setCounter={setCounter}
+              />
             ))}
           </div>
         </div>

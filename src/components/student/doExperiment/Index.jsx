@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../../shared/Loading";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ const Index = () => {
   const { isLoading, experiment } = useSelector(
     (state) => state.experimentReducer
   );
+  const [counter, setCounter] = useState(0);
 
   const { experimentId } = useParams();
   const dispatch = useDispatch();
@@ -25,8 +26,8 @@ const Index = () => {
         {experiment?.info?.name || "untitled"}
       </h2>
       <ExperimentDetails />
-      <ExperimentAnimation />
-      <ExperimentResult />
+      <ExperimentAnimation counter={counter} setCounter={setCounter} />
+      {counter === experiment?.images.tools?.length && <ExperimentResult />}
     </div>
   );
 };
