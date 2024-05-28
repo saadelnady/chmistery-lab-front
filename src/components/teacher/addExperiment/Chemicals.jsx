@@ -17,21 +17,29 @@ const Chemicals = ({
   const { experiment, isLoading } = useSelector(
     (state) => state.experimentReducer
   );
+  console.log("chemicals ==>", chemicals);
   const [selectedChemical, setSelectedChemical] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [chemical, setChemical] = useState({});
   const selectedChemicalsIds = tableData.map((chemical) => chemical?._id);
   const dispatch = useDispatch();
   const { experimentId } = useParams();
+
   const handleSelectChange = (event) => {
     const selectedOption = chemicals.find(
       (chemical) => chemical.name === event.target.value
     );
     setSelectedChemical(selectedOption);
-
-    if (selectedOption && !tableData.includes(selectedOption.name)) {
+    if (selectedOption) {
       setTableData([...tableData, selectedOption]);
+      // if (
+      //   !tableData.some((chemical) => chemical.name === selectedOption.name)
+      // ) {
+      // } else {
+      //   toast.error("Chemical is already selected");
+      // }
     }
+    event.target.value = "";
   };
   const handleRemoveChemical = (index) => {
     const updatedData = [...tableData];
@@ -50,6 +58,7 @@ const Chemicals = ({
   };
   useEffect(() => {
     if (isObjectNotEmpty(experiment)) {
+      console.log("experiment.chemicals ===>", experiment.chemicals);
       setTableData(experiment.chemicals);
     }
   }, [experiment]);
@@ -97,27 +106,30 @@ const Chemicals = ({
             </tr>
           </thead>
           <tbody>
-            {tableData.map((chemical, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{chemical.name}</td>
-                <td>
-                  <i
-                    className="bi bi-info-circle fs-3 cursor-pointer"
-                    onClick={() => {
-                      handleDescription();
-                      setChemical(chemical);
-                    }}
-                  ></i>
-                </td>
-                <td>
-                  <i
-                    className="bi bi-trash3-fill fs-3 cursor-pointer"
-                    onClick={() => handleRemoveChemical(index)}
-                  ></i>
-                </td>
-              </tr>
-            ))}
+            {tableData.map((chemical, index) => {
+              console.log(chemical);
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{chemical?.name}</td>
+                  <td>
+                    <i
+                      className="bi bi-info-circle fs-3 cursor-pointer"
+                      onClick={() => {
+                        handleDescription();
+                        setChemical(chemical);
+                      }}
+                    ></i>
+                  </td>
+                  <td>
+                    <i
+                      className="bi bi-trash3-fill fs-3 cursor-pointer"
+                      onClick={() => handleRemoveChemical(index)}
+                    ></i>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <button className="btn active mt-4" onClick={handleEditChemicals}>

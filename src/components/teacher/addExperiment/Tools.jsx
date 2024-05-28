@@ -24,15 +24,21 @@ const Tools = ({
   const selectedToolsIds = selectedTools.map((tool) => tool._id);
   const dispatch = useDispatch();
   const { experimentId } = useParams();
+
   const handleToolChange = (event) => {
     const selectedOption = tools.find(
       (tool) => tool.name === event.target.value
     );
+    setSelectedTools([...selectedTools, selectedOption]);
+    setSelectedTool(selectedOption.name);
 
-    if (selectedOption && !selectedTools.includes(selectedOption)) {
-      setSelectedTools([...selectedTools, selectedOption]);
-      setSelectedTool(selectedOption.name);
-    }
+    // if (selectedOption) {
+    //   if (!selectedTools.some((tool) => tool.name === selectedOption.name)) {
+    //   } else {
+    //     toast.error("tool is already selected");
+    //   }
+    // }
+    event.target.value = "";
   };
 
   useEffect(() => {

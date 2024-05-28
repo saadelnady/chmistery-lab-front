@@ -1,6 +1,7 @@
 import { imageUrl } from "../../../api/api";
 
 const ChemicalDescription = ({ handleDescription, chemical }) => {
+  console.log("chemical===>", chemical);
   return (
     <div className="overLay d-flex justify-content-center align-items-center">
       <div className="col-5 bg-light rounded p-2">
