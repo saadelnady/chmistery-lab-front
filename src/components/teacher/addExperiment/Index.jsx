@@ -16,7 +16,7 @@ const Index = ({
   handleDescription,
 }) => {
   const [activeTab, setActiveTab] = useState("general");
-  const { experiment } = useSelector((state) => state.experimentReducer);
+  const { experiment } = useSelector((state) => state?.experimentReducer);
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };

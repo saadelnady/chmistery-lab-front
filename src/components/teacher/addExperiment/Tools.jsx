@@ -21,17 +21,19 @@ const Tools = ({
   const [tool, setTool] = useState({});
   const [selectedTools, setSelectedTools] = useState([]); // Changed state name to plural
   const [selectedTool, setSelectedTool] = useState(""); // Changed state name to plural
-  const selectedToolsIds = selectedTools.map((tool) => tool._id);
+  const selectedToolsIds = selectedTools.map((tool) => tool?._id);
   const dispatch = useDispatch();
   const { experimentId } = useParams();
 
   const handleToolChange = (event) => {
     const selectedOption = tools.find(
-      (tool) => tool.name === event.target.value
+      (tool) => tool?.name === event?.target?.value
     );
-    setSelectedTools([...selectedTools, selectedOption]);
-    setSelectedTool(selectedOption.name);
+    setSelectedTool(selectedOption?.name);
 
+    if (selectedOption) {
+      setSelectedTools([...selectedTools, selectedOption]);
+    }
     // if (selectedOption) {
     //   if (!selectedTools.some((tool) => tool.name === selectedOption.name)) {
     //   } else {
@@ -43,7 +45,7 @@ const Tools = ({
 
   useEffect(() => {
     if (isObjectNotEmpty(experiment)) {
-      setSelectedTools(experiment.tools);
+      setSelectedTools(experiment?.tools);
     }
   }, [experiment]);
   const handleRemoveTool = (index) => {
@@ -79,8 +81,8 @@ const Tools = ({
           >
             <option value="">Select tool</option>
             {tools.map((tool, index) => (
-              <option key={index} value={tool.name}>
-                {tool.name}
+              <option key={index} value={tool?.name}>
+                {tool?.name}
               </option>
             ))}
           </select>
@@ -102,7 +104,7 @@ const Tools = ({
             {selectedTools.map((tool, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{tool.name}</td>
+                <td>{tool?.name}</td>
                 <td>
                   <i
                     className="bi bi-info-circle fs-3 cursor-pointer"

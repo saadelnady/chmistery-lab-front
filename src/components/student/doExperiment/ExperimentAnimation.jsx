@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const DraggableTool = ({ tool }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "TOOL",
-    item: { id: tool._id, order: tool.order, dimensions: tool.dimensions },
+    item: { id: tool?._id, order: tool?.order, dimensions: tool?.dimensions },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -110,7 +110,7 @@ const ExperimentAnimation = ({ counter, setCounter }) => {
           <p className="fw-bold fs-1">Tools :</p>
           <div className="d-flex flex-wrap">
             {experiment?.images?.tools.map((tool) => (
-              <DraggableTool key={tool._id} tool={tool} />
+              <DraggableTool key={tool?._id} tool={tool} />
             ))}
           </div>
         </div>
@@ -130,7 +130,7 @@ const ExperimentAnimation = ({ counter, setCounter }) => {
             />
             {experiment?.images?.tools.map((tool, index, tools) => (
               <DropZone
-                key={tool._id}
+                key={tool?._id}
                 tool={tool}
                 onDrop={handleDrop}
                 length={tools?.length}

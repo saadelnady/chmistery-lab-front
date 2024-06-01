@@ -11,9 +11,9 @@ const DropDown = ({ data, selectedValue, handleChange }) => {
         <option
           key={index}
           value={option._id}
-          selected={selectedValue === option._id}
+          selected={selectedValue === option?._id}
         >
-          {option.name}
+          {option?.name}
         </option>
       ))}
     </select>

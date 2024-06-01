@@ -22,8 +22,8 @@ const ToolDescription = ({ handleDescription, tool }) => {
               objectFit: "contain",
             }}
           />
-          <p>name : {tool.name}</p>
-          <p>description : {tool.description}</p>
+          <p>name : {tool?.name}</p>
+          <p>description : {tool?.description}</p>
         </div>
       </div>
     </div>

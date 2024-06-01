@@ -48,7 +48,7 @@ const Chemicals = ({
   };
 
   const handleEditChemicals = () => {
-    if (selectedChemicalsIds.length === 0) {
+    if (selectedChemicalsIds?.length === 0) {
       toast.error(`please select one chemical at least`);
     } else {
       dispatch(
@@ -58,8 +58,8 @@ const Chemicals = ({
   };
   useEffect(() => {
     if (isObjectNotEmpty(experiment)) {
-      console.log("experiment.chemicals ===>", experiment.chemicals);
-      setTableData(experiment.chemicals);
+      console.log("experiment.chemicals ===>", experiment?.chemicals);
+      setTableData(experiment?.chemicals);
     }
   }, [experiment]);
   return isLoading ? (
@@ -80,14 +80,14 @@ const Chemicals = ({
             name="chemical"
             id="chemical"
             className="form-control w-75"
-            value={selectedChemical ? selectedChemical.name : ""}
+            value={selectedChemical ? selectedChemical?.name : ""}
             onChange={handleSelectChange}
           >
             <option value="">Select chemical</option>
 
             {chemicals.map((chemical, index) => (
-              <option key={index} value={chemical.name}>
-                {chemical.name}
+              <option key={index} value={chemical?.name}>
+                {chemical?.name}
               </option>
             ))}
           </select>

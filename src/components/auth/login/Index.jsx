@@ -29,7 +29,7 @@ const Login = () => {
     };
     const payload = { values: trimedValues, toast, navigate };
     dispatch(userLogin(payload));
-   };
+  };
 
   return (
     <div className="pt-5 min-vh-100">
@@ -56,7 +56,7 @@ const Login = () => {
                 type="email"
                 className="form-control"
               />
-              {errors.email && touched.email && (
+              {errors?.email && touched?.email && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}
@@ -73,7 +73,7 @@ const Login = () => {
                 type="password"
                 className="form-control"
               />
-              {errors.password && touched.password && (
+              {errors?.password && touched?.password && (
                 <ErrorMessage
                   touched={touched}
                   errors={errors}

@@ -78,7 +78,7 @@ const Generalinfo = () => {
               type="text"
               className="form-control col-md-8"
             />
-            {errors.name && touched.name && (
+            {errors?.name && touched?.name && (
               <ErrorMessage
                 touched={touched}
                 errors={errors}
@@ -96,7 +96,7 @@ const Generalinfo = () => {
               as="textarea"
               className="form-control col-md-8"
             />
-            {errors.description && touched.description && (
+            {errors?.description && touched?.description && (
               <ErrorMessage
                 touched={touched}
                 errors={errors}
@@ -114,7 +114,7 @@ const Generalinfo = () => {
               type="text"
               className="form-control"
             />
-            {errors.observation && touched.observation && (
+            {errors?.observation && touched?.observation && (
               <ErrorMessage
                 touched={touched}
                 errors={errors}
@@ -132,7 +132,7 @@ const Generalinfo = () => {
               type="text"
               className="form-control"
             />
-            {errors.conclusion && touched.conclusion && (
+            {errors?.conclusion && touched?.conclusion && (
               <ErrorMessage
                 touched={touched}
                 errors={errors}
@@ -150,7 +150,7 @@ const Generalinfo = () => {
               type="text"
               className="form-control"
             />
-            {errors.equation && touched.equation && (
+            {errors?.equation && touched?.equation && (
               <ErrorMessage
                 touched={touched}
                 errors={errors}
@@ -168,7 +168,7 @@ const Generalinfo = () => {
               type="text"
               className="form-control"
             />
-            {errors.objective && touched.objective && (
+            {errors?.objective && touched?.objective && (
               <ErrorMessage
                 touched={touched}
                 errors={errors}

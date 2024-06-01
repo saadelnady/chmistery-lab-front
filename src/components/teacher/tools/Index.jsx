@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const Tools = ({ isActive, handleActivation }) => {
   const dispatch = useDispatch();
-  const { tools } = useSelector((state) => state.toolReducer);
+  const { tools } = useSelector((state) => state?.toolReducer);
   const [toolId, setToolId] = useState(null);
 
   const handleToolId = () => {
@@ -36,7 +36,7 @@ const Tools = ({ isActive, handleActivation }) => {
           <tbody>
             {tools?.map((tool, index) => (
               <tr key={index}>
-                <td className="fw-bold">{tool.name}</td>
+                <td className="fw-bold">{tool?.name}</td>
                 <td>
                   <i
                     className="bi bi-pencil-square fs-3 cursor-pointer"

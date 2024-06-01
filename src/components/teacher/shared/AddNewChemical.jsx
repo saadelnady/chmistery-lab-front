@@ -36,7 +36,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
   const [chemicalImage, setChemicalImage] = useState(null);
 
   const handleFileChange = (event) => {
-    const file = event.currentTarget.files[0];
+    const file = event?.currentTarget?.files[0];
     setFileContent(file);
     setChemicalImage(URL.createObjectURL(file));
   };
@@ -57,7 +57,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
       formikRef?.current?.setFieldValue("state", chemical?.state);
       formikRef?.current?.setFieldValue("color", chemical?.color);
       formikRef.current?.setFieldValue("taste", chemical?.taste);
-      formikRef?.current?.setFieldValue("smell", chemical.smell);
+      formikRef?.current?.setFieldValue("smell", chemical?.smell);
       formikRef?.current?.setFieldValue(
         "molecularFormula",
         chemical?.molecularFormula
@@ -80,7 +80,7 @@ const AddNewChemical = ({ handleActivation, chemicalId, handleChemicalId }) => {
   };
   const handleAddChemical = (values) => {
     const existedChemical = chemicals.find((chemical, index) => {
-      return chemical.name === values.name;
+      return chemical?.name === values?.name;
     });
     if (existedChemical) {
       showToast(toast, "chemical is already exists", "error");

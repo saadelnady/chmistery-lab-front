@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const Chemicals = ({ isActive, handleActivation }) => {
   const dispatch = useDispatch();
-  const { chemicals } = useSelector((state) => state.chemicalReducer);
+  const { chemicals } = useSelector((state) => state?.chemicalReducer);
   const [chemicalId, setChemicalId] = useState(null);
   const handleChemicalId = () => {
     setChemicalId(null);
@@ -34,7 +34,7 @@ const Chemicals = ({ isActive, handleActivation }) => {
           <tbody>
             {chemicals?.map((chemical, index) => (
               <tr key={index}>
-                <td className="fw-bold">{chemical.name}</td>
+                <td className="fw-bold">{chemical?.name}</td>
                 <td>
                   <i
                     className="bi bi-pencil-square fs-3 cursor-pointer"
