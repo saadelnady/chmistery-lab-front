@@ -20,14 +20,14 @@ const Allexperiments = () => {
         </thead>
         <tbody>
           {experiments &&
-            experiments.length > 0 &&
+            experiments?.length > 0 &&
             experiments.map((experiment, index) => (
               <tr key={index}>
                 <td className="fw-bold">
                   {experiment?.info?.name || "untitled"}
                 </td>
                 <td>
-                  <NavLink to={`/teacher/add-experiment/${experiment._id}`}>
+                  <NavLink to={`/teacher/add-experiment/${experiment?._id}`}>
                     <i className="bi bi-pencil-square fs-3 cursor-pointer"></i>
                   </NavLink>
                 </td>
@@ -35,7 +35,7 @@ const Allexperiments = () => {
                   <i
                     className="bi bi-trash3-fill fs-3 cursor-pointer"
                     onClick={() => {
-                      dispatch(deleteExperiment(experiment._id, toast));
+                      dispatch(deleteExperiment(experiment?._id, toast));
                     }}
                   ></i>
                 </td>

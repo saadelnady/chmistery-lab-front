@@ -27,7 +27,7 @@ const Chemicals = ({
 
   const handleSelectChange = (event) => {
     const selectedOption = chemicals.find(
-      (chemical) => chemical.name === event.target.value
+      (chemical) => chemical?.name === event?.target?.value
     );
     setSelectedChemical(selectedOption);
     if (selectedOption) {

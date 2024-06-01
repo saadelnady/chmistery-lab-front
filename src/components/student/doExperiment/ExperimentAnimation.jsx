@@ -66,7 +66,7 @@ const DropZone = ({ tool, onDrop, length, index, counter, setCounter }) => {
         left: tool?.position?.x,
         top: tool?.position?.y,
         backgroundColor: isOver ? "lightgreen" : "transparent",
-        border: "1px dashed gray",
+        // border: "1px dashed gray",
         transition: "left 0.3s ease, top 0.3s ease",
         zIndex: length - index,
       }}

@@ -27,7 +27,7 @@ const Index = () => {
       </h2>
       <ExperimentDetails />
       <ExperimentAnimation counter={counter} setCounter={setCounter} />
-      {counter === experiment?.images.tools?.length && <ExperimentResult />}
+      {counter === experiment?.images?.tools?.length && <ExperimentResult />}
     </div>
   );
 };

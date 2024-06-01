@@ -23,13 +23,13 @@ function App() {
     if (localStorage.getItem("token")) {
       dispatch(fetchUser());
       dispatch(fetchExperiments());
-      if (user.role === "student") {
+      if (user?.role === "student") {
         navigate("/student");
-      } else if (user.role === "teacher") {
+      } else if (user?.role === "teacher") {
         navigate("/teacher");
       }
     }
-  }, [dispatch, isLoggedIn, user.role]);
+  }, [dispatch, isLoggedIn, user?.role]);
   return (
     <div className="App bg-light min-vh-100 position-relative">
       <>
@@ -38,10 +38,10 @@ function App() {
           {!isLoggedIn && <Route path="/" element={<Login />} />}
           {!isLoggedIn && <Route path="/register" element={<Register />} />}
 
-          {user.role === "teacher" && (
+          {user?.role === "teacher" && (
             <Route path="/teacher/*" element={<Teacher />} />
           )}
-          {user.role === "student" && (
+          {user?.role === "student" && (
             <Route path="/student/*" element={<Student />} />
           )}
           <Route
@@ -49,7 +49,7 @@ function App() {
             element={
               <NotFoundPage
                 navigateTo={`${
-                  user.role === "student" ? "/student" : "/teacher"
+                  user?.role === "student" ? "/student" : "/teacher"
                 }`}
               />
             }
