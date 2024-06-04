@@ -9,7 +9,7 @@ export const fetchChemicals = () => {
     try {
       const response = await getData(`/virtual_lab/api/v1/chemicals`);
       if (response.status === "success") {
-        dispatch(actionsCreators.getChemicalsSuccess(response.data.docs));
+        dispatch(actionsCreators.getChemicalsSuccess(response?.data?.docs));
       }
     } catch (error) {
       dispatch(actionsCreators.getChemicalsFail(error));
@@ -27,7 +27,7 @@ export const deleteChemical = (chemicalId, toast) => {
       );
       if (response.status === "deletion success") {
         dispatch(
-          actionsCreators.deleteChemicalSuccess(response.deletedObjectId)
+          actionsCreators.deleteChemicalSuccess(response?.deletedObjectId)
         );
         showToast(toast, "chemical deleted successfully", "success");
       }
@@ -47,7 +47,7 @@ export const addChemical = (toast, formData) => {
         formData
       );
       if (response.status === "success") {
-        dispatch(actionsCreators.addChemicalSuccess(response.data.data));
+        dispatch(actionsCreators.addChemicalSuccess(response?.data?.data));
         showToast(toast, "chemical added successfully", "success");
       }
     } catch (error) {
@@ -65,7 +65,7 @@ export const fetchChemical = (chemicalId) => {
       );
 
       if (response.status === "success") {
-        dispatch(actionsCreators.getChemicalSuccess(response.data.data[0]));
+        dispatch(actionsCreators.getChemicalSuccess(response?.data?.data[0]));
       }
     } catch (error) {
       dispatch(actionsCreators.getChemicalFail(error));
@@ -85,7 +85,7 @@ export const editChemical = (toast, formData, chemicalId) => {
       );
 
       if (response.status === "sucess") {
-        dispatch(actionsCreators.editChemicalSuccess(response.data.data));
+        dispatch(actionsCreators.editChemicalSuccess(response?.data?.data));
         showToast(toast, "chemical updated successfully", "success");
       }
     } catch (error) {

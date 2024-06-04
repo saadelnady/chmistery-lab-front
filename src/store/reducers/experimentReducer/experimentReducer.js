@@ -22,7 +22,7 @@ const experimentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        experiments: action.payLoad,
+        experiments: action?.payLoad,
         error: null,
       };
 
@@ -64,7 +64,7 @@ const experimentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        experiments: [...state.experiments, action.payLoad],
+        experiments: [...state.experiments, action?.payLoad],
         error: null,
       };
     case EXPERIMENT_ACTIONS_TYPES.POST_EXPERIMENT_FAIL:
@@ -83,7 +83,7 @@ const experimentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        experiment: action.payLoad,
+        experiment: action?.payLoad,
         error: null,
       };
     case EXPERIMENT_ACTIONS_TYPES.GET_EXPERIMENT_FAIL:
@@ -106,9 +106,9 @@ const experimentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        experiments: [...filteredExperiments, action.payLoad],
-        experiment: action.payLoad,
-        chemical: action.payLoad,
+        experiments: [...filteredExperiments, action?.payLoad],
+        experiment: action?.payLoad,
+        chemical: action?.payLoad,
         error: null,
       };
     case EXPERIMENT_ACTIONS_TYPES.PUT_EXPERIMENT_FAIL:
@@ -154,8 +154,8 @@ const experimentReducer = (state = initialState, action) => {
             tools: [
               ...(state.experiment.images.tools || []),
               {
-                image: action.payLoad.url,
-                imageId: action.payLoad._id,
+                image: action?.payLoad?.url,
+                imageId: action?.payLoad?._id,
                 order: state?.experiment?.images?.tools?.length || 0,
               },
             ],

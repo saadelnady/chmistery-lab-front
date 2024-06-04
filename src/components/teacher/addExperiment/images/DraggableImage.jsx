@@ -10,7 +10,6 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
   const { experiment } = useSelector((state) => state.experimentReducer);
   const { tools } = experiment.images;
 
-  // const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [{ isDragging }, drag] = useDrag({
     type: "image",
     item: { src, offset: { x: 0, y: 0 } },
@@ -20,15 +19,11 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
   });
 
   const divRef = useRef(null);
-  // const [parentRect, setParentRect] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (divRef.current) {
       const rect = divRef.current.getBoundingClientRect();
-      // setDimensions({ width: rect.width, height: rect.height });
-
-      // setParentRect(parentRef);
 
       dispatch(setToolDimensions(index, rect.width, rect.height));
       dispatch(
@@ -69,15 +64,12 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
   const handleDrag = (event) => {
     event.preventDefault();
 
-    // Get the bounding rectangles of the draggable and parent elements
     const parentRect = parentRef.current.getBoundingClientRect();
     const draggableRect = event.target.getBoundingClientRect();
 
-    // Calculate the new position of the draggable element
     let newLeft = event.clientX - draggableRect.width / 2;
     let newTop = event.clientY - draggableRect.height / 2;
 
-    // Ensure the draggable element stays within the parent boundaries
     if (newLeft < parentRect.left) {
       newLeft = parentRect.left;
     } else if (newLeft + draggableRect.width > parentRect.right) {
@@ -90,7 +82,6 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
       newTop = parentRect.bottom - draggableRect.height;
     }
 
-    // Update the position of the draggable element
     event.target.style.left = `${newLeft - parentRect.left}px`;
     event.target.style.top = `${newTop - parentRect.top}px`;
     divRef.current.style.left = `${newLeft - parentRect.left}px`;
@@ -101,7 +92,6 @@ const DraggableImage = ({ src, index, tool, parentRef }) => {
     );
   };
 
-  console.log("tool?.position?.x------------------>", tool?.position);
   return (
     <div
       ref={divRef}

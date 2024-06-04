@@ -6,66 +6,6 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Index = () => {
-  // const [images, setImages] = useState({
-  //   device: {
-  //     image: "URL",
-  //     imageId: "IMAGE_ID",
-  //     dimensions: {
-  //       width: "",
-  //       height: "",
-  //     },
-  //   },
-  //   tools: [
-  //     {
-  //       order: 1,
-  //       image: "URL",
-  //       position: {
-  //         x: "100px",
-  //         y: "100px",
-  //       },
-  //       dimensions: {
-  //         width: "100px",
-  //         height: "100px",
-  //       },
-  //     },
-  //     {
-  //       order: 2,
-  //       image: "URL",
-  //       position: {
-  //         x: "100px",
-  //         y: "100px",
-  //       },
-  //       dimensions: {
-  //         width: "100px",
-  //         height: "100px",
-  //       },
-  //     },
-  //     {
-  //       order: 3,
-  //       image: "URL",
-  //       position: {
-  //         x: "100px",
-  //         y: "100px",
-  //       },
-  //       dimensions: {
-  //         width: "100px",
-  //         height: "100px",
-  //       },
-  //     },
-  //     {
-  //       order: 4,
-  //       image: "URL",
-  //       position: {
-  //         x: "100px",
-  //         y: "100px",
-  //       },
-  //       dimensions: {
-  //         width: "100px",
-  //         height: "100px",
-  //       },
-  //     },
-  //   ],
-  // });
   const { experiment } = useSelector((state) => state.experimentReducer);
   const dispatch = useDispatch();
   const { experimentId } = useParams();

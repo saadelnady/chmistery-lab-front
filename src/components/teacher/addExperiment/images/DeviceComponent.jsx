@@ -48,14 +48,6 @@ const DeviceComponent = () => {
     };
   }, [dispatch, experiment?.images?.device?.image]);
 
-  // useEffect(() => {
-  //   const { clientWidth } = parentDiv.current;
-  //   const { clientHeight } = deviceImgRef.current;
-
-  //   console.log("clientWidth======>", clientWidth);
-  //   console.log("clientHeight======>", clientHeight);
-  // }, [parentDiv.current]);
-
   return (
     <div className="col-12 col-sm-6">
       <h3 className="mb-5">Device :</h3>

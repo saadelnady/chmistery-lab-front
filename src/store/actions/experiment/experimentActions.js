@@ -8,7 +8,7 @@ export const fetchExperiments = () => {
     try {
       const response = await getData(`/virtual_lab/api/v1/experiment`);
       if (response.status === "success") {
-        dispatch(actionsCreators.getExperimentsSuccess(response.data.docs));
+        dispatch(actionsCreators.getExperimentsSuccess(response?.data?.docs));
       }
     } catch (error) {
       dispatch(actionsCreators.getExperimentsFail(error));
@@ -23,7 +23,7 @@ export const addExperiment = (toast) => {
       const response = await postData(`/virtual_lab/api/v1/experiment`);
       if (response.status === "success") {
         dispatch(
-          actionsCreators.addExperimentSuccess(response.data.newExperiment)
+          actionsCreators.addExperimentSuccess(response?.data?.newExperiment)
         );
         showToast(toast, "experiment added successfully", "success");
       }
@@ -80,7 +80,7 @@ export const deleteExperiment = (experimentId, toast) => {
       );
       if (response.status === "deletion success") {
         dispatch(
-          actionsCreators.deleteExperimentSuccess(response.deletedObjectId)
+          actionsCreators.deleteExperimentSuccess(response?.deletedObjectId)
         );
         showToast(toast, "chemical deleted successfully", "success");
       }
@@ -133,7 +133,6 @@ export const deleteExperimentToolImage = (imageId, toast) => {
 
       if (response.status === "deletion success") {
         dispatch(actionsCreators.deleteToolImageSuccess(response));
-        // showToast(toast, "chemical deleted successfully", "success");
       }
     } catch (error) {
       dispatch(actionsCreators.deleteToolImageFail(error));

@@ -33,7 +33,7 @@ const Index = () => {
                 <NavLink
                   className="nav-link active btn me-2"
                   aria-current="page"
-                  to={user.role === "student" ? "/student" : "/teacher"}
+                  to={user?.role === "student" ? "/student" : "/teacher"}
                 >
                   Home
                 </NavLink>

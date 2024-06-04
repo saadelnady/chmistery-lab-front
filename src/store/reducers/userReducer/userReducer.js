@@ -30,7 +30,7 @@ const userReducer = (state = initialState, action) => {
         isLoggedIn: false,
         isLoading: false,
         user: {},
-        error: action.payLoad,
+        error: action?.payLoad,
       };
     // ====================================================================================================
     case USER_ACTIONS_TYPES.POST_USER_LOGOUT:
@@ -64,7 +64,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        user: action.payLoad,
+        user: action?.payLoad,
         error: null,
       };
     case USER_ACTIONS_TYPES.POST_USER_LOGIN_FAIL:
@@ -85,7 +85,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
         isLoading: false,
-        user: action.payLoad,
+        user: action?.payLoad,
         error: null,
       };
     case USER_ACTIONS_TYPES.GET_USER_FAIL:

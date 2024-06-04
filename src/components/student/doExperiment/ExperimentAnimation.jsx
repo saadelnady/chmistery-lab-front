@@ -25,7 +25,7 @@ const DraggableTool = ({ tool }) => {
       }}
     >
       <img
-        src={tool.image}
+        src={tool?.image}
         alt="tool-img"
         style={{
           width: "100%",
@@ -47,7 +47,7 @@ const DropZone = ({ tool, onDrop, length, index, counter, setCounter }) => {
       const offsetPosition = monitor.getClientOffset();
       const correctDrop = onDrop(item, tool, dropPosition, offsetPosition);
       if (correctDrop) {
-        setShowImage(true); // عرض الصورة عندما يكون الإفلات في المكان الصحيح
+        setShowImage(true);
         setCounter((previousCount) => previousCount + 1);
       }
     },

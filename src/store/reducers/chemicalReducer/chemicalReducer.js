@@ -22,14 +22,14 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        chemicals: action.payLoad,
+        chemicals: action?.payLoad,
         error: null,
       };
     case CHEMICALS_ACTIONS_TYPES.GET_CHEMICALS_FAIL:
       return {
         ...state,
         isLoading: false,
-        error: action.payLoad,
+        error: action?.payLoad,
       };
     // ====================================================================================================
     case CHEMICAL_ACTIONS_TYPES.DELETE_CHEMICAL:
@@ -63,7 +63,7 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        chemicals: [...state.chemicals, action.payLoad],
+        chemicals: [...state.chemicals, action?.payLoad],
         error: null,
       };
     case CHEMICAL_ACTIONS_TYPES.POST_CHEMICAL_FAIL:
@@ -104,7 +104,7 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        chemicals: [...filterdChemicals, action.payLoad],
+        chemicals: [...filterdChemicals, action?.payLoad],
         chemical: action.payLoad,
         error: null,
       };
@@ -131,7 +131,6 @@ const chemicalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-
         error: action?.payLoad,
       };
 

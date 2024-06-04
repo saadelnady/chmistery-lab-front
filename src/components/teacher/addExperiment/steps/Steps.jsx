@@ -302,8 +302,6 @@ const Steps = () => {
         toast.error(error.message);
       });
     } else {
-      console.log(experimentId);
-      console.log(steps);
       dispatch(editExperiment(experimentId, { steps: steps }, toast));
     }
   };
@@ -339,7 +337,6 @@ const Steps = () => {
             </thead>
             <tbody>
               {steps?.map((step, index) => {
-                console.log(step);
                 return (
                   <Item
                     key={index}

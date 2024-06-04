@@ -17,7 +17,6 @@ const Chemicals = ({
   const { experiment, isLoading } = useSelector(
     (state) => state.experimentReducer
   );
-  console.log("chemicals ==>", chemicals);
   const [selectedChemical, setSelectedChemical] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [chemical, setChemical] = useState({});
@@ -58,7 +57,6 @@ const Chemicals = ({
   };
   useEffect(() => {
     if (isObjectNotEmpty(experiment)) {
-      console.log("experiment.chemicals ===>", experiment?.chemicals);
       setTableData(experiment?.chemicals);
     }
   }, [experiment]);
@@ -107,7 +105,6 @@ const Chemicals = ({
           </thead>
           <tbody>
             {tableData.map((chemical, index) => {
-              console.log(chemical);
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>

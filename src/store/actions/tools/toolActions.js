@@ -9,7 +9,7 @@ export const fetchTools = () => {
     try {
       const response = await getData(`/virtual_lab/api/v1/tools`);
       if (response.status === "success") {
-        dispatch(actionsCreators.getToolsSuccess(response.data.docs));
+        dispatch(actionsCreators.getToolsSuccess(response?.data?.docs));
       }
     } catch (error) {
       dispatch(actionsCreators.getToolsFail(error));
@@ -24,7 +24,7 @@ export const deleteTool = (toolId, toast) => {
     try {
       const response = await deleteData(`/virtual_lab/api/v1/tools/${toolId}`);
       if (response.status === "deletion success") {
-        dispatch(actionsCreators.deleteToolSuccess(response.deletedObjectId));
+        dispatch(actionsCreators.deleteToolSuccess(response?.deletedObjectId));
         showToast(toast, "tool deleted successfully", "success");
       }
     } catch (error) {
@@ -40,7 +40,7 @@ export const addTool = (toast, formData) => {
     try {
       const response = await postData(`/virtual_lab/api/v1/tools`, formData);
       if (response.status === "success") {
-        dispatch(actionsCreators.addToolSuccess(response.data.data));
+        dispatch(actionsCreators.addToolSuccess(response?.data?.data));
         showToast(toast, "tool added successfully", "success");
       }
     } catch (error) {
@@ -56,7 +56,7 @@ export const fetchTool = (toolId) => {
       const response = await getData(`/virtual_lab/api/v1/tools/${toolId}`);
 
       if (response.status === "success") {
-        dispatch(actionsCreators.getToolSuccess(response.data.data[0]));
+        dispatch(actionsCreators.getToolSuccess(response?.data?.data[0]));
       }
     } catch (error) {
       dispatch(actionsCreators.getToolFail(error));
@@ -76,7 +76,7 @@ export const editTool = (toast, formData, toolId) => {
       );
 
       if (response.status === "sucess") {
-        dispatch(actionsCreators.editToolSuccess(response.data.data));
+        dispatch(actionsCreators.editToolSuccess(response?.data?.data));
         showToast(toast, "tool updated successfully", "success");
       }
     } catch (error) {
